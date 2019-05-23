@@ -11,11 +11,22 @@
   },
   "author": "codebrahma",
   "license": "MIT",
+  "keywords": [
+    "react",
+    "react-component",
+    "form",
+    "builder",
+    "ui",
+    "drag",
+    "drop"
+  ],
   "dependencies": {
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
     "font-awesome": "^4.7.0",
     "react": "^16.7.0",
+    "react-dnd": "^7.4.5",
+    "react-dnd-html5-backend": "^7.4.4",
     "react-dom": "^16.7.0",
     "uuid": "^3.3.2"
   },

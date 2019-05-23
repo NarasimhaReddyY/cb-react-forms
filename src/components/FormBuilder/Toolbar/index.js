@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import defaultItems from './defaultItems';
-import ToolbarItem from './ToolbarItem';
+import ToolbarItem from '../ToolbarItem/ToolbarItem';
 
 class Toolbar extends Component {
   constructor(props) {
@@ -11,8 +11,11 @@ class Toolbar extends Component {
     };
   }
 
+  handleDrop = item => {
+    console.log('Dropping: ' + item.key)
+  }
+
   render() {
-    console.log(this.state)
     return (
       <div>
         <h4 className="text-center">Toolbox</h4>
@@ -22,6 +25,7 @@ class Toolbar extends Component {
               <ToolbarItem
                 data={item}
                 key={item.key}
+                handleDrop={(item) => this.handleDrop(item)}
               />
             ))
           }
