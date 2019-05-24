@@ -11,13 +11,9 @@ class Toolbar extends Component {
     };
   }
 
-  handleDrop = item => {
-    console.log('Dropping: ' + item.key)
-  }
-
   render() {
     return (
-      <div>
+      <>
         <h4 className="text-center">Toolbox</h4>
         <ul className="list-group">
           {
@@ -25,12 +21,11 @@ class Toolbar extends Component {
               <ToolbarItem
                 data={item}
                 key={item.key}
-                handleDrop={(item) => this.handleDrop(item)}
               />
             ))
           }
         </ul>
-      </div>
+      </>
     )
   }
 };
