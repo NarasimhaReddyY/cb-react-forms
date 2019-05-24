@@ -37,7 +37,7 @@ const ToolbarItem = props => {
   const backgroundColor = isDragging ? 'lightgray' : 'white';
   
   return connectDragSource(
-    <li style={{cursor: 'pointer', opacity, backgroundColor }} className="list-group-item mb-1">
+    <li style={{cursor: 'pointer', opacity, backgroundColor }} className="list-group-item mb-1" onClick={() => props.addItem(props.data.key)}>
       <i className={classNames(data.icon, 'mr-3')}/>
       {data.name}
     </li>
