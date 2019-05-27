@@ -24,6 +24,8 @@
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
     "font-awesome": "^4.7.0",
+    "immutability-helper": "^3.0.0",
+    "lodash.flow": "^3.5.0",
     "react": "^16.8.6",
     "react-dnd": "^7.4.5",
     "react-dnd-html5-backend": "^7.4.4",
