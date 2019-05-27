@@ -66,16 +66,19 @@ class PreviewItems extends Component {
       item, 
       removeItem, 
       id, 
+      isDragging,
       connectDragSource, 
       connectDropTarget 
     } = this.props;
+
+    const opacity = isDragging ? 0 : 1;
     
     return (
 			connectDragSource &&
 			connectDropTarget &&
 			connectDragSource(
 				connectDropTarget(
-					<div className="list-group-item mb-1">
+					<div className="list-group-item mb-1" style={{ opacity }}>
 						<span onClick={() => removeItem(id)}>
 							<i className="fa fa-times" />{" "}
 						</span>

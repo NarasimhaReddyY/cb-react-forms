@@ -24,7 +24,7 @@ class Preview extends Component {
     const {
       connectDropTarget,
       hovered,
-      moveItem,
+      dragItem,
       previewItems 
     } = this.props;
 
