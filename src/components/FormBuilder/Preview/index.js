@@ -46,3 +46,4 @@ export default compose(
 	),
 	DropTarget(type, {}, collect)
 )(Preview);
+
