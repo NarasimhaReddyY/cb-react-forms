@@ -20,7 +20,13 @@ const collect = (connect, monitor) => {
 
 class Preview extends Component {
 	render() {
-		const { connectDropTarget, hovered, moveItem, previewItems } = this.props;
+    const {
+      connectDropTarget,
+      hovered,
+      moveItem,
+      previewItems 
+    } = this.props;
+
 		const border = hovered ? "1px solid green" : "1px solid white";
 
 		return connectDropTarget(
