@@ -25,6 +25,7 @@
     "classnames": "^2.2.6",
     "font-awesome": "^4.7.0",
     "immutability-helper": "^3.0.0",
+    "lodash": "^4.17.11",
     "lodash.flow": "^3.5.0",
     "react": "^16.8.6",
     "react-dnd": "^7.4.5",

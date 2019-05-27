@@ -7,6 +7,6 @@ export const addItem = element => {
 	return { type: ADD_ITEM_TO_PREVIEW, payload: item };
 };
 
-export const removeItem = id => ({ type: REMOVE_ITEM_FROM_PREVIEW, payload: id });
+export const removeItem = id => ({ type: REMOVE_ITEM_FROM_PREVIEW, payload: { id } });
 
-export const moveItem = (dragIndex, hoverIndex) => ({ type: MOVE_ITEM_IN_PREVIEW, payload: { dragIndex, hoverIndex } });
+export const dragItem = (dragIndex, hoverIndex) => ({ type: MOVE_ITEM_IN_PREVIEW, payload: { dragIndex, hoverIndex } });

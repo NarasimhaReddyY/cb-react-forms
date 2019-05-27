@@ -9,7 +9,7 @@ export default (state = initialState, action) => {
 			return [...state, action.payload];
 
 		case REMOVE_ITEM_FROM_PREVIEW:
-			return state.filter((item) => item.id !== action.payload);
+			return state.filter((item) => item.id !== action.payload.id);
 
 		case MOVE_ITEM_IN_PREVIEW:
 			const { dragIndex, hoverIndex } = action.payload;

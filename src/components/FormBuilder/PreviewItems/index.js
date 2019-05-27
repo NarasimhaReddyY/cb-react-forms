@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import { findDOMNode } from "react-dom";
 import flow from "lodash/flow";
 import { DragSource, DropTarget } from "react-dnd";
+import { isEqual } from 'lodash';
 
 const cardSource = {
 	beginDrag(props) {
@@ -18,7 +19,7 @@ const cardTarget = {
 		const hoverIndex = props.index;
 
 		// Don't replace items with themselves
-		if (dragIndex === hoverIndex) {
+		if (isEqual(dragIndex, hoverIndex)) {
 			return;
 		}
 
@@ -48,7 +49,7 @@ const cardTarget = {
 		}
 
 		// Time to actually perform the action
-		props.moveItem(dragIndex, hoverIndex);
+		props.dragItem(dragIndex, hoverIndex);
 
 		// Note: we're mutating the monitor item here!
 		// Generally it's better to avoid mutations,
@@ -59,9 +60,17 @@ const cardTarget = {
 };
 
 class PreviewItems extends Component {
-	render() {
-		const { item, removeItem, id, connectDragSource, connectDropTarget } = this.props;
-		return (
+  
+  render() {
+		const { 
+      item, 
+      removeItem, 
+      id, 
+      connectDragSource, 
+      connectDropTarget 
+    } = this.props;
+    
+    return (
 			connectDragSource &&
 			connectDropTarget &&
 			connectDragSource(
