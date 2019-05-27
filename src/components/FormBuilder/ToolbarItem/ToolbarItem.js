@@ -45,6 +45,10 @@ const ToolbarItem = props => {
 }
 
 export default compose(
-  connect(state => ({ previewItems: state.previewItems }), { addItem }),
+  connect(state => ({
+    previewItems: state.previewItems
+  }), {
+    addItem
+  }),
   DragSource(type, spec, collect)
 )(ToolbarItem);
