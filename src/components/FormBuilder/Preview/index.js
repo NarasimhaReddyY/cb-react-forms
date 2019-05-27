@@ -21,16 +21,6 @@ const collect = (connect, monitor) => {
 
 class Preview extends Component {
 	render() {
-<<<<<<< HEAD
-		const { 
-      connectDropTarget, 
-      hovered, 
-      dragItem, 
-      previewItems 
-    } = this.props;
-    
-    const border = hovered ? "1px solid green" : "1px solid white";
-=======
     const {
       connectDropTarget,
       hovered,
@@ -39,7 +29,6 @@ class Preview extends Component {
     } = this.props;
 
 		const border = hovered ? "1px solid green" : "1px solid white";
->>>>>>> 4bf2ec657b29e3a4c175e8f269232cf0d587bfd0
 
 		return connectDropTarget(
 			<div style={{ height: "100%" }}>
