@@ -3,6 +3,8 @@ import { findDOMNode } from "react-dom";
 import flow from "lodash/flow";
 import { DragSource, DropTarget } from "react-dnd";
 import { isEqual } from 'lodash';
+import HeaderBar from './HeaderBar';
+import switchItems from './switchItems';
 
 const cardSource = {
 	beginDrag(props) {
@@ -59,8 +61,9 @@ const cardTarget = {
 	}
 };
 
+
 class PreviewItems extends Component {
-  
+
   render() {
 		const { 
       item, 
@@ -78,11 +81,15 @@ class PreviewItems extends Component {
 			connectDropTarget &&
 			connectDragSource(
 				connectDropTarget(
-					<div className="list-group-item mb-1" style={{ opacity }}>
-						<span onClick={() => removeItem(id)}>
-							<i className="fa fa-times" />{" "}
-						</span>
-						{item}
+					<div className="list-group-item mb-1 bg-light" style={{ opacity }}>
+						<HeaderBar 
+							item={item} 
+							id={id} 
+							removeItem={removeItem} 
+						/>
+						{
+							switchItems(item)
+						}
 					</div>
 				)
 			)

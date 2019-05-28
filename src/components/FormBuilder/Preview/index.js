@@ -41,14 +41,15 @@ class Preview extends Component {
             </h3>
           }
           
-					{!isEmpty(previewItems) &&
+					{
+            !isEmpty(previewItems) &&
 						previewItems.map((item, i) => (
               <PreviewItems 
                 key={item.id} 
                 index={i} 
                 id={item.id} 
                 removeItem={this.props.removeItem} 
-                item={item.element} 
+                item={item}
                 dragItem={dragItem}
               />
             ))
