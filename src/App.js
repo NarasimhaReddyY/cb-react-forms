@@ -7,9 +7,7 @@ import './App.scss';
 
 const App = () => (
   <Provider store={store}>
-    <div className="container">
-      <FormBuilder/>
-    </div>
+    <FormBuilder />
   </Provider>
 );
 

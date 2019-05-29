@@ -7,12 +7,14 @@ import { DragDropContext } from 'react-dnd';
 class FormBuilder extends Component {
   render() {
     return (
-      <div className="row mt-3">
-        <div className="col-md-8">
-          <Preview/>
-        </div>
-        <div className="col-md-4">
-          <Toolbar />
+      <div className="container">
+        <div className="row mt-3">
+          <div className="col-md-8">
+            <Preview />
+          </div>
+          <div className="col-md-4">
+            <Toolbar />
+          </div>
         </div>
       </div>
     )

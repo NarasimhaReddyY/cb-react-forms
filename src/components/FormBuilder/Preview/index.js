@@ -7,7 +7,7 @@ import { removeItem, dragItem } from "../../../actions/previewItemsActions";
 import PreviewItems from "../PreviewItems";
 
 // DropTarget parameters
-const type = props => {
+const type = () => {
 	return "items";
 };
 
@@ -28,12 +28,12 @@ class Preview extends Component {
       previewItems 
     } = this.props;
 
-		const border = hovered ? "1px solid green" : "1px solid white";
+		const border = hovered ? "1px solid green" : "1px solid #ccc";
 
 		return connectDropTarget(
 			<div style={{ height: "100%" }}>
 				<h3 className="text-center">Preview</h3>
-				<div className="jumbotron h-100" style={{ border }}>
+				<div className="jumbotron h-100 bg-default" style={{ border }}>
 					{
             isEmpty(previewItems) && 
             <h3 className="list-group-item bg-light text-center text-muted">

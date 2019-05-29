@@ -21,8 +21,8 @@ class Dropdown extends Component {
         </p>
         <select className="form-control">
           {
-            options.map((option, i) => (
-              <option key={i}>{option}</option>
+            options.map((option) => (
+              <option key={option.id}>{option.value}</option>
             ))
           }
         </select>

@@ -11,6 +11,7 @@ class Tags extends Component {
       'font-italic': italic
     })
     const animatedComponents = makeAnimated();
+    
     return (
       <div>
         <p>

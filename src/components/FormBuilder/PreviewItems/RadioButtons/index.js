@@ -22,7 +22,7 @@ class RadioButtons extends Component {
         <div className="form-group">
           {
             options.map(option => (
-              <div key={option.value} className="d-block">
+              <div key={option.id} className="d-block">
                 <input id={option.value} type="radio" name="radio" />
                 <label className="form-lable ml-2" htmlFor={option.value}>
                   {option.label}
