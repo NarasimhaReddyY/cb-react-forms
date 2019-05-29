@@ -1,4 +1,4 @@
-import { ADD_ITEM_TO_PREVIEW, REMOVE_ITEM_FROM_PREVIEW, MOVE_ITEM_IN_PREVIEW } from "../actions/types";
+import { ADD_ITEM_TO_PREVIEW, REMOVE_ITEM_FROM_PREVIEW, DRAG_ITEM_IN_PREVIEW } from "../actions/types";
 import update from "immutability-helper";
 
 const initialState = [];
@@ -11,7 +11,7 @@ export default (state = initialState, action) => {
 		case REMOVE_ITEM_FROM_PREVIEW:
 			return state.filter((item) => item.id !== action.payload.id);
 
-		case MOVE_ITEM_IN_PREVIEW:
+		case DRAG_ITEM_IN_PREVIEW:
 			const { dragIndex, hoverIndex } = action.payload;
 			const dragCard = state[dragIndex];
 			const newState = update(state, {

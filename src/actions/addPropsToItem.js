@@ -1,37 +1,75 @@
 export default (item) => {
   switch(item) {
     case 'Checkboxes': 
-      return {}
+      return {
+        label: 'Placeholder label',
+        options: [
+          {
+            label: 'Option1',
+            value: 'Option1'
+          },
+          {
+            label: 'Option2',
+            value: 'Option2'
+          }
+        ]
+      }
     case 'Dropdown':
       return {
+        label: 'Placeholder label',
         options: ['hello', 'hi']
       }
     case 'Header':
       return {
+        text: 'Placeholder header',
         alignCenter: true
       }
-    case 'Hyperlink':
-      return {}
+    case 'HyperLink':
+      return {
+        label: 'Placeholder label',
+        url: 'www.example.com'
+      }
     case 'Label':
-      return {}
+      return {
+        label: 'Placeholder label'
+      }
     case 'LineBreak':
       return {}
     case 'NumberInput':
-      return {}
+      return {
+        label: 'Placeholder label'
+      }
     case 'Paragraph':
       return {
-        alignCenter: true,
+        text: 'Placeholder Text',
+        alignCenter: false,
       }
     case 'RadioButtons':
-      return {}
+      return {
+        label: 'Placeholder label',
+        options: [
+          {
+            label: 'Option1',
+            value: 'Option1'
+          },
+          {
+            label: 'Option2',
+            value: 'Option2'
+          }
+        ]
+      }
     case 'Range':
       return {
+        label: 'Placeholder label',
         required: true
       }
     case 'Rating':
-      return {}
+      return {
+        label: 'Placeholder label',
+      }
     case 'Tags':
       return {
+        label: 'Placeholder label',
         options: [
           {
             label: 'Tag1',
@@ -43,7 +81,13 @@ export default (item) => {
           }
         ]
       }
+    case 'TextInput':
+      return {
+        label: 'Placeholder label'
+      }
     case 'TextArea':
-      return {}
+      return {
+        label: 'Placeholder label'
+      }
   }
 }

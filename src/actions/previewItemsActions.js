@@ -1,24 +1,23 @@
 import uuid from "uuid/v4";
-import addPropsToItems from './addPropsToItem';
+import addPropsToItem from './addPropsToItem';
 import { 
   ADD_ITEM_TO_PREVIEW, 
   REMOVE_ITEM_FROM_PREVIEW, 
-  MOVE_ITEM_IN_PREVIEW 
+  DRAG_ITEM_IN_PREVIEW 
 } from "./types";
 
 export const addItem = element => {
   const id = uuid();
   const defaultProps = {
-    required: false,
-    bold: false,
-    italic: false,
-    label: 'Placeholder label'
+    required: true,
+    bold: true,
+    italic: true,
   };
-  const props = addPropsToItems(element);
+  const props = addPropsToItem(element);
 	const item = { id, element, ...defaultProps,...props };
 	return { type: ADD_ITEM_TO_PREVIEW, payload: item };
 };
 
 export const removeItem = id => ({ type: REMOVE_ITEM_FROM_PREVIEW, payload: { id } });
 
-export const dragItem = (dragIndex, hoverIndex) => ({ type: MOVE_ITEM_IN_PREVIEW, payload: { dragIndex, hoverIndex } });
+export const dragItem = (dragIndex, hoverIndex) => ({ type: DRAG_ITEM_IN_PREVIEW, payload: { dragIndex, hoverIndex } });

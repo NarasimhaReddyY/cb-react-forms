@@ -61,8 +61,13 @@ const cardTarget = {
 	}
 };
 
-
 class PreviewItems extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			isHovering: false
+		}
+	}
 
   render() {
 		const { 
@@ -81,11 +86,17 @@ class PreviewItems extends Component {
 			connectDropTarget &&
 			connectDragSource(
 				connectDropTarget(
-					<div className="list-group-item mb-1 bg-light" style={{ opacity }}>
+					<div 
+						className="list-group-item mb-1 bg-light preview_item" 
+						style={{ opacity }}
+						onMouseOver={() => this.setState({isHovering: true})}
+						onMouseLeave={() => this.setState({ isHovering: false })}
+					>
 						<HeaderBar 
 							item={item} 
 							id={id} 
-							removeItem={removeItem} 
+							removeItem={removeItem}
+							isHovering={this.state.isHovering} 
 						/>
 						{
 							switchItems(item)

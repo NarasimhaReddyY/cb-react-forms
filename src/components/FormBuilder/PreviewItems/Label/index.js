@@ -3,15 +3,14 @@ import classNames from 'classnames';
 
 class Label extends Component {
   render() {
-    const { bold, italic, alignCenter } = this.props.item;
+    const { bold, italic, label } = this.props.item;
     const labelClass = classNames({
       'font-weight-bold': bold,
-      'font-italic': italic,
-      'text-center': alignCenter
+      'font-italic': italic
     })
 
     return (
-      <label className={labelClass}>Label</label>
+      <label className={labelClass}>{label}</label>
     )
   }
 }

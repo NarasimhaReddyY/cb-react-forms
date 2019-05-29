@@ -5,23 +5,23 @@ class HeaderBar extends Component {
     const { 
       item, 
       removeItem, 
-      id 
+      id,
+      isHovering 
     } = this.props;
+    const opacity = isHovering ? 1 : 0;
 
     return (
-      <div>
-        <span>{item.element}</span>
-        { 
-          item.required 
-          ? <span className="ml-1 badge badge-danger">Required</span>
-          : null
-        }
+      <div style={{ opacity }}>
+        <span className="badge badge-secondary">{item.element}</span>
         <span onClick={() => removeItem(id)} className="float-right onHover">
           <i className="fa fa-trash-o" />
         </span>
-        <span className="float-right onHover">
-          <i className="fa fa-edit mr-3"/>
-        </span>
+        {
+          item.element !== 'LineBreak' && 
+          <span className="float-right onHover">
+            <i className="fa fa-edit mr-3"/>
+          </span>
+        }
       </div>
     )
   }
