@@ -3,15 +3,17 @@ import addPropsToItem from './addPropsToItem';
 import { 
   ADD_ITEM_TO_PREVIEW, 
   REMOVE_ITEM_FROM_PREVIEW, 
-  DRAG_ITEM_IN_PREVIEW 
+  DRAG_ITEM_IN_PREVIEW,
+  SHOW_EDITOR,
+  HIDE_EDITOR,
+  SUBMIT_EDITOR_STATE
 } from "./types";
 
 export const addItem = element => {
   const id = uuid();
   const defaultProps = {
-    required: true,
-    bold: true,
-    italic: true,
+    bold: false,
+    italic: false,
   };
   const props = addPropsToItem(element);
 	const item = { id, element, ...defaultProps,...props };
@@ -21,3 +23,9 @@ export const addItem = element => {
 export const removeItem = id => ({ type: REMOVE_ITEM_FROM_PREVIEW, payload: { id } });
 
 export const dragItem = (dragIndex, hoverIndex) => ({ type: DRAG_ITEM_IN_PREVIEW, payload: { dragIndex, hoverIndex } });
+
+export const showEditor = (item) => ({ type: SHOW_EDITOR, payload: { item } });
+
+export const hideEditor = () => ({ type: HIDE_EDITOR });
+
+export const submitEditorState = (state) => ({ type: SUBMIT_EDITOR_STATE, payload: { state } });

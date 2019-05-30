@@ -6,6 +6,7 @@ class HeaderBar extends Component {
       item, 
       removeItem, 
       id,
+      showEditor,
       isHovering 
     } = this.props;
     const opacity = isHovering ? 1 : 0;
@@ -18,7 +19,7 @@ class HeaderBar extends Component {
         </span>
         {
           item.element !== 'LineBreak' && 
-          <span className="float-right onHover">
+          <span onClick={() => showEditor(item)} className="float-right onHover">
             <i className="fa fa-edit mr-3"/>
           </span>
         }

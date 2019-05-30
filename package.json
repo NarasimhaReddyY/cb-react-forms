@@ -23,6 +23,7 @@
   "dependencies": {
     "bootstrap": "^4.3.1",
     "classnames": "^2.2.6",
+    "draft-js": "^0.10.5",
     "font-awesome": "^4.7.0",
     "immutability-helper": "^3.0.0",
     "lodash": "^4.17.11",
@@ -31,6 +32,7 @@
     "react-dnd": "^7.4.5",
     "react-dnd-html5-backend": "^7.4.4",
     "react-dom": "^16.8.6",
+    "react-draft-wysiwyg": "^1.13.2",
     "react-rangeslider": "^2.2.0",
     "react-redux": "^7.0.3",
     "react-select": "^3.0.3",

@@ -3,7 +3,7 @@ import { DropTarget } from "react-dnd";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { isEmpty } from 'lodash';
-import { removeItem, dragItem } from "../../../actions/previewItemsActions";
+import { removeItem, dragItem, showEditor } from "../../../actions/previewItemsActions";
 import PreviewItems from "../PreviewItems";
 
 // DropTarget parameters
@@ -31,41 +31,44 @@ class Preview extends Component {
 		const border = hovered ? "1px solid green" : "1px solid #ccc";
 
 		return connectDropTarget(
-			<div style={{ height: "100%" }}>
-				<h3 className="text-center">Preview</h3>
-				<div className="jumbotron h-100 bg-default" style={{ border }}>
-					{
+      <div style={{ height: "100%" }}>
+        <h3 className="text-center">Preview</h3>
+        <div className="jumbotron h-100 bg-default" style={{ border }}>
+          {
             isEmpty(previewItems) && 
             <h3 className="list-group-item bg-light text-center text-muted">
               Select / Drop an item from Toolbox
             </h3>
           }
           
-					{
+          {
             !isEmpty(previewItems) &&
-						previewItems.map((item, i) => (
+            previewItems.map((item, i) => (
               <PreviewItems 
                 key={item.id} 
                 index={i} 
                 id={item.id} 
                 removeItem={this.props.removeItem} 
                 item={item}
+                showEditor={this.props.showEditor}
                 dragItem={dragItem}
               />
             ))
           }
-				</div>
-			</div>
-		);
+        </div>
+      </div>
+    )
 	}
 }
 
 export default compose(
 	connect(
 		state => ({ 
-      previewItems: state.previewItems 
+      previewItems: state.preview.previewItems 
     }), { 
-      removeItem, dragItem 
+      removeItem, 
+      dragItem,
+      showEditor
     }
 	),
 	DropTarget(type, {}, collect)

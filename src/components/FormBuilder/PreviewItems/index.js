@@ -72,7 +72,8 @@ class PreviewItems extends Component {
   render() {
 		const { 
       item, 
-      removeItem, 
+			removeItem,
+			showEditor, 
       id, 
       isDragging,
       connectDragSource, 
@@ -96,6 +97,7 @@ class PreviewItems extends Component {
 							item={item} 
 							id={id} 
 							removeItem={removeItem}
+							showEditor={showEditor}
 							isHovering={this.state.isHovering} 
 						/>
 						{
@@ -109,11 +111,15 @@ class PreviewItems extends Component {
 }
 
 export default flow(
-	DragSource("item", cardSource, (connect, monitor) => ({
+	DragSource("item", 
+	cardSource, 
+	(connect, monitor) => ({
 		connectDragSource: connect.dragSource(),
 		isDragging: monitor.isDragging()
 	})),
-	DropTarget("item", cardTarget, connect => ({
+	DropTarget("item", 
+	cardTarget, 
+	connect => ({
 		connectDropTarget: connect.dropTarget()
 	}))
 )(PreviewItems);

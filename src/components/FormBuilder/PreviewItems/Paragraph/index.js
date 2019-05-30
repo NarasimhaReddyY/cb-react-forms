@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 class Paragraph extends Component {
   render() {
-    const { bold, italic, alignCenter, text } = this.props.item;
+    const { bold, italic, alignCenter, label } = this.props.item;
     const paragraphClass = classNames({
       'font-weight-bold': bold,
       'font-italic': italic,
@@ -11,7 +11,7 @@ class Paragraph extends Component {
     })
 
     return (
-      <p className={paragraphClass}>{text}</p>
+      <p className={paragraphClass}>{label}</p>
     )
   }
 }

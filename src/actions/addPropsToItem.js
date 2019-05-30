@@ -21,6 +21,7 @@ export default (item) => {
     case 'Dropdown':
       return {
         label: 'Placeholder label',
+        required: false,
         options: [
           {
             id: uuid(),
@@ -34,12 +35,13 @@ export default (item) => {
       };
     case 'Header':
       return {
-        text: 'Placeholder header',
+        label: 'Placeholder header',
         alignCenter: true,
       };
     case 'HyperLink':
       return {
         label: 'Placeholder label',
+        required: false,
         url: 'www.example.com'
       };
     case 'Label':
@@ -50,15 +52,17 @@ export default (item) => {
       return {};
     case 'NumberInput':
       return {
+        required: false,
         label: 'Placeholder label'
       };
     case 'Paragraph':
       return {
-        text: 'Placeholder paragraph',
+        label: 'Placeholder paragraph',
         alignCenter: false,
       };
     case 'RadioButtons':
       return {
+        required: false,
         label: 'Placeholder label',
         options: [
           {
@@ -75,14 +79,17 @@ export default (item) => {
       };
     case 'Range':
       return {
+        required: false,
         label: 'Placeholder label'
       };
     case 'Rating':
       return {
+        required: false,
         label: 'Placeholder label'
       };
     case 'Tags':
       return {
+        required: false,
         label: 'Placeholder label',
         options: [
           {
@@ -99,10 +106,12 @@ export default (item) => {
       };
     case 'TextInput':
       return {
+        required: false,
         label: 'Placeholder label'
       };
     case 'TextArea':
       return {
+        required: false,
         label: 'Placeholder label'
       };
   }

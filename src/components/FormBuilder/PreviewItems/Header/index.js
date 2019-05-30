@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 class Header extends Component {
   render() {
-    const { bold, italic, alignCenter, text } = this.props.item;
+    const { bold, italic, alignCenter, label } = this.props.item;
     const headerClasss = classNames({
       'font-weight-bold': bold,
       'font-italic': italic,
@@ -11,7 +11,7 @@ class Header extends Component {
     });
 
     return (
-      <h2 className={headerClasss}>{text}</h2>
+      <h2 className={headerClasss}>{label}</h2>
     )
   }
 }
