@@ -25,7 +25,7 @@ export default (state = initialState, action) => {
 		case REMOVE_ITEM_FROM_PREVIEW:
 			return {
 				...state,
-				previewItems: state.previewItems.filter(item => item.id !== action.payload.id) 
+				previewItems: state.previewItems.filter(item => item.id !== action.payload.id)
 			}
 
 		case DRAG_ITEM_IN_PREVIEW:
@@ -46,7 +46,7 @@ export default (state = initialState, action) => {
 				editorState: action.payload.item
 			}
 
-		case  HIDE_EDITOR:
+		case HIDE_EDITOR:
 			return {
 				...state,
 				editorVisible: false,
@@ -54,19 +54,20 @@ export default (state = initialState, action) => {
 			}
 
 		case SUBMIT_EDITOR_STATE:
-			const editedItem = state.previewItems.filter(item => item.id === action.payload.state.id);
 			const updatedPreviewItems = state.previewItems.map(item => {
-				if (item.id === editedItem.id) {
-					item = editedItem
+				if (item.id === action.payload.state.id) {
+					item = {...action.payload.state}
 					return item;
 				}
 				return item;
 			})
 			const updatedState = 	{
 				...state,
+				editorState: {},
+				editorVisible: false,
 				previewItems: [...updatedPreviewItems]
 			}
-			return updatedState;
+			return {...updatedState};
 
 		default:
 			return state;
