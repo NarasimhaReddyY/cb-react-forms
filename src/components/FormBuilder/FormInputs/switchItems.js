@@ -1,19 +1,21 @@
 import React from 'react';
 
-import Checkboxes from './Checkboxes';
-import Dropdown from './Dropdown';
-import Header from './Header';
-import Hyperlink from './Hyperlink';
-import Label from './Label';
-import LineBreak from './LineBreak';
-import NumberInput from './NumberInput';
-import Paragraph from './Paragraph';
-import RadioButtons from './RadioButtons';
-import Range from './Range';
-import Rating from './Rating';
-import Tags from './Tags';
-import TextArea from './TextArea';
-import TextInput from './TextInput';
+import { 
+  Tags,
+  Label,
+  Range,
+  Header,
+  Rating,
+  TextArea,
+  Dropdown,
+  TextInput,
+  Paragraph,
+  Hyperlink,
+  LineBreak,
+  Checkboxes,
+  NumberInput,
+  RadioButtons,
+} from './FormInputs';
 
 export default (item) => {
   switch(item.element) {

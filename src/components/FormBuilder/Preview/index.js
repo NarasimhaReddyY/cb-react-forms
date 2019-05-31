@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { compose } from "redux";
 import { isEmpty } from 'lodash';
 import { removeItem, dragItem, showEditor } from "../../../actions/previewItemsActions";
-import PreviewItems from "../PreviewItems";
+import FormInputs from "../FormInputs";
 
 // DropTarget parameters
 const type = () => {
@@ -44,7 +44,7 @@ class Preview extends Component {
           {
             !isEmpty(previewItems) &&
             previewItems.map((item, i) => (
-              <PreviewItems 
+              <FormInputs 
                 key={item.id} 
                 index={i} 
                 id={item.id} 

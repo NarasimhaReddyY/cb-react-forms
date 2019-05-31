@@ -1,7 +1,6 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import uuid from 'uuid/v4';
-import Select from 'react-select';
 import { hideEditor, submitEditorState } from "../../../actions/previewItemsActions";
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
@@ -22,32 +21,16 @@ class FormEditor extends Component {
 		this.setState(prev => (prev.editorState[e.target.name] = e.target.value));
 	};
 
-	handleDropdownLable = (e, element) => {
-		let updatedOptions = this.state.editorState.options.map(option => {
-			if (option.id === element.id) {
-				option.value = e.target.value
-				return option;
-			}
-			return option;
-		})
-		this.setState((prev) => ({
-			...prev,
-			options: [...updatedOptions]	
-		}))
-	}
-
-	addDropdownOption = () => {
+	addOption = () => {
 		let option = {
 			id: uuid(),
 			value: ''
 		};
-		let updatedOptions = this.state.editorState.options;
-		updatedOptions.push(option);
 		this.setState((prev) => ({
 			...prev,
 			editorState: {
 				...this.state.editorState,
-				options: [...updatedOptions]
+				options: [...this.state.editorState.options, option]
 			}
 		}));
 	}
@@ -65,6 +48,23 @@ class FormEditor extends Component {
 				options: [...updatedOptions]
 			}
 		}));
+	}
+
+	handleLabel = (e, element) => {
+		let updatedOptions = this.state.editorState.options.map(option => {
+			if (option.id === element.id) {
+				option.value = e.target.value
+				return option;
+			}
+			return option;
+		})
+		this.setState((prev) => ({
+			...prev,
+			editorState: {
+				...this.state.editorState,
+				options: [...updatedOptions]	
+			}
+		}))
 	}
 
 	addTagsOption = () => {
@@ -94,7 +94,10 @@ class FormEditor extends Component {
 		})
 		this.setState((prev) => ({
 			...prev,
-			options: [...updatedOptions]	
+			editorState: {
+				...this.state.editorState,
+				options: [...updatedOptions]	
+			}
 		}))
 	}
 
@@ -108,7 +111,10 @@ class FormEditor extends Component {
 		})
 		this.setState((prev) => ({
 			...prev,
-			options: [...updatedOptions]	
+			editorState: {
+				...this.state.editorState,
+				options: [...updatedOptions]	
+			}
 		}))
 	}
 
@@ -118,8 +124,15 @@ class FormEditor extends Component {
 
 		return (
 			<div className="form_editor">
-				<div className="jumbotron bg-default mx-auto" style={{ border: "1px solid #aaa", width: "80%" }}>
-					<span className="float-right" style={{ cursor: "pointer" }} onClick={() => hideEditor()}>
+				<div 
+					className="jumbotron bg-default mx-auto" 
+					style={{ border: "1px solid #aaa", width: "80%" }}
+				>
+					<span 
+						className="float-right" 
+						style={{ cursor: "pointer" }} 
+						onClick={() => hideEditor()}
+					>
 						<i className="fa fa-times" />
 					</span>
 					<h2 className="mb-4">{editorState.element} Editor</h2>
@@ -190,16 +203,24 @@ class FormEditor extends Component {
 							{
 								editorState.options.map(option => (
 									<div key={option.id} className="input-group mb-2">
-										<input className="form-control" placeholder="Option" value={option.value} onChange={(e) => this.handleDropdownLable(e, option)} />
+										<input 
+											className="form-control" 
+											placeholder="Option" 
+											value={option.value} 
+											onChange={(e) => this.handleLabel(e, option)} 
+										/>
 										<div className="input-group-append">
-											<button className="btn btn-danger" onClick={() => {this.removeOption(option.id)}}>
+											<button 
+												className="btn btn-danger" 
+												onClick={() => {this.removeOption(option.id)}}
+											>
 												<i className="fa fa-times"></i>
 											</button>
 										</div>
 									</div>
 								))
 							}
-							<button className="btn btn-primary" onClick={this.addDropdownOption}>Add Option</button>
+							<button className="btn btn-primary" onClick={this.addOption}>Add Option</button>
 						</div>
 					}
 
@@ -214,17 +235,59 @@ class FormEditor extends Component {
 										<div className="input-group-prepend">
 											<span className="input-group-text">Label and Value</span>
 										</div>
-										<input className="form-control" value={option.label} placeholder="Label" onChange={(e) => this.handleTagsLabel(e, option)} />
-										<input className="form-control" value={option.value} placeholder="Value" onChange={(e) => this.handleTagsValue(e, option)} />
+										<input 
+											className="form-control" 
+											value={option.label} 
+											placeholder="Label" 
+											onChange={(e) => this.handleTagsLabel(e, option)} 
+										/>
+										<input 
+											className="form-control" 
+											value={option.value} 
+											placeholder="Value" 
+											onChange={(e) => this.handleTagsValue(e, option)} 
+										/>
 										<div className="input-group-append">
-											<button className="btn btn-danger" onClick={() => {this.removeOption(option.id)}}>
-												<i className="fa fa-times"></i>
+											<button 
+												className="btn btn-danger" 
+												onClick={() => {this.removeOption(option.id)}}
+											>
+													<i className="fa fa-times"></i>
 											</button>
 										</div>
 									</div>
 								))
 							}
 							<button className="btn btn-primary" onClick={this.addTagsOption}>Add Option</button>
+						</div>
+					}
+
+					{/* ------------- CHECKBOXES OPTIONS ------------- */}
+					{
+						this.state.editorState.element === "Checkboxes" && 
+						<div className="mt-5">
+							<h5>Options:</h5>
+							{
+								editorState.options.map(option => (
+									<div key={option.id} className="input-group mb-2">
+										<input 
+											className="form-control" 
+											placeholder="Option" 
+											value={option.value} 
+											onChange={(e) => this.handleLabel(e, option)} 
+										/>
+										<div className="input-group-append">
+											<button 
+												className="btn btn-danger" 
+												onClick={() => {this.removeOption(option.id)}}
+											>
+												<i className="fa fa-times"></i>
+											</button>
+										</div>
+									</div>
+								))
+							}
+							<button className="btn btn-primary" onClick={this.addOption}>Add Option</button>
 						</div>
 					}
 

@@ -61,7 +61,7 @@ const cardTarget = {
 	}
 };
 
-class PreviewItems extends Component {
+class FormInputs extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
@@ -122,4 +122,4 @@ export default flow(
 	connect => ({
 		connectDropTarget: connect.dropTarget()
 	}))
-)(PreviewItems);
+)(FormInputs);
