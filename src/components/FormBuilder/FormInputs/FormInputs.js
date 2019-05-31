@@ -234,8 +234,7 @@ class RadioButtons extends Component {
 
 class Range extends Component {
   render() {
-    const { label, required, bold, italic } = this.props.item;
-    const value = 3;
+    const { label, required, bold, italic, min, max, value } = this.props.item;
 
     return (
       <div>
@@ -246,8 +245,8 @@ class Range extends Component {
           required={required}
         />
         <Slider 
-          min={1}
-          max={5}
+          min={min}
+          max={max}
           value={value}
         />
         <div className="text-center">{value}</div>
@@ -258,7 +257,7 @@ class Range extends Component {
 
 class Rating extends Component {
   render() {
-    const { label, required, bold, italic } = this.props.item;
+    const { label, required, bold, italic, numberOfStars, value } = this.props.item;
     
     return (
       <div>
@@ -269,9 +268,10 @@ class Rating extends Component {
           required={required}
         />
         <StarRatings
-          numberOfStars={5}
+          numberOfStars={numberOfStars}
           name="rating"
           starRatedColor="orange"
+          rating={value}
         />
       </div>
     )

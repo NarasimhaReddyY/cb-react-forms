@@ -63,11 +63,20 @@ export default (item) => {
       };
 
     case 'Range':
+      return {
+        required: false,
+        label: 'Placeholder label',
+        value: 0,
+        min: 0,
+        max: 5
+      };
+
     case 'Rating':
       return {
         required: false,
         label: 'Placeholder label',
-        value: 0
+        value: 0,
+        numberOfStars: 5
       };
 
     case 'TextInput':

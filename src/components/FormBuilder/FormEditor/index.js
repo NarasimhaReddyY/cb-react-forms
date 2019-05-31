@@ -50,9 +50,9 @@ class FormEditor extends Component {
 		}));
 	}
 
-	handleLabel = (e, element) => {
+	handleLabel = (e, id) => {
 		let updatedOptions = this.state.editorState.options.map(option => {
-			if (option.id === element.id) {
+			if (option.id === id) {
 				option.value = e.target.value
 				return option;
 			}
@@ -84,9 +84,9 @@ class FormEditor extends Component {
 		}));
 	}
 
-	handleTagsLabel = (e, element) => {
+	handleTagsLabel = (e, id) => {
 		let updatedOptions = this.state.editorState.options.map(option => {
-			if (option.id === element.id) {
+			if (option.id === id) {
 				option.label = e.target.value
 				return option;
 			}
@@ -101,9 +101,9 @@ class FormEditor extends Component {
 		}))
 	}
 
-	handleTagsValue = (e, element) => {
+	handleTagsValue = (e, id) => {
 		let updatedOptions = this.state.editorState.options.map(option => {
-			if (option.id === element.id) {
+			if (option.id === id) {
 				option.value = e.target.value
 				return option;
 			}
@@ -118,9 +118,33 @@ class FormEditor extends Component {
 		}))
 	}
 
+	handleRatingChange = (e) => {
+		this.setState({
+			editorState: {
+				...this.state.editorState,
+				numberOfStars: parseFloat(e.target.value)
+			}
+		})
+	}
+
+	handleHyperlink = (e) => {
+		this.setState({
+			editorState: {
+				...this.state.editorState,
+				url: e.target.value
+			}
+		})
+	}
+
+	handleRangeOptions = (e) => {
+		e.persist();
+		this.setState(prev => (prev.editorState[e.target.name] = parseFloat(e.target.value)));
+	}
+
 	render() {
 		const { hideEditor, submitEditorState } = this.props;
 		const { editorState } = this.state;
+		console.log('editorState', editorState);
 
 		return (
 			<div className="form_editor">
@@ -201,18 +225,18 @@ class FormEditor extends Component {
 						<div className="mt-5">
 							<h5>Options:</h5>
 							{
-								editorState.options.map(option => (
-									<div key={option.id} className="input-group mb-2">
+								editorState.options.map(({ id, value, option }) => (
+									<div key={id} className="input-group mb-2">
 										<input 
 											className="form-control" 
 											placeholder="Option" 
-											value={option.value} 
-											onChange={(e) => this.handleLabel(e, option)} 
+											value={value} 
+											onChange={(e) => this.handleLabel(e, id)} 
 										/>
 										<div className="input-group-append">
 											<button 
 												className="btn btn-danger" 
-												onClick={() => {this.removeOption(option.id)}}
+												onClick={() => {this.removeOption(id)}}
 											>
 												<i className="fa fa-times"></i>
 											</button>
@@ -230,27 +254,27 @@ class FormEditor extends Component {
 						<div className="mt-5">
 							<h5>Options:</h5>
 							{
-								editorState.options.map(option => (
-									<div key={option.id} className="input-group mb-2">
+								editorState.options.map(({ id, value, label }) => (
+									<div key={id} className="input-group mb-2">
 										<div className="input-group-prepend">
 											<span className="input-group-text">Label and Value</span>
 										</div>
 										<input 
 											className="form-control" 
-											value={option.label} 
+											value={label} 
 											placeholder="Label" 
-											onChange={(e) => this.handleTagsLabel(e, option)} 
+											onChange={(e) => this.handleTagsLabel(e, id)} 
 										/>
 										<input 
 											className="form-control" 
-											value={option.value} 
+											value={value} 
 											placeholder="Value" 
-											onChange={(e) => this.handleTagsValue(e, option)} 
+											onChange={(e) => this.handleTagsValue(e, id)} 
 										/>
 										<div className="input-group-append">
 											<button 
 												className="btn btn-danger" 
-												onClick={() => {this.removeOption(option.id)}}
+												onClick={() => {this.removeOption(id)}}
 											>
 													<i className="fa fa-times"></i>
 											</button>
@@ -268,18 +292,19 @@ class FormEditor extends Component {
 						<div className="mt-5">
 							<h5>Options:</h5>
 							{
-								editorState.options.map(option => (
-									<div key={option.id} className="input-group mb-2">
+								editorState.options.map(({ id, value }) => (
+									<div key={id} className="input-group mb-2">
 										<input 
 											className="form-control" 
 											placeholder="Option" 
-											value={option.value} 
-											onChange={(e) => this.handleLabel(e, option)} 
+											value={value}
+											name={editorState.id} 
+											onChange={(e) => this.handleLabel(e, id)} 
 										/>
 										<div className="input-group-append">
 											<button 
 												className="btn btn-danger" 
-												onClick={() => {this.removeOption(option.id)}}
+												onClick={() => {this.removeOption(id)}}
 											>
 												<i className="fa fa-times"></i>
 											</button>
@@ -291,10 +316,92 @@ class FormEditor extends Component {
 						</div>
 					}
 
+					{/* ------------- RADIO BUTTON OPTIONS ------------- */}
+					{
+						this.state.editorState.element === "RadioButtons" && 
+						<div className="mt-5">
+							<h5>Options:</h5>
+							{
+								editorState.options.map(({ id, value, label }) => (
+									<div key={id} className="input-group mb-2">
+										<div className="input-group-prepend">
+											<span className="input-group-text">Label and Value</span>
+										</div>
+										<input 
+											className="form-control" 
+											value={label} 
+											placeholder="Label" 
+											onChange={(e) => this.handleTagsLabel(e, id)} 
+										/>
+										<input 
+											className="form-control" 
+											value={value} 
+											placeholder="Value" 
+											onChange={(e) => this.handleTagsValue(e, id)} 
+										/>
+										<div className="input-group-append">
+											<button 
+												className="btn btn-danger" 
+												onClick={() => {this.removeOption(id)}}
+											>
+												<i className="fa fa-times"></i>
+											</button>
+										</div>
+									</div>
+								))
+							}
+							<button className="btn btn-primary" onClick={this.addTagsOption}>Add Option</button>
+						</div>
+					}
+
+					{/* ------------- RATING OPTIONS ------------- */}
+					{
+						this.state.editorState.element === "Rating" &&
+						<div className="mt-5">
+							<h5>Number of Stars:</h5>
+							<input className="form-control" type="number" value={editorState.numberOfStars} onChange={this.handleRatingChange} min={0} />	
+						</div>
+					}
+
+					{/* ------------- HYPERLINK OPTIONS ------------- */}
+					{
+						this.state.editorState.element === "HyperLink" &&
+						<div className="mt-5">
+							<h5>Link:</h5>
+							<input className="form-control" type="text" value={editorState.url} onChange={this.handleHyperlink} min={0} />	
+						</div>
+					}
+
+					{/* ------------- RANGE OPTIONS ------------- */}
+					{
+						this.state.editorState.element === "Range" &&
+						<div className="mt-5">
+							<h5>Range Options:</h5>
+							<div className="input-group mb-3">
+								<div className="input-group-prepend">
+									<span className="input-group-text">Min</span>
+								</div>
+							<input className="form-control" type="number" name="min" value={editorState.min} onChange={this.handleRangeOptions} min={0} />	
+							</div>
+							<div className="input-group mb-3">
+								<div className="input-group-prepend">
+									<span className="input-group-text">Max</span>
+								</div>
+							<input className="form-control" type="number" name="max" value={editorState.max} onChange={this.handleRangeOptions} min={0} />	
+							</div>
+							<div className="input-group mb-3">
+								<div className="input-group-prepend">
+									<span className="input-group-text">Value</span>
+								</div>
+							<input className="form-control" type="number" name="value" value={editorState.value} onChange={this.handleRangeOptions} min={0} />	
+							</div>
+						</div>
+					}
+
 					<button className="btn btn-muted mt-5" onClick={hideEditor}>
 						Cancel
 					</button>
-					<button className="btn btn-secondary mt-5" onClick={() => submitEditorState(this.state.editorState)}>
+					<button className="btn btn-secondary mt-5" onClick={() => submitEditorState(editorState)}>
 						Done
 					</button>
 				</div>
