@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import classNames from 'classnames';
 import Slider from "react-rangeslider";
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
@@ -6,39 +7,36 @@ import StarRatings from 'react-star-ratings';
 import draftToHtml from 'draftjs-to-html';
 import { convertToRaw } from 'draft-js';
 
-const convertToHtml = label => {
-  return ( 
-  draftToHtml(convertToRaw(label.getCurrentContent()))
-    .replace(/<p>/g, '')
-    .replace(/<\/p>/g, '')
-  ) 
-}
-
-class RequiredLabel extends Component {
+class Required extends Component {
   render() {
-    const { label, required } = this.props;
-    const text = convertToHtml(label)
+    const { bold, italic, label, required } = this.props;
+    const requiredClass = classNames({
+      'font-weight-bold': bold,
+      'font-italic': italic
+    });
 
     return (
-      <div>
+      <p>
+        <span className={requiredClass}>{label}</span>
         { 
           required ? (
-            <span className="ml-1 badge badge-danger float-right">Required</span>
+            <span className="ml-1 badge badge-danger">Required</span>
           ) : null
         }
-        <p dangerouslySetInnerHTML={{ __html: text }} />
-      </div>
+      </p>
     )
   }
 }
 
 class Checkboxes extends Component {
   render() {
-    const { label, options, required } = this.props.item;
+    const { label, options, required, bold, italic } = this.props.item;
 
     return (
       <div>
-        <RequiredLabel 
+        <Required 
+          bold={bold}
+          italic={italic}
           label={label}
           required={required}
         />
@@ -61,11 +59,13 @@ class Checkboxes extends Component {
 
 class Dropdown extends Component {
   render() {
-    const { label, required, options } = this.props.item;
+    const { label, required, bold, italic, options } = this.props.item;
 
     return (
       <div className="form-group">
-        <RequiredLabel 
+        <Required 
+          bold={bold}
+          italic={italic}
           label={label}
           required={required}
         />
@@ -83,14 +83,20 @@ class Dropdown extends Component {
 
 class Header extends Component {
   render() {
-    const { label } = this.props.item;
-    const text = 
-      draftToHtml(convertToRaw(label.getCurrentContent()))
-      .replace(/<p>/g, '')
-      .replace(/<\/p>/g, '')
+    const { bold, italic, label } = this.props.item;
+    const headerClasss = classNames({
+      'font-weight-bold': bold,
+      'font-italic': italic
+    });
+    console.log('label', label)
 
     return (
-      <div dangerouslySetInnerHTML={{ __html: text }}></div>
+      <div>
+        {draftToHtml(convertToRaw(label.getCurrentContent()))
+          .replace(/<p>/g, '')
+          .replace(/<\/p>/g, '')
+        }
+      </div>
     )
   }
 }
@@ -133,11 +139,13 @@ class HeaderBar extends Component {
 
 class Hyperlink extends Component {
   render() {
-    const { label, required, url } = this.props.item;
+    const { label, required, bold, italic, url } = this.props.item;
 
     return (
       <div>
-        <RequiredLabel 
+        <Required 
+          bold={bold}
+          italic={italic}
           label={label}
           required={required}
         />
@@ -149,15 +157,19 @@ class Hyperlink extends Component {
 
 class Label extends Component {
   render() {
-    const { label } = this.props.item;
-    const text = 
-      draftToHtml(convertToRaw(label.getCurrentContent()))
-        .replace(/<p>/g, '')
-        .replace(/<\/p>/g, '') 
+    const { bold, italic, label } = this.props.item;
+    const labelClass = classNames({
+      'font-weight-bold': bold,
+      'font-italic': italic
+      });
 
     return (
-      <div dangerouslySetInnerHTML={{ __html: text }}>
-      </div>
+      <label>
+        {draftToHtml(convertToRaw(label.getCurrentContent()))
+          .replace(/<p>/g, '')
+          .replace(/<\/p>/g, '')
+        }
+      </label>
     )
   }
 }
@@ -172,11 +184,13 @@ class LineBreak extends Component {
 
 class NumberInput extends Component {
   render() {
-    const { label, required } = this.props.item;
+    const { label, required, bold, italic } = this.props.item;
 
     return (
       <div>
-        <RequiredLabel 
+        <Required 
+          bold={bold}
+          italic={italic}
           label={label}
           required={required}
         />
@@ -190,25 +204,32 @@ class NumberInput extends Component {
 
 class Paragraph extends Component {
   render() {
-    const { label } = this.props.item;
-
-    const text = draftToHtml(convertToRaw(label.getCurrentContent()))
-    .replace(/<p>/g, '')
-    .replace(/<\/p>/g, '');
+    const { bold, italic, label } = this.props.item;
+    const paragraphClass = classNames({
+      'font-weight-bold': bold,
+      'font-italic': italic
+    })
 
     return (
-      <div dangerouslySetInnerHTML={{ __html: text }}></div>
+      <p>
+        {draftToHtml(convertToRaw(label.getCurrentContent()))
+          .replace(/<p>/g, '')
+          .replace(/<\/p>/g, '')
+        }
+      </p>
     )
   }
 }
 
 class RadioButtons extends Component {
   render() {
-    const { label, options, required } = this.props.item;
+    const { label, options, required, bold, italic } = this.props.item;
 
     return (
       <div>
-        <RequiredLabel 
+        <Required 
+          bold={bold}
+          italic={italic}
           label={label}
           required={required}
         />
@@ -231,11 +252,13 @@ class RadioButtons extends Component {
 
 class Range extends Component {
   render() {
-    const { label, required, min, max, value } = this.props.item;
+    const { label, required, bold, italic, min, max, value } = this.props.item;
 
     return (
       <div>
-        <RequiredLabel 
+        <Required 
+          bold={bold}
+          italic={italic}
           label={label}
           required={required}
         />
@@ -252,11 +275,13 @@ class Range extends Component {
 
 class Rating extends Component {
   render() {
-    const { label, required, numberOfStars, value } = this.props.item;
+    const { label, required, bold, italic, numberOfStars, value } = this.props.item;
     
     return (
       <div>
-        <RequiredLabel 
+        <Required 
+          bold={bold}
+          italic={italic}
           label={label}
           required={required}
         />
@@ -273,12 +298,14 @@ class Rating extends Component {
 
 class Tags extends Component {
   render() {
-    const { label, required, options } = this.props.item;
+    const { label, required, bold, italic, options } = this.props.item;
     const animatedComponents = makeAnimated();
     
     return (
       <div>
-        <RequiredLabel 
+        <Required 
+          bold={bold}
+          italic={italic}
           label={label}
           required={required}
         />
@@ -294,11 +321,13 @@ class Tags extends Component {
 
 class TextArea extends Component {
   render() {
-    const { label, required } = this.props.item;
+    const { label, required, bold, italic } = this.props.item;
 
     return (
       <div>
-        <RequiredLabel 
+        <Required 
+          bold={bold}
+          italic={italic}
           label={label}
           required={required}
         />
@@ -312,11 +341,13 @@ class TextArea extends Component {
 
 class TextInput extends Component {
   render() {
-    const { label, required } = this.props.item;
+    const { label, required, bold, italic } = this.props.item;
 
     return (
       <div>
-        <RequiredLabel 
+        <Required 
+          bold={bold}
+          italic={italic}
           label={label}
           required={required}
         />

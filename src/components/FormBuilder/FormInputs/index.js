@@ -3,7 +3,7 @@ import { findDOMNode } from "react-dom";
 import flow from "lodash/flow";
 import { DragSource, DropTarget } from "react-dnd";
 import { isEqual } from 'lodash';
-import HeaderBar from './HeaderBar';
+import { HeaderBar } from './FormInputs';
 import switchItems from './switchItems';
 
 const cardSource = {

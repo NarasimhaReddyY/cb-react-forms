@@ -1,4 +1,15 @@
 import uuid from 'uuid/v4';
+import htmlToDraft from 'html-to-draftjs';
+import { ContentState, EditorState} from 'draft-js';
+
+const convertHtmlToDraft = html => {
+  const contentBlock = htmlToDraft(html);
+  const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
+  const editorState = EditorState.createWithContent(contentState);
+  return editorState;  
+}
+
+const html = "<div>Placeholder Label...</div>";
 
 export default (item) => {
   switch (item) {
@@ -6,13 +17,13 @@ export default (item) => {
     case 'Paragraph':
     case 'Label':
       return {
-        label: 'Placeholder header'
+        label: convertHtmlToDraft(html)
       };
 
     case 'Checkboxes':
     case 'Dropdown': 
       return {
-        label: 'Placeholder label',
+        label: convertHtmlToDraft(html),
         required: false,
         options: [
           {
@@ -28,7 +39,7 @@ export default (item) => {
 
     case 'HyperLink':
       return {
-        label: 'Placeholder label',
+        label: convertHtmlToDraft(html),
         required: false,
         url: 'www.example.com'
       };
@@ -39,7 +50,7 @@ export default (item) => {
     case 'NumberInput':
       return {
         required: false,
-        label: 'Placeholder label',
+        label: convertHtmlToDraft(html),
         value: 0
       };
       
@@ -47,7 +58,7 @@ export default (item) => {
     case 'Tags':
       return {
         required: false,
-        label: 'Placeholder label',
+        label: convertHtmlToDraft(html),
         options: [
           {
             id: uuid(),
@@ -65,7 +76,7 @@ export default (item) => {
     case 'Range':
       return {
         required: false,
-        label: 'Placeholder label',
+        label: convertHtmlToDraft(html),
         value: 0,
         min: 0,
         max: 5
@@ -74,7 +85,7 @@ export default (item) => {
     case 'Rating':
       return {
         required: false,
-        label: 'Placeholder label',
+        label: convertHtmlToDraft(html),
         value: 0,
         numberOfStars: 5
       };
@@ -83,7 +94,7 @@ export default (item) => {
     case 'TextArea':
       return {
         required: false,
-        label: 'Placeholder label',
+        label: convertHtmlToDraft(html),
         value: ''
       };
   }

@@ -22,9 +22,10 @@
   ],
   "dependencies": {
     "bootstrap": "^4.3.1",
-    "classnames": "^2.2.6",
     "draft-js": "^0.10.5",
+    "draftjs-to-html": "^0.8.4",
     "font-awesome": "^4.7.0",
+    "html-to-draftjs": "^1.4.0",
     "immutability-helper": "^3.0.0",
     "lodash": "^4.17.11",
     "lodash.flow": "^3.5.0",

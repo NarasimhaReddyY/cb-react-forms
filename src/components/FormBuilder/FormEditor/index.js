@@ -2,14 +2,38 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import uuid from 'uuid/v4';
 import { hideEditor, submitEditorState } from "../../../actions/previewItemsActions";
+import { Editor } from 'react-draft-wysiwyg';
+import { EditorState, convertFromHTML, ContentState } from 'draft-js';
+import draftToHtml from 'draftjs-to-html';
+import htmlToDraft from 'html-to-draftjs';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+
+const toolbar = {
+	options: ['inline', 'list', 'textAlign', 'fontSize', 'link', 'history'],
+	inline: {
+		inDropdown: false,
+		options: ['bold', 'italic', 'underline', 'superscript', 'subscript']
+	}
+}
 
 class FormEditor extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
-			editorState: {...this.props.editorState}
+			editorState: {
+				...this.props.editorState
+			},
 		};
+	}
+
+	handleEditorChange = (editorState) => {
+		this.setState(prev => ({
+			...prev,
+			editorState: {
+				...this.state.editorState,
+				label: editorState
+			}
+		}))
 	}
 
 	toggleField = field => {
@@ -144,7 +168,6 @@ class FormEditor extends Component {
 	render() {
 		const { hideEditor, submitEditorState } = this.props;
 		const { editorState } = this.state;
-		console.log('editorState', editorState);
 
 		return (
 			<div className="form_editor">
@@ -162,45 +185,19 @@ class FormEditor extends Component {
 					<h2 className="mb-4">{editorState.element} Editor</h2>
 
           {/* ------------- LABEL ------------- */}
-					<h5>Text:</h5>
-					<input
-						type="text"
-						name="label"
-						className="form-control"
-						value={editorState.label}
-						onChange={e => {
-							this.handleInputChange(e);
-						}}
+					<h5>Label:</h5>
+					<Editor
+						toolbar={toolbar}
+						wrapperClassName="demo-wrapper"
+						editorClassName="demo-editor"
+						editorState={this.state.editorState.label}
+						onEditorStateChange={this.handleEditorChange}
 					/>
 
 					<div className="mt-5">
-						<h5>Edit Options:</h5>
-
-            {/* ------------- BOLD ------------- */}
-						<div className="form-check">
-              <input 
-                type="checkbox" 
-                id="bold" 
-                checked={editorState.bold} 
-                onChange={() => this.toggleField("bold")} 
-              />
-							<label htmlFor="bold" className="form-label ml-2">
-								Bold
-							</label>
-						</div>
-
-            {/* ------------- ITALIC ------------- */}
-						<div className="form-check">
-              <input 
-                type="checkbox" 
-                id="italic" 
-                checked={editorState.italic} 
-                onChange={() => this.toggleField("italic")} 
-              />
-							<label htmlFor="italic" className="form-label ml-2">
-								Italic
-							</label>
-						</div>
+						{
+							this.state.editorState.options && <h5>Options:</h5>
+						}
 
             {/* ------------- REQUIRED ------------- */}
             {

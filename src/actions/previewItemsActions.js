@@ -11,12 +11,8 @@ import {
 
 export const addItem = element => {
   const id = uuid();
-  const defaultProps = {
-    bold: false,
-    italic: false,
-  };
   const props = addPropsToItem(element);
-	const item = { id, element, ...defaultProps,...props };
+	const item = { id, element, ...props };
 	return { type: ADD_ITEM_TO_PREVIEW, payload: item };
 };
 
