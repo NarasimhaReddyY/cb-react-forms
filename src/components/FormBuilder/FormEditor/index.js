@@ -3,11 +3,9 @@ import { connect } from "react-redux";
 import uuid from 'uuid/v4';
 import { hideEditor, submitEditorState } from "../../../actions/previewItemsActions";
 import { Editor } from 'react-draft-wysiwyg';
-import { EditorState, convertFromHTML, ContentState } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
-import htmlToDraft from 'html-to-draftjs';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
+// toolbar options for the WYSIWYG Editor
 const toolbar = {
 	options: ['inline', 'list', 'textAlign', 'fontSize', 'link', 'history'],
 	inline: {

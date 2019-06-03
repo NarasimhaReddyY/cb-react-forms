@@ -6,6 +6,7 @@ import StarRatings from 'react-star-ratings';
 import draftToHtml from 'draftjs-to-html';
 import { convertToRaw } from 'draft-js';
 
+// convert draftjs state to html
 const convertToHtml = label => {
   return ( 
   draftToHtml(convertToRaw(label.getCurrentContent()))

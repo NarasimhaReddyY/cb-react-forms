@@ -2,6 +2,7 @@ import uuid from 'uuid/v4';
 import htmlToDraft from 'html-to-draftjs';
 import { ContentState, EditorState} from 'draft-js';
 
+// convert html to draftjs state
 const convertHtmlToDraft = html => {
   const contentBlock = htmlToDraft(html);
   const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
