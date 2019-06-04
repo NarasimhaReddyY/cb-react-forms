@@ -12,19 +12,32 @@
 
 .form_editor {
   height: 100vh;
+  width: 100vw;
   z-index: 10;
   position: fixed;
+  background-color: rgba(250, 250, 250, 0.8);
+}
+
+.final-preview {
+  height: 100vh;
   width: 100vw;
-  background-color: rgba(250, 250, 250, 0.8)
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(250, 250, 250, 0.8);
 }
 
 .demo-editor {
   background-color: #fff;
   height: 200px;
   padding: 10px;
+  border: 1px solid #ccc;
 }
 
 .demo-wrapper {
   padding: 0;
   margin: 0;
+  border: 1px solid #ccc;
+  border-radius: 5px;
 }

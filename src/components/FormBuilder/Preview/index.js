@@ -5,6 +5,7 @@ import { compose } from "redux";
 import { isEmpty } from 'lodash';
 import { removeItem, dragItem, showEditor } from "../../../actions/previewItemsActions";
 import FormInputs from "../FormInputs";
+import FinalFormPreview from './FinalFormPreview';
 
 // DropTarget parameters
 const type = () => {
@@ -20,7 +21,18 @@ const collect = (connect, monitor) => {
 };
 
 class Preview extends Component {
-	render() {
+  constructor(props) {
+    super(props);
+    this.state = {
+      showFinalPreview: false
+    }
+  }
+
+  hideFinalPreview = () => {
+    this.setState({ showFinalPreview: false })
+  }
+  
+  render() {
     const {
       connectDropTarget,
       hovered,
@@ -31,30 +43,52 @@ class Preview extends Component {
 		const border = hovered ? "1px solid green" : "1px solid #ccc";
 
 		return connectDropTarget(
-      <div style={{ height: "100%" }}>
-        <h3 className="text-center">Preview</h3>
-        <div className="jumbotron h-100 bg-default" style={{ border }}>
-          {
-            isEmpty(previewItems) && 
-            <h3 className="list-group-item bg-light text-center text-muted">
-              Select / Drop an item from Toolbox
+      <div style={{ height: "100%" }} className="mt-3">
+        {
+          this.state.showFinalPreview &&
+          <FinalFormPreview 
+            data={previewItems}
+            hideFinalPreview={this.hideFinalPreview}
+          />
+        }
+        <div style={{ height: "100%" }}>
+          <div style={{ height: '50px' }}>
+            <h3 className="float-left">
+              Form Builder
             </h3>
-          }
-          
-          {
-            !isEmpty(previewItems) &&
-            previewItems.map((item, i) => (
-              <FormInputs 
-                key={item.id} 
-                index={i} 
-                id={item.id} 
-                removeItem={this.props.removeItem} 
-                item={item}
-                showEditor={this.props.showEditor}
-                dragItem={dragItem}
-              />
-            ))
-          }
+            <button 
+              className="btn btn-primary float-right" 
+              onClick={() => this.setState({ showFinalPreview: true })}
+            >
+              Preview
+            </button>
+          </div>
+          <div 
+            className="jumbotron h-100 bg-default" 
+            style={{ border }}
+          >
+            {
+              isEmpty(previewItems) && 
+              <h3 className="list-group-item bg-light text-center text-muted">
+                Select / Drop an item from Toolbox
+              </h3>
+            }
+            
+            {
+              !isEmpty(previewItems) &&
+              previewItems.map((item, i) => (
+                <FormInputs 
+                  key={item.id} 
+                  index={i} 
+                  id={item.id} 
+                  removeItem={this.props.removeItem} 
+                  item={item}
+                  showEditor={this.props.showEditor}
+                  dragItem={dragItem}
+                />
+              ))
+            }
+          </div>
         </div>
       </div>
     )

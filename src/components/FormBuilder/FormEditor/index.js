@@ -170,8 +170,8 @@ class FormEditor extends Component {
 		return (
 			<div className="form_editor">
 				<div 
-					className="jumbotron bg-default mx-auto" 
-					style={{ border: "1px solid #aaa", width: "80%" }}
+					className="jumbotron bg-default mx-auto mt-3" 
+					style={{ border: "1px solid #aaa", maxWidth: "800px" }}
 				>
 					<span 
 						className="float-right" 
@@ -193,9 +193,6 @@ class FormEditor extends Component {
 					/>
 
 					<div className="mt-5">
-						{
-							this.state.editorState.options && <h5>Options:</h5>
-						}
 
             {/* ------------- REQUIRED ------------- */}
             {

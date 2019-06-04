@@ -85,10 +85,7 @@ class Dropdown extends Component {
 class Header extends Component {
   render() {
     const { label } = this.props.item;
-    const text = 
-      draftToHtml(convertToRaw(label.getCurrentContent()))
-      .replace(/<p>/g, '')
-      .replace(/<\/p>/g, '')
+    const text = convertToHtml(label);
 
     return (
       <div dangerouslySetInnerHTML={{ __html: text }}></div>
@@ -151,10 +148,7 @@ class Hyperlink extends Component {
 class Label extends Component {
   render() {
     const { label } = this.props.item;
-    const text = 
-      draftToHtml(convertToRaw(label.getCurrentContent()))
-        .replace(/<p>/g, '')
-        .replace(/<\/p>/g, '') 
+    const text = convertToHtml(label);
 
     return (
       <div dangerouslySetInnerHTML={{ __html: text }}>
@@ -193,9 +187,7 @@ class Paragraph extends Component {
   render() {
     const { label } = this.props.item;
 
-    const text = draftToHtml(convertToRaw(label.getCurrentContent()))
-    .replace(/<p>/g, '')
-    .replace(/<\/p>/g, '');
+    const text = convertToHtml(label);
 
     return (
       <div dangerouslySetInnerHTML={{ __html: text }}></div>
