@@ -79,7 +79,7 @@ export default (item) => {
         required: false,
         label: convertHtmlToDraft(html),
         value: 0,
-        min: 0,
+        min: 1,
         max: 5
       };
 

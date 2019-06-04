@@ -26,7 +26,7 @@ class FinalFormPreview extends Component {
           }
           <div style={{ height: '50px' }} className="mt-5">
             <hr/> 
-            <button className="btn btn-danger float-right" onClick={this.props.hideFinalPreview}>Close</button>
+            <button className="btn btn-outline-secondary float-right" onClick={this.props.hideFinalPreview}>Close</button>
           </div>
         </div>
       </div>

@@ -223,8 +223,19 @@ class RadioButtons extends Component {
 }
 
 class Range extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      value: this.props.value
+    }
+  }
+
+  handleChange = value => {
+    this.setState({ value })
+  }
+
   render() {
-    const { label, required, min, max, value } = this.props.item;
+    const { label, required, min, max } = this.props.item;
 
     return (
       <div>
@@ -235,9 +246,15 @@ class Range extends Component {
         <Slider 
           min={min}
           max={max}
-          value={value}
+          value={this.state.value}
+          tooltip={true}
+          labels={{
+            [min]: 'Low',
+            [max]: 'High'
+          }}
+          onChange={this.handleChange}
         />
-        <div className="text-center">{value}</div>
+        <div className="text-center">{this.state.value}</div>
       </div>
     )
   }
