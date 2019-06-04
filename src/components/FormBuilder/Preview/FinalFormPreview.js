@@ -14,10 +14,6 @@ class FinalFormPreview extends Component {
             border: '1px solid #ccc' 
           }}
         >
-          <div style={{ height: '50px' }}>
-            <h4 className="float-left">Preview</h4>
-            <button className="btn btn-danger float-right" onClick={this.props.hideFinalPreview}>Close</button>
-          </div>
 
           {
             this.props.data.map(item => (
@@ -28,6 +24,10 @@ class FinalFormPreview extends Component {
               </div>
             ))
           }
+          <div style={{ height: '50px' }} className="mt-5">
+            <hr/> 
+            <button className="btn btn-danger float-right" onClick={this.props.hideFinalPreview}>Close</button>
+          </div>
         </div>
       </div>
     )
