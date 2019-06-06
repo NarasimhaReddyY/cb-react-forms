@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import uuid from 'uuid/v4';
 import { hideEditor, submitEditorState } from "../../../actions/previewItemsActions";
 import { Editor } from 'react-draft-wysiwyg';
+import { convertFromRaw, EditorState, convertToRaw } from 'draft-js';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 // toolbar options for the WYSIWYG Editor
@@ -19,7 +20,8 @@ class FormEditor extends Component {
 		super(props);
 		this.state = {
 			editorState: {
-				...this.props.editorState
+				...this.props.editorState,
+				label: EditorState.createWithContent(convertFromRaw(this.props.editorState.label))
 			},
 		};
 	}
@@ -188,7 +190,7 @@ class FormEditor extends Component {
 						toolbar={toolbar}
 						wrapperClassName="demo-wrapper"
 						editorClassName="demo-editor"
-						editorState={this.state.editorState.label}
+						editorState={editorState.label}
 						onEditorStateChange={this.handleEditorChange}
 					/>
 
@@ -196,7 +198,7 @@ class FormEditor extends Component {
 
             {/* ------------- REQUIRED ------------- */}
             {
-              this.state.editorState.hasOwnProperty('required') &&
+              editorState.hasOwnProperty('required') &&
               <div className="form-check">
                 <input
                   type="checkbox"
@@ -213,7 +215,7 @@ class FormEditor extends Component {
 
 					{/* ------------- DROPDOWN OPTIONS ------------- */}
 					{
-						this.state.editorState.element === "Dropdown" && 
+						editorState.element === "Dropdown" && 
 						<div className="mt-5">
 							<h5>Options:</h5>
 							{
@@ -242,7 +244,7 @@ class FormEditor extends Component {
 
 					{/* ------------- TAGS OPTIONS ------------- */}
 					{
-						this.state.editorState.element === "Tags" && 
+						editorState.element === "Tags" && 
 						<div className="mt-5">
 							<h5>Options:</h5>
 							{
@@ -280,7 +282,7 @@ class FormEditor extends Component {
 
 					{/* ------------- CHECKBOXES OPTIONS ------------- */}
 					{
-						this.state.editorState.element === "Checkboxes" && 
+						editorState.element === "Checkboxes" && 
 						<div className="mt-5">
 							<h5>Options:</h5>
 							{
@@ -310,7 +312,7 @@ class FormEditor extends Component {
 
 					{/* ------------- RADIO BUTTON OPTIONS ------------- */}
 					{
-						this.state.editorState.element === "RadioButtons" && 
+						editorState.element === "RadioButtons" && 
 						<div className="mt-5">
 							<h5>Options:</h5>
 							{
@@ -353,7 +355,7 @@ class FormEditor extends Component {
 
 					{/* ------------- RATING OPTIONS ------------- */}
 					{
-						this.state.editorState.element === "Rating" &&
+						editorState.element === "Rating" &&
 						<div className="mt-5">
 							<h5>Number of Stars:</h5>
 							<input 
@@ -368,7 +370,7 @@ class FormEditor extends Component {
 
 					{/* ------------- HYPERLINK OPTIONS ------------- */}
 					{
-						this.state.editorState.element === "HyperLink" &&
+						editorState.element === "HyperLink" &&
 						<div className="mt-5">
 							<h5>Link:</h5>
 							<input 
@@ -383,7 +385,7 @@ class FormEditor extends Component {
 
 					{/* ------------- RANGE OPTIONS ------------- */}
 					{
-						this.state.editorState.element === "Range" &&
+						editorState.element === "Range" &&
 						<div className="mt-5">
 							<h5>Range Options:</h5>
 							<div className="input-group mb-3">
@@ -433,7 +435,10 @@ class FormEditor extends Component {
 					</button>
 					<button 
 						className="btn btn-secondary mt-5" 
-						onClick={() => submitEditorState(editorState)}
+						onClick={() => {
+							const label = (editorState.label).getCurrentContent();
+							submitEditorState({...editorState, label: convertToRaw(label) })
+						}}
 					>
 						Done
 					</button>

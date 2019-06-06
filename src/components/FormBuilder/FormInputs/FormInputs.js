@@ -4,12 +4,13 @@ import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import StarRatings from 'react-star-ratings';
 import draftToHtml from 'draftjs-to-html';
-import { convertToRaw } from 'draft-js';
+import { convertToRaw, convertFromRaw, EditorState } from 'draft-js';
 
 // convert draftjs state to html
 const convertToHtml = label => {
+  const content = EditorState.createWithContent(convertFromRaw(label))
   return ( 
-  draftToHtml(convertToRaw(label.getCurrentContent()))
+  draftToHtml(convertToRaw(content.getCurrentContent()))
     .replace(/<p>/g, '')
     .replace(/<\/p>/g, '')
   ) 
@@ -84,9 +85,7 @@ class Dropdown extends Component {
 
 class Header extends Component {
   render() {
-    const { label } = this.props.item;
-    const text = convertToHtml(label);
-
+    const text = convertToHtml(this.props.item.label);
     return (
       <div dangerouslySetInnerHTML={{ __html: text }}></div>
     )
