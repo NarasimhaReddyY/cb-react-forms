@@ -342,7 +342,12 @@ class FormEditor extends Component {
 									</div>
 								))
 							}
-							<button className="btn btn-primary" onClick={this.addTagsOption}>Add Option</button>
+							<button 
+								className="btn btn-primary" 
+								onClick={this.addTagsOption}
+							>
+								Add Option
+							</button>
 						</div>
 					}
 
@@ -351,7 +356,13 @@ class FormEditor extends Component {
 						this.state.editorState.element === "Rating" &&
 						<div className="mt-5">
 							<h5>Number of Stars:</h5>
-							<input className="form-control" type="number" value={editorState.numberOfStars} onChange={this.handleRatingChange} min={0} />	
+							<input 
+								className="form-control" 
+								type="number" 
+								value={editorState.numberOfStars} 
+								onChange={this.handleRatingChange} 
+								min={0} 
+							/>	
 						</div>
 					}
 
@@ -360,7 +371,13 @@ class FormEditor extends Component {
 						this.state.editorState.element === "HyperLink" &&
 						<div className="mt-5">
 							<h5>Link:</h5>
-							<input className="form-control" type="text" value={editorState.url} onChange={this.handleHyperlink} min={0} />	
+							<input 
+								className="form-control" 
+								type="text" 
+								value={editorState.url} 
+								onChange={this.handleHyperlink} 
+								min={0} 
+							/>	
 						</div>
 					}
 
@@ -373,19 +390,40 @@ class FormEditor extends Component {
 								<div className="input-group-prepend">
 									<span className="input-group-text">Min</span>
 								</div>
-							<input className="form-control" type="number" name="min" value={editorState.min} onChange={this.handleRangeOptions} min={0} />	
+							<input 
+								className="form-control" 
+								type="number" 
+								name="min" 
+								value={editorState.min} 
+								onChange={this.handleRangeOptions} 
+								min={0} 
+							/>	
 							</div>
 							<div className="input-group mb-3">
 								<div className="input-group-prepend">
 									<span className="input-group-text">Max</span>
 								</div>
-							<input className="form-control" type="number" name="max" value={editorState.max} onChange={this.handleRangeOptions} min={0} />	
+							<input 
+								className="form-control" 
+								type="number" 
+								name="max" 
+								value={editorState.max} 
+								onChange={this.handleRangeOptions} 
+								min={0} 
+							/>	
 							</div>
 							<div className="input-group mb-3">
 								<div className="input-group-prepend">
 									<span className="input-group-text">Value</span>
 								</div>
-							<input className="form-control" type="number" name="value" value={editorState.value} onChange={this.handleRangeOptions} min={0} />	
+							<input 
+								className="form-control" 
+								type="number" 
+								name="value" 
+								value={editorState.value} 
+								onChange={this.handleRangeOptions} 
+								min={0} 
+							/>	
 							</div>
 						</div>
 					}
@@ -393,7 +431,10 @@ class FormEditor extends Component {
 					<button className="btn btn-muted mt-5" onClick={hideEditor}>
 						Cancel
 					</button>
-					<button className="btn btn-secondary mt-5" onClick={() => submitEditorState(editorState)}>
+					<button 
+						className="btn btn-secondary mt-5" 
+						onClick={() => submitEditorState(editorState)}
+					>
 						Done
 					</button>
 				</div>

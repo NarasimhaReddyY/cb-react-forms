@@ -186,7 +186,6 @@ class NumberInput extends Component {
 class Paragraph extends Component {
   render() {
     const { label } = this.props.item;
-
     const text = convertToHtml(label);
 
     return (
@@ -226,7 +225,7 @@ class Range extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: this.props.value
+      value: this.props.value || 1
     }
   }
 
@@ -246,6 +245,7 @@ class Range extends Component {
         <Slider 
           min={min}
           max={max}
+          step={1}
           value={this.state.value}
           tooltip={true}
           labels={{
