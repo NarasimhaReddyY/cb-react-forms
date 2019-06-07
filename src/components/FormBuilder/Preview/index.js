@@ -3,8 +3,12 @@ import { DropTarget } from "react-dnd";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { isEmpty } from 'lodash';
-import { removeItem, dragItem, showEditor } from "../../../actions/previewItemsActions";
-import FormInputs from "../FormInputs";
+import { 
+  removeItem, 
+  dragItem, 
+  showEditor 
+} from "../../../actions/previewItemsActions";
+import FormInputs from "./SortableFormInputs";
 import FinalFormPreview from './FinalFormPreview';
 
 // DropTarget parameters
@@ -98,7 +102,7 @@ class Preview extends Component {
 export default compose(
 	connect(
 		state => ({ 
-      previewItems: state.preview.previewItems 
+      previewItems: state.formBuilder.previewItems 
     }), { 
       removeItem, 
       dragItem,

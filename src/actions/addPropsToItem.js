@@ -2,7 +2,8 @@ import uuid from 'uuid/v4';
 import htmlToDraft from 'html-to-draftjs';
 import { ContentState, EditorState, convertToRaw } from 'draft-js';
 
-// convert html to draftjs state
+// convert html to draftjs-editorState and then return raw JS
+// editorState is stored as raw JS object in the Redux store
 const convertHtmlToRawJs = html => {
   const contentBlock = htmlToDraft(html);
   const contentState = ContentState.createFromBlockArray(contentBlock.contentBlocks);
@@ -10,7 +11,7 @@ const convertHtmlToRawJs = html => {
   return convertToRaw(editorState.getCurrentContent());  
 }
 
-const html = "<div>Placeholder Label...</div>";
+const html = "<div>Placeholder Label</div>";
 
 export default (item) => {
   switch (item) {
@@ -63,13 +64,13 @@ export default (item) => {
         options: [
           {
             id: uuid(),
-            label: 'Option 1',
-            value: 'Option 1'
+            label: 'Label',
+            value: 'Value'
           },
           {
             id: uuid,
-            label: 'Option 2',
-            value: 'Option 2'
+            label: 'Label',
+            value: 'Value'
           }
         ]
       };
@@ -78,7 +79,7 @@ export default (item) => {
       return {
         required: false,
         label: convertHtmlToRawJs(html),
-        value: 0,
+        value: 3,
         min: 1,
         max: 5
       };

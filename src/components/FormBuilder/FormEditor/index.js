@@ -1,444 +1,465 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import uuid from 'uuid/v4';
-import { hideEditor, submitEditorState } from "../../../actions/previewItemsActions";
-import { Editor } from 'react-draft-wysiwyg';
-import { convertFromRaw, EditorState, convertToRaw } from 'draft-js';
+import uuid from "uuid/v4";
+import {
+	hideEditor,
+	submitEditorState
+} from "../../../actions/previewItemsActions";
+import { Editor } from "react-draft-wysiwyg";
+import { 
+	convertFromRaw, 
+	EditorState, 
+	convertToRaw 
+} from "draft-js";
+import { map, filter } from 'lodash';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 // toolbar options for the WYSIWYG Editor
 const toolbar = {
-	options: ['inline', 'list', 'textAlign', 'fontSize', 'link', 'history'],
+	options: [
+		"inline",
+		"list",
+		"textAlign",
+		"fontSize",
+		"link",
+		"history"
+	],
 	inline: {
 		inDropdown: false,
-		options: ['bold', 'italic', 'underline', 'superscript', 'subscript']
+		options: [
+			"bold",
+			"italic",
+			"underline",
+			"superscript",
+			"subscript"
+		]
 	}
-}
+};
 
 class FormEditor extends Component {
 	constructor(props) {
 		super(props);
 		this.state = {
 			editorState: {
-				...this.props.editorState,
-				label: EditorState.createWithContent(convertFromRaw(this.props.editorState.label))
-			},
-		};
-	}
-
-	handleEditorChange = (editorState) => {
-		this.setState(prev => ({
-			...prev,
-			editorState: {
-				...this.state.editorState,
-				label: editorState
+				...props.editorState,
+				label: EditorState.createWithContent(
+					convertFromRaw(props.editorState.label)
+				)
 			}
-		}))
+		};
 	}
 
 	toggleField = field => {
-		this.setState(prev => (prev.editorState[field] = !this.state.editorState[field]));
-	};
-
-	handleInputChange = e => {
-		e.persist();
-		this.setState(prev => (prev.editorState[e.target.name] = e.target.value));
-	};
-
-	addOption = () => {
-		let option = {
-			id: uuid(),
-			value: ''
-		};
-		this.setState((prev) => ({
-			...prev,
+		this.setState(prevState => ({
 			editorState: {
 				...this.state.editorState,
-				options: [...this.state.editorState.options, option]
+				[field]: !prevState.editorState[field]
 			}
 		}));
-	}
+	};
 
-	removeOption = id => {
+	addOption = (element = "non-tags") => {
+		let option;
+		if (element === "tags") {
+			option = {
+				id: uuid(),
+				label: "",
+				value: ""
+			};
+		} else {
+			option = {
+				id: uuid(),
+				value: ""
+			};
+		}
+
+		let { options } = this.state.editorState;
+		let updatedOptions = [...options, option];
+		this.setState({
+			editorState: {
+				...this.state.editorState,
+				options: [...updatedOptions]
+			}
+		});
+	};
+
+	removeOption = optionId => {
 		let { options } = this.state.editorState;
 		let updatedOptions = [...options];
-		if(options.length > 1) {
-			updatedOptions = options.filter(option => option.id !== id);
+		if (options.length > 1) {
+			updatedOptions = filter(options, option => option.id !== optionId)
 		}
-		this.setState(prev => ({
-			...prev,
+
+		this.setState({
 			editorState: {
 				...this.state.editorState,
 				options: [...updatedOptions]
 			}
-		}));
-	}
+		})
+	};
 
-	handleLabel = (e, id) => {
-		let updatedOptions = this.state.editorState.options.map(option => {
-			if (option.id === id) {
-				option.value = e.target.value
+	handleChange = (value, optionId, field) => {
+		let { options } = this.state.editorState;
+		let updatedOptions = map(options, option => {
+			if (option.id === optionId) {
+				option[field] = value;
 				return option;
 			}
 			return option;
 		})
-		this.setState((prev) => ({
-			...prev,
-			editorState: {
-				...this.state.editorState,
-				options: [...updatedOptions]	
-			}
-		}))
-	}
 
-	addTagsOption = () => {
-		let option = {
-			id: uuid(),
-			value: '',
-			label: ''
-		};
-		let updatedOptions = this.state.editorState.options;
-		updatedOptions.push(option);
-		this.setState((prev) => ({
-			...prev,
+		this.setState({
 			editorState: {
 				...this.state.editorState,
 				options: [...updatedOptions]
 			}
-		}));
-	}
-
-	handleTagsLabel = (e, id) => {
-		let updatedOptions = this.state.editorState.options.map(option => {
-			if (option.id === id) {
-				option.label = e.target.value
-				return option;
-			}
-			return option;
 		})
-		this.setState((prev) => ({
-			...prev,
-			editorState: {
-				...this.state.editorState,
-				options: [...updatedOptions]	
-			}
-		}))
-	}
+	};
 
-	handleTagsValue = (e, id) => {
-		let updatedOptions = this.state.editorState.options.map(option => {
-			if (option.id === id) {
-				option.value = e.target.value
-				return option;
-			}
-			return option;
-		})
-		this.setState((prev) => ({
-			...prev,
-			editorState: {
-				...this.state.editorState,
-				options: [...updatedOptions]	
-			}
-		}))
-	}
-
-	handleRatingChange = (e) => {
+	handleOptions = (name, value) => {
 		this.setState({
 			editorState: {
 				...this.state.editorState,
-				numberOfStars: parseFloat(e.target.value)
+				[name]: value
 			}
-		})
-	}
+		});
+	};
 
-	handleHyperlink = (e) => {
-		this.setState({
-			editorState: {
-				...this.state.editorState,
-				url: e.target.value
-			}
-		})
-	}
-
-	handleRangeOptions = (e) => {
-		e.persist();
-		this.setState(prev => (prev.editorState[e.target.name] = parseFloat(e.target.value)));
+	// convert draftjs editorState to JS object before saving it in redux store
+	handleSubmit = label => {
+		const content = label.getCurrentContent();
+		this.props.submitEditorState({
+			...this.state.editorState,
+			label: convertToRaw(content)
+		});	
 	}
 
 	render() {
-		const { hideEditor, submitEditorState } = this.props;
-		const { editorState } = this.state;
+		const { hideEditor } = this.props;
+		const {
+			editorState,
+			editorState: {
+				element,
+				options,
+				required,
+				numberOfStars,
+				label,
+				min,
+				max,
+				value,
+				url
+			}
+		} = this.state;
 
 		return (
 			<div className="form_editor">
-				<div 
-					className="jumbotron bg-default mx-auto mt-3" 
+				<div
+					className="jumbotron bg-default mx-auto mt-3"
 					style={{ border: "1px solid #aaa", maxWidth: "800px" }}
 				>
-					<span 
-						className="float-right" 
-						style={{ cursor: "pointer" }} 
+					<span
+						className="float-right"
+						style={{ cursor: "pointer" }}
 						onClick={() => hideEditor()}
 					>
 						<i className="fa fa-times" />
 					</span>
-					<h2 className="mb-4">{editorState.element} Editor</h2>
+					<h2 className="mb-4">{element} Editor</h2>
 
-          {/* ------------- LABEL ------------- */}
+					{/* ------------- LABEL ------------- */}
 					<h5>Label:</h5>
 					<Editor
 						toolbar={toolbar}
 						wrapperClassName="demo-wrapper"
 						editorClassName="demo-editor"
-						editorState={editorState.label}
-						onEditorStateChange={this.handleEditorChange}
+						editorState={label}
+						onEditorStateChange={editorState => this.handleOptions('label', editorState)}
 					/>
 
 					<div className="mt-5">
-
-            {/* ------------- REQUIRED ------------- */}
-            {
-              editorState.hasOwnProperty('required') &&
-              <div className="form-check">
-                <input
-                  type="checkbox"
-                  id="required"
-                  checked={editorState.required}
-                  onChange={() => this.toggleField("required")}
-                />
-                <label htmlFor="required" className="form-label ml-2">
-                  Required
-                </label>
-              </div>
-            }
+						{/* ------------- REQUIRED ------------- */}
+						{editorState.hasOwnProperty("required") && (
+							<div className="form-check">
+								<input
+									type="checkbox"
+									id="required"
+									checked={required}
+									onChange={() => this.toggleField("required")}
+								/>
+								<label htmlFor="required" className="form-label ml-2">
+									Required
+								</label>
+							</div>
+						)}
 					</div>
 
 					{/* ------------- DROPDOWN OPTIONS ------------- */}
-					{
-						editorState.element === "Dropdown" && 
+					{element === "Dropdown" && (
 						<div className="mt-5">
 							<h5>Options:</h5>
 							{
-								editorState.options.map(({ id, value, option }) => (
+								map(options, ({ id, value }) => (
 									<div key={id} className="input-group mb-2">
-										<input 
-											className="form-control" 
-											placeholder="Option" 
-											value={value} 
-											onChange={(e) => this.handleLabel(e, id)} 
-										/>
-										<div className="input-group-append">
-											<button 
-												className="btn btn-danger" 
-												onClick={() => {this.removeOption(id)}}
-											>
-												<i className="fa fa-times"></i>
-											</button>
-										</div>
+									<input
+										className="form-control"
+										placeholder="Option"
+										value={value}
+										onChange={e =>
+											this.handleChange(e.target.value, id, "value")
+										}
+									/>
+									<div className="input-group-append">
+										<button
+											className="btn btn-danger"
+											disabled={options.length === 1}
+											style={{ cursor: `${options.length === 1 ? 'not-allowed' : 'pointer'}` }}
+											onClick={() => {
+												this.removeOption(id);
+											}}
+										>
+											<i className="fa fa-times" />
+										</button>
 									</div>
+								</div>
 								))
 							}
-							<button className="btn btn-primary" onClick={this.addOption}>Add Option</button>
-						</div>
-					}
-
-					{/* ------------- TAGS OPTIONS ------------- */}
-					{
-						editorState.element === "Tags" && 
-						<div className="mt-5">
-							<h5>Options:</h5>
-							{
-								editorState.options.map(({ id, value, label }) => (
-									<div key={id} className="input-group mb-2">
-										<div className="input-group-prepend">
-											<span className="input-group-text">Label and Value</span>
-										</div>
-										<input 
-											className="form-control" 
-											value={label} 
-											placeholder="Label" 
-											onChange={(e) => this.handleTagsLabel(e, id)} 
-										/>
-										<input 
-											className="form-control" 
-											value={value} 
-											placeholder="Value" 
-											onChange={(e) => this.handleTagsValue(e, id)} 
-										/>
-										<div className="input-group-append">
-											<button 
-												className="btn btn-danger" 
-												onClick={() => {this.removeOption(id)}}
-											>
-													<i className="fa fa-times"></i>
-											</button>
-										</div>
-									</div>
-								))
-							}
-							<button className="btn btn-primary" onClick={this.addTagsOption}>Add Option</button>
-						</div>
-					}
-
-					{/* ------------- CHECKBOXES OPTIONS ------------- */}
-					{
-						editorState.element === "Checkboxes" && 
-						<div className="mt-5">
-							<h5>Options:</h5>
-							{
-								editorState.options.map(({ id, value }) => (
-									<div key={id} className="input-group mb-2">
-										<input 
-											className="form-control" 
-											placeholder="Option" 
-											value={value}
-											name={editorState.id} 
-											onChange={(e) => this.handleLabel(e, id)} 
-										/>
-										<div className="input-group-append">
-											<button 
-												className="btn btn-danger" 
-												onClick={() => {this.removeOption(id)}}
-											>
-												<i className="fa fa-times"></i>
-											</button>
-										</div>
-									</div>
-								))
-							}
-							<button className="btn btn-primary" onClick={this.addOption}>Add Option</button>
-						</div>
-					}
-
-					{/* ------------- RADIO BUTTON OPTIONS ------------- */}
-					{
-						editorState.element === "RadioButtons" && 
-						<div className="mt-5">
-							<h5>Options:</h5>
-							{
-								editorState.options.map(({ id, value, label }) => (
-									<div key={id} className="input-group mb-2">
-										<div className="input-group-prepend">
-											<span className="input-group-text">Label and Value</span>
-										</div>
-										<input 
-											className="form-control" 
-											value={label} 
-											placeholder="Label" 
-											onChange={(e) => this.handleTagsLabel(e, id)} 
-										/>
-										<input 
-											className="form-control" 
-											value={value} 
-											placeholder="Value" 
-											onChange={(e) => this.handleTagsValue(e, id)} 
-										/>
-										<div className="input-group-append">
-											<button 
-												className="btn btn-danger" 
-												onClick={() => {this.removeOption(id)}}
-											>
-												<i className="fa fa-times"></i>
-											</button>
-										</div>
-									</div>
-								))
-							}
-							<button 
-								className="btn btn-primary" 
-								onClick={this.addTagsOption}
+							<button
+								className="btn btn-primary"
+								onClick={this.addOption}
 							>
 								Add Option
 							</button>
 						</div>
-					}
+					)}
+
+					{/* ------------- TAGS OPTIONS ------------- */}
+					{element === "Tags" && (
+						<div className="mt-5">
+							<h5>Options:</h5>
+							{
+								map(options, ({ id, value, label }) => (
+									<div key={id} className="input-group mb-2">
+										<input
+											className="form-control"
+											value={label}
+											placeholder="Label"
+											onChange={e =>
+												this.handleChange(e.target.value, id, "label")
+											}
+										/>
+										<input
+											className="form-control"
+											value={value}
+											placeholder="Value"
+											onChange={e =>
+												this.handleChange(e.target.value, id, "value")
+											}
+										/>
+										<div className="input-group-append">
+											<button
+												className="btn btn-danger"
+												disabled={options.length === 1}
+												style={{ cursor: `${options.length === 1 ? 'not-allowed' : 'pointer'}` }}
+												onClick={() => {
+													this.removeOption(id);
+												}}
+											>
+												<i className="fa fa-times" />
+											</button>
+										</div>
+									</div>
+								))
+							}
+							<button
+								className="btn btn-primary"
+								onClick={() => this.addOption("tags")}
+							>
+								Add Option
+							</button>
+						</div>
+					)}
+
+					{/* ------------- CHECKBOXES OPTIONS ------------- */}
+					{element === "Checkboxes" && (
+						<div className="mt-5">
+							<h5>Options:</h5>
+							{
+								map(options, ({ id, value }) => (
+									<div key={id} className="input-group mb-2">
+										<input
+											className="form-control"
+											placeholder="Option"
+											value={value}
+											name={editorState.id}
+											onChange={e =>
+												this.handleChange(e.target.value, id, "value")
+											}
+										/>
+										<div className="input-group-append">
+											<button
+												className="btn btn-danger"
+												disabled={options.length === 1}
+												style={{ cursor: `${options.length === 1 ? 'not-allowed' : 'pointer'}` }}
+												onClick={() => {
+													this.removeOption(id);
+												}}
+											>
+												<i className="fa fa-times" />
+											</button>
+										</div>
+									</div>
+								))
+							}
+							<button
+								className="btn btn-primary"
+								onClick={this.addOption}
+							>
+								Add Option
+							</button>
+						</div>
+					)}
+
+					{/* ------------- RADIO BUTTON OPTIONS ------------- */}
+					{element === "RadioButtons" && (
+						<div className="mt-5">
+							<h5>Options:</h5>
+							{
+								map(options, ({ id, value, label }) => (
+									<div key={id} className="input-group mb-2">
+										<input
+											className="form-control"
+											value={label}
+											placeholder="Label"
+											onChange={e =>
+												this.handleChange(e.target.value, id, "label")
+											}
+										/>
+										<input
+											className="form-control"
+											value={value}
+											placeholder="Value"
+											onChange={e =>
+												this.handleChange(e.target.value, id, "value")
+											}
+										/>
+										<div className="input-group-append">
+											<button
+												className="btn btn-danger"
+												disabled={options.length === 1}
+												style={{ cursor: `${options.length === 1 ? 'not-allowed' : 'pointer'}` }}
+												onClick={() => {
+													this.removeOption(id);
+												}}
+											>
+												<i className="fa fa-times" />
+											</button>
+										</div>
+									</div>
+								))
+							}
+							<button
+								className="btn btn-primary"
+								onClick={() => this.addOption("tags")}
+							>
+								Add Option
+							</button>
+						</div>
+					)}
 
 					{/* ------------- RATING OPTIONS ------------- */}
 					{
-						editorState.element === "Rating" &&
+						element === "Rating" && (
 						<div className="mt-5">
 							<h5>Number of Stars:</h5>
-							<input 
-								className="form-control" 
-								type="number" 
-								value={editorState.numberOfStars} 
-								onChange={this.handleRatingChange} 
-								min={0} 
-							/>	
+							<input
+								className="form-control"
+								type="number"
+								value={numberOfStars || ''} // default to empty string to avoid error
+								onChange={
+									({ target: { value } }) => this.handleOptions('numberOfStars', parseFloat(value))
+								}
+								min={0}
+							/>
 						</div>
-					}
+					)}
 
 					{/* ------------- HYPERLINK OPTIONS ------------- */}
 					{
-						editorState.element === "HyperLink" &&
+						element === "HyperLink" && (
 						<div className="mt-5">
 							<h5>Link:</h5>
-							<input 
-								className="form-control" 
-								type="text" 
-								value={editorState.url} 
-								onChange={this.handleHyperlink} 
-								min={0} 
-							/>	
+							<input
+								className="form-control"
+								type="text"
+								value={url}
+								onChange={e =>
+									this.handleOptions("url", e.target.value)
+								}
+								min={0}
+							/>
 						</div>
-					}
+					)}
 
 					{/* ------------- RANGE OPTIONS ------------- */}
 					{
-						editorState.element === "Range" &&
+						element === "Range" && (
 						<div className="mt-5">
 							<h5>Range Options:</h5>
 							<div className="input-group mb-3">
 								<div className="input-group-prepend">
 									<span className="input-group-text">Min</span>
 								</div>
-							<input 
-								className="form-control" 
-								type="number" 
-								name="min" 
-								value={editorState.min} 
-								onChange={this.handleRangeOptions} 
-								min={0} 
-							/>	
+								<input
+									className="form-control"
+									type="number"
+									name="min"
+									value={min || ""} // default to empty string to avoid error
+									onChange={({ target: { name, value } }) =>
+										this.handleOptions(name, parseFloat(value))
+									}
+									min={0}
+								/>
 							</div>
 							<div className="input-group mb-3">
 								<div className="input-group-prepend">
 									<span className="input-group-text">Max</span>
 								</div>
-							<input 
-								className="form-control" 
-								type="number" 
-								name="max" 
-								value={editorState.max} 
-								onChange={this.handleRangeOptions} 
-								min={0} 
-							/>	
+								<input
+									className="form-control"
+									type="number"
+									name="max"
+									value={max || ""}
+									onChange={({ target: { name, value } }) =>
+										this.handleOptions(name, parseFloat(value))
+									}
+									min={0}
+								/>
 							</div>
 							<div className="input-group mb-3">
 								<div className="input-group-prepend">
 									<span className="input-group-text">Value</span>
 								</div>
-							<input 
-								className="form-control" 
-								type="number" 
-								name="value" 
-								value={editorState.value} 
-								onChange={this.handleRangeOptions} 
-								min={0} 
-							/>	
+								<input
+									className="form-control"
+									type="number"
+									name="value"
+									value={value || ""}
+									onChange={({ target: { name, value } }) =>
+										this.handleOptions(name, parseFloat(value))
+									}
+									min={0}
+								/>
 							</div>
 						</div>
-					}
+					)}
 
+					{/* ------------- SUBMIT AND CANCEL BUTTONS ------------- */}
 					<button className="btn btn-muted mt-5" onClick={hideEditor}>
 						Cancel
 					</button>
-					<button 
-						className="btn btn-secondary mt-5" 
-						onClick={() => {
-							const label = (editorState.label).getCurrentContent();
-							submitEditorState({...editorState, label: convertToRaw(label) })
-						}}
+					<button
+						className="btn btn-secondary mt-5"
+						onClick={() => this.handleSubmit(label)}
 					>
 						Done
 					</button>
@@ -450,7 +471,7 @@ class FormEditor extends Component {
 
 export default connect(
 	state => ({
-		editorState: state.preview.editorState
+		editorState: state.formBuilder.editorState
 	}),
 	{
 		hideEditor,

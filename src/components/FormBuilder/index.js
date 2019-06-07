@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import Toolbar from './Toolbar';
-import Preview from './Preview';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 import { compose } from "redux";
 import { connect } from 'react-redux';
 import FormEditor from './FormEditor';
+import Toolbar from './Toolbar';
+import Preview from './Preview';
 
 class FormBuilder extends Component {
   render() {
@@ -31,6 +31,11 @@ class FormBuilder extends Component {
 }
 
 export default compose(
-  connect(state => ({ editorVisible : state.preview.editorVisible }), null),
+  connect(
+    state => ({ 
+      editorVisible : state.formBuilder.editorVisible 
+    }), 
+    null
+  ),
   DragDropContext(HTML5Backend)
 )(FormBuilder);

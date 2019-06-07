@@ -50,7 +50,7 @@ const ToolbarItem = props => {
 
 export default compose(
   connect(state => ({
-    previewItems: state.previewItems
+    previewItems: state.formBuilder
   }), {
     addItem
   }),

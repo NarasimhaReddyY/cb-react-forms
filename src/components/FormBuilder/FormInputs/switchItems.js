@@ -1,5 +1,4 @@
 import React from 'react';
-
 import { 
   Tags,
   Label,
@@ -15,7 +14,7 @@ import {
   Checkboxes,
   NumberInput,
   RadioButtons,
-} from './FormInputs';
+} from './index';
 
 export default (item) => {
   switch(item.element) {
