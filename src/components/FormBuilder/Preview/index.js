@@ -6,8 +6,11 @@ import { isEmpty } from 'lodash';
 import { 
   removeItem, 
   dragItem, 
-  showEditor 
-} from "../../../actions/previewItemsActions";
+  showEditor, 
+} from "../../../actions/formBuilderActions";
+import { 
+  toggleDemo 
+} from '../../../actions/formGeneratorActions';
 import FormInputs from "./SortableFormInputs";
 import FinalFormPreview from './FinalFormPreview';
 
@@ -41,7 +44,8 @@ class Preview extends Component {
       connectDropTarget,
       hovered,
       dragItem,
-      previewItems 
+      previewItems,
+      toggleDemo 
     } = this.props;
 
 		const border = hovered ? "1px solid green" : "1px solid #ccc";
@@ -61,10 +65,16 @@ class Preview extends Component {
               Form Builder
             </h3>
             <button 
-              className="btn btn-primary float-right" 
+              className="btn btn-primary float-right ml-3" 
               onClick={() => this.setState({ showFinalPreview: true })}
             >
               Preview
+            </button>
+            <button 
+              className="btn btn-secondary float-right" 
+              onClick={toggleDemo}
+            >
+              Demo
             </button>
           </div>
           <div 
@@ -106,7 +116,8 @@ export default compose(
     }), { 
       removeItem, 
       dragItem,
-      showEditor
+      showEditor,
+      toggleDemo
     }
 	),
 	DropTarget(type, {}, collect)

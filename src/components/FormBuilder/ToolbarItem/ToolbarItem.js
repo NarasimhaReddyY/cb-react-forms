@@ -3,7 +3,7 @@ import classNames from 'classnames';
 import { DragSource } from 'react-dnd';
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import { addItem } from '../../../actions/previewItemsActions';
+import { addItem } from '../../../actions/formBuilderActions';
 
 // type, spec and collect are the paramters to the DragSource HOC
 const type = props => {

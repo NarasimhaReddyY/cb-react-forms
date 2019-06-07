@@ -4,7 +4,7 @@ import uuid from "uuid/v4";
 import {
 	hideEditor,
 	submitEditorState
-} from "../../../actions/previewItemsActions";
+} from "../../../actions/formBuilderActions";
 import { Editor } from "react-draft-wysiwyg";
 import { 
 	convertFromRaw, 
