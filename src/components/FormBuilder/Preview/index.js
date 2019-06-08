@@ -9,7 +9,7 @@ import {
   showEditor, 
 } from "../../../actions/formBuilderActions";
 import { 
-  toggleDemo 
+  loadDemo
 } from '../../../actions/formGeneratorActions';
 import FormInputs from "./SortableFormInputs";
 import FinalFormPreview from './FinalFormPreview';
@@ -45,9 +45,9 @@ class Preview extends Component {
       hovered,
       dragItem,
       previewItems,
-      toggleDemo 
+      loadDemo 
     } = this.props;
-
+    console.log('previewItems', previewItems)
 		const border = hovered ? "1px solid green" : "1px solid #ccc";
 
 		return connectDropTarget(
@@ -72,7 +72,7 @@ class Preview extends Component {
             </button>
             <button 
               className="btn btn-secondary float-right" 
-              onClick={toggleDemo}
+              onClick={() => loadDemo(previewItems)}
             >
               Demo
             </button>
@@ -117,7 +117,7 @@ export default compose(
       removeItem, 
       dragItem,
       showEditor,
-      toggleDemo
+      loadDemo
     }
 	),
 	DropTarget(type, {}, collect)

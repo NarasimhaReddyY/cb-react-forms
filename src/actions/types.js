@@ -7,4 +7,5 @@ export const HIDE_EDITOR = "HIDE_EDITOR";
 export const SUBMIT_EDITOR_STATE = "SUBMIT_EDITOR_STATE";
 
 // FORM GENERATOR ACTIONS:
-export const DEMO_TOGGLE = "DEMO_TOGGLE";
+export const LOAD_DEMO = "LOAD_DEMO";
+export const HIDE_DEMO = "HIDE_DEMO";

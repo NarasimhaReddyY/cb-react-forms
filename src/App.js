@@ -1,14 +1,25 @@
 import React from 'react';
-import { Provider } from 'react-redux';
 import FormBuilder from './components/FormBuilder';
-import store from './store';
-
+import FormGenerator from './components/FormGenerator';
+import { connect } from 'react-redux';
 import './App.scss';
 
-const App = () => (
-  <Provider store={store}>
-    <FormBuilder />
-  </Provider>
-);
+const App = ({ demoVisible }) => {
+  return(
+    <div className="container">
+      <FormBuilder />
+      {
+        demoVisible &&
+        <FormGenerator />
+      }
+    </div>
+  )
+};
 
-export default App;
+export default connect(
+  state => (
+    {
+      demoVisible: state.formGenerator.demoVisible
+    }
+  ), null
+)(App);

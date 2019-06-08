@@ -1,14 +1,26 @@
-import { DEMO_TOGGLE } from '../actions/types';
+import { 
+  LOAD_DEMO,
+  HIDE_DEMO
+} from '../actions/types';
 
 const initialState = {
-  demoVisible: false
+  demoVisible: true,
+  formData: []
 }
 
 export default (state = initialState, action) => {
   switch(action.type) {
-    case DEMO_TOGGLE:
+    case LOAD_DEMO:
       return {
-        demoVisible: !state.demoVisible
+        ...state,
+        demoVisible: true,
+        formData: action.payload.data
+      }
+    case HIDE_DEMO:
+      return {
+        ...state,
+        demoVisible: false,
+        formData: []
       }
     default:
       return state

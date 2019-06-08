@@ -18,6 +18,16 @@
   background-color: rgba(250, 250, 250, 0.8);
 }
 
+.demo-form {
+  height: 100vh;
+  width: 100vw;
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(250, 250, 250, 0.8);
+}
+
 .final-preview {
   height: 100vh;
   width: 100vw;

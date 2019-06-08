@@ -13,15 +13,51 @@ export const addItem = element => {
   const id = uuid();
   const props = addPropsToItem(element);
 	const item = { id, element, ...props };
-	return { type: ADD_ITEM_TO_PREVIEW, payload: item };
+	return { 
+    type: ADD_ITEM_TO_PREVIEW, 
+    payload: item 
+  };
 };
 
-export const removeItem = id => ({ type: REMOVE_ITEM_FROM_PREVIEW, payload: { id } });
+export const removeItem = id => (
+  { 
+    type: REMOVE_ITEM_FROM_PREVIEW, 
+    payload: { 
+      id 
+    } 
+  }
+);
 
-export const dragItem = (dragIndex, hoverIndex) => ({ type: DRAG_ITEM_IN_PREVIEW, payload: { dragIndex, hoverIndex } });
+export const dragItem = (dragIndex, hoverIndex) => (
+  { 
+    type: DRAG_ITEM_IN_PREVIEW, 
+    payload: { 
+      dragIndex, 
+      hoverIndex 
+    } 
+  }
+);
 
-export const showEditor = (item) => ({ type: SHOW_EDITOR, payload: { item } });
+export const showEditor = item => (
+  { 
+    type: SHOW_EDITOR, 
+    payload: { 
+      item 
+    } 
+  }
+);
 
-export const hideEditor = () => ({ type: HIDE_EDITOR });
+export const hideEditor = () => (
+  { 
+    type: HIDE_EDITOR 
+  }
+);
 
-export const submitEditorState = (state) => ({ type: SUBMIT_EDITOR_STATE, payload: { state } });
+export const submitEditorState = (state) => (
+  { 
+    type: SUBMIT_EDITOR_STATE, 
+    payload: { 
+      state 
+    } 
+  }
+);
