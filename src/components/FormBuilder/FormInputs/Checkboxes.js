@@ -12,7 +12,7 @@ class Checkboxes extends Component {
 					{options.map(({ value }) => (
 						<div key={value} className="d-block">
 							<input id={value} type="checkbox" name={value} />
-							<label className="form-lable ml-2" htmlFor={value}>
+							<label className="form-label ml-2" htmlFor={value}>
 								{value}
 							</label>
 						</div>

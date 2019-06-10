@@ -40,6 +40,7 @@
     "react-star-ratings": "^2.3.0",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
+    "redux-form": "^8.2.3",
     "uuid": "^3.3.2"
   },
   "repository": {
