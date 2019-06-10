@@ -8,13 +8,74 @@ import { handleInputChange } from '../../actions/formGeneratorActions';
 
 class ValidatedFormInputs extends Component {
 
-  renderField = (props) => {
-    const { id, handleInputChange, value, input, type, meta: { touched, error, warning } } = props;
+  renderInputField = (
+    {
+      id,
+      handleInputChange,
+      value,
+      isRequired,
+      input,
+      type,
+      meta: {
+        touched,
+        error,
+        warning
+      }
+    }
+  ) => {
     return (
       <div >
         <input 
           {...input}
-          style={{ borderColor: touched && error ? 'red' : '' }}
+          style={{ 
+            borderColor: touched && isRequired && error ? 'red' : '' 
+          }}
+          type={type}
+          // value={value}
+          className="form-control"
+          // onChange={e => handleInputChange(id, e.target.value)} 
+        />
+        {
+          touched &&
+          isRequired && 
+          (
+            (error && 
+              <span className="text-danger m-3">
+                {error}
+              </span>
+            ) || (
+              warning && 
+              <span className="text-warning">
+                {warning}
+              </span>
+            ) 
+          )
+        }
+      </div>
+    )
+  }
+
+  renderTextArea = (props) => {
+    const { 
+      id, 
+      handleInputChange, 
+      value, 
+      input, 
+      type, 
+      meta: { 
+        touched, 
+        error, 
+        warning 
+      } 
+    } = props;
+    
+    return (
+      <div >
+        <textarea 
+          {...input}
+          style={{ 
+            borderColor: touched && error ? 'red' : '' 
+          }}
           type={type}
           value={value}
           className="form-control"
@@ -22,8 +83,17 @@ class ValidatedFormInputs extends Component {
         />
         {
           touched && 
-          ((error && <span className="text-danger m-3">{error}</span>) ||
-            (warning && <span>{warning}</span>) 
+          (
+            (error && 
+              <span className="text-danger m-3">
+                {error}
+              </span>
+            ) || (
+              warning && 
+              <span className="text-warning">
+                {warning}
+              </span>
+            ) 
           )
         }
       </div>
@@ -31,7 +101,10 @@ class ValidatedFormInputs extends Component {
   }
 
   render() {
-    const { formInput, handleInputChange } = this.props;
+    const { 
+      formInput, 
+      handleInputChange 
+    } = this.props;
 
     // richText label
     const label = convertDraftjsToHtml(formInput.label);
@@ -47,19 +120,48 @@ class ValidatedFormInputs extends Component {
           formInput.element === "TextInput" && 
           <div className="form-group">
             {formInput.required ? (
-              <span style={{ borderTop: '100%' }} className="badge badge-danger float-right">
+              <span 
+                style={{ borderTop: '100%' }} 
+                className="badge badge-danger float-right"
+              >
                 Required
               </span>
             ) : null}
             <p dangerouslySetInnerHTML={{ __html: label }} />
             <Field 
-              component={this.renderField} 
               name={labelText}
+              component={this.renderInputField}
               type="text"
+              label={labelText} 
+              validate={[required]}
+              isRequired={formInput.required}
+              // value={formInput.value}
+              id={formInput.id}
+              // handleInputChange={handleInputChange}
+            />
+          </div>
+        }
+
+        {
+          formInput.element === "TextArea" && 
+          <div className="form-group">
+            {formInput.required ? (
+              <span 
+                style={{ borderTop: '100%' }} 
+                className="badge badge-danger float-right"
+              >
+                Required
+              </span>
+            ) : null}
+            <p dangerouslySetInnerHTML={{ __html: label }} />
+            <Field 
+              name={labelText}
+              component={this.renderTextArea} 
+              type="textarea"
+              validate={[required]} 
               value={formInput.value}
               id={formInput.id}
               handleInputChange={handleInputChange}
-              validate={[required]} 
             />
           </div>
         }
@@ -70,8 +172,8 @@ class ValidatedFormInputs extends Component {
 
 export default compose(
   connect(
-    (state, props) => ({
-      form: props.formInput.element,
+    (state, { formInput: { element, id } }) => ({
+      form: `${element}-${id}`,
     }),
     {
       handleInputChange

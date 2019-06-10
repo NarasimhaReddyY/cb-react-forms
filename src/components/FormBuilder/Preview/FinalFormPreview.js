@@ -13,7 +13,7 @@ const FinalFormPreview = ({ hideFinalPreview, data }) => {
           border: '1px solid #ccc' 
         }}
       >
-        <div>
+        <div style={{ height: '50px' }}>
           <span 
             className="float-right" 
             style={{ cursor: 'pointer' }} 
@@ -31,7 +31,10 @@ const FinalFormPreview = ({ hideFinalPreview, data }) => {
             </div>
           ))
         }  
-        <div style={{ height: '50px' }} className="mt-5">
+        <div 
+          style={{ height: '50px' }} 
+          className="mt-5"
+        >
           <hr/> 
           <button 
             className="btn btn-outline-secondary float-right" 
