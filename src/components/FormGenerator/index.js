@@ -7,7 +7,6 @@ import ValidatedFormInputs from "./ValidatedFormInputs";
 class FormGenerator extends Component {
 	render() {
 		const { formData, hideDemo } = this.props;
-		console.log("generator", this.props);
 		return (
 			<div className="demo-form">
 				<div

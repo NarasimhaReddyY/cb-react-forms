@@ -7,14 +7,9 @@ import { required } from './formValidations';
 import { handleInputChange } from '../../actions/formGeneratorActions';
 
 class ValidatedFormInputs extends Component {
-  handleInputChange = (e, id) => {
-    e.persist();
-    this.props.handleInputChange(id, e.target.value);
-  }
 
   renderField = (props) => {
-    console.log('props', props)
-    const { id, value, input, type, meta: { touched, error, warning } } = props;
+    const { id, handleInputChange, value, input, type, meta: { touched, error, warning } } = props;
     return (
       <div >
         <input 
@@ -23,7 +18,7 @@ class ValidatedFormInputs extends Component {
           type={type}
           value={value}
           className="form-control"
-          onChange={(e) => this.handleInputChange(e, id)} 
+          onChange={e => handleInputChange(id, e.target.value)} 
         />
         {
           touched && 
@@ -63,7 +58,7 @@ class ValidatedFormInputs extends Component {
               type="text"
               value={formInput.value}
               id={formInput.id}
-              handleChange={handleInputChange}
+              handleInputChange={handleInputChange}
               validate={[required]} 
             />
           </div>

@@ -47,7 +47,6 @@ class Preview extends Component {
       previewItems,
       loadDemo 
     } = this.props;
-    console.log('previewItems', previewItems)
 		const border = hovered ? "1px solid green" : "1px solid #ccc";
 
 		return connectDropTarget(
