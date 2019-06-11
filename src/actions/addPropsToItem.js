@@ -36,7 +36,8 @@ export default (item) => {
             id: uuid(),
             value: 'Option2'
           }
-        ]
+        ],
+        value: null
       };
 
     case 'HyperLink':
@@ -72,7 +73,8 @@ export default (item) => {
             label: 'Label',
             value: 'Value'
           }
-        ]
+        ],
+        value: null
       };
 
     case 'Range':

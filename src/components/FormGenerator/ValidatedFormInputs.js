@@ -8,6 +8,22 @@ import { handleInputChange } from '../../actions/formGeneratorActions';
 
 class ValidatedFormInputs extends Component {
 
+  forminputLabel = (label, required) => {
+    return (
+      <React.Fragment>
+        {required ? (
+          <span 
+            style={{ borderTop: '100%' }} 
+            className="badge badge-danger float-right"
+          >
+            Required
+          </span>
+        ) : null}
+        <p dangerouslySetInnerHTML={{ __html: label }} /> 
+      </React.Fragment>
+    )
+  }
+
   renderInputField = (
     {
       id,
@@ -25,64 +41,33 @@ class ValidatedFormInputs extends Component {
   ) => {
     return (
       <div >
-        <input 
-          {...input}
-          style={{ 
-            borderColor: touched && isRequired && error ? 'red' : '' 
-          }}
-          type={type}
-          // value={value}
-          className="form-control"
-          // onChange={e => handleInputChange(id, e.target.value)} 
-        />
         {
-          touched &&
-          isRequired && 
-          (
-            (error && 
-              <span className="text-danger m-3">
-                {error}
-              </span>
-            ) || (
-              warning && 
-              <span className="text-warning">
-                {warning}
-              </span>
-            ) 
+          type === "textarea" ?
+          (<textarea 
+            {...input}
+            style={{ 
+              borderColor: touched && isRequired && error ? 'red' : '' 
+            }}
+            type={type}
+            value={value}
+            className="form-control"
+            onChange={e => handleInputChange(id, e.target.value)}  
+          />
+          ) : (
+            <input 
+              {...input}
+              style={{ 
+                borderColor: touched && isRequired && error ? 'red' : '' 
+              }}
+              type={type}
+              value={value}
+              className="form-control"
+              onChange={e => handleInputChange(id, e.target.value)} 
+            />
           )
         }
-      </div>
-    )
-  }
-
-  renderTextArea = (props) => {
-    const { 
-      id, 
-      handleInputChange, 
-      value, 
-      input, 
-      type, 
-      meta: { 
-        touched, 
-        error, 
-        warning 
-      } 
-    } = props;
-    
-    return (
-      <div >
-        <textarea 
-          {...input}
-          style={{ 
-            borderColor: touched && error ? 'red' : '' 
-          }}
-          type={type}
-          value={value}
-          className="form-control"
-          onChange={e => handleInputChange(id, e.target.value)} 
-        />
         {
-          touched && 
+          touched &&
           (
             (error && 
               <span className="text-danger m-3">
@@ -103,6 +88,11 @@ class ValidatedFormInputs extends Component {
   render() {
     const { 
       formInput, 
+      formInput: {
+        element,
+        value,
+        id
+      },
       handleInputChange 
     } = this.props;
 
@@ -116,53 +106,86 @@ class ValidatedFormInputs extends Component {
 
     return (
       <div>
+        {/* -------------- INPUT TAG -------------- */}
         {
-          formInput.element === "TextInput" && 
+          element === "TextInput" &&
+          (
+            <div className="form-group">
+              {this.forminputLabel(label, formInput.required)}
+              <Field 
+                name={labelText}
+                component={this.renderInputField}
+                type="text"
+                label={labelText} 
+                validate={formInput.required ? [required] : null}
+                isRequired={formInput.required}
+                value={value}
+                id={id}
+                handleInputChange={handleInputChange}
+              />
+            </div>
+          )
+        }
+
+        {/* -------------- TEXTAREA -------------- */}
+        {
+          element === "TextArea" && 
           <div className="form-group">
-            {formInput.required ? (
-              <span 
-                style={{ borderTop: '100%' }} 
-                className="badge badge-danger float-right"
-              >
-                Required
-              </span>
-            ) : null}
-            <p dangerouslySetInnerHTML={{ __html: label }} />
+            {this.forminputLabel(label, formInput.required)}
             <Field 
               name={labelText}
-              component={this.renderInputField}
-              type="text"
-              label={labelText} 
-              validate={[required]}
+              component={this.renderInputField} 
+              type="textarea"
+              validate={formInput.required ? [required] : null} 
               isRequired={formInput.required}
-              // value={formInput.value}
-              id={formInput.id}
-              // handleInputChange={handleInputChange}
+              value={value}
+              id={id}
+              handleInputChange={handleInputChange}
             />
           </div>
         }
 
+        {/* -------------- NUMBER INPUT TAG -------------- */}
         {
-          formInput.element === "TextArea" && 
+          element === "NumberInput" && 
           <div className="form-group">
-            {formInput.required ? (
-              <span 
-                style={{ borderTop: '100%' }} 
-                className="badge badge-danger float-right"
-              >
-                Required
-              </span>
-            ) : null}
-            <p dangerouslySetInnerHTML={{ __html: label }} />
+            {this.forminputLabel(label, formInput.required)}
             <Field 
               name={labelText}
-              component={this.renderTextArea} 
-              type="textarea"
-              validate={[required]} 
+              component={this.renderInputField} 
+              type="number"
+              isRequired={formInput.required}
+              validate={formInput.required ? [required] : null} 
               value={formInput.value}
               id={formInput.id}
               handleInputChange={handleInputChange}
             />
+          </div>
+        }
+
+        {/* -------------- DROPDOWN -------------- */}
+        {
+          element === "Dropdown" && 
+          <div className="form-group">
+            {this.forminputLabel(label, formInput.required)}
+            <Field 
+              name={labelText}
+              component="select"
+              className="form-control"
+              validate={formInput.required ? [required] : null} 
+              // handleInputChange={handleInputChange}
+            >
+             {
+               formInput.options.map(option => (
+                 <option 
+                  key={option.id}
+                  value={option.value}
+                >
+                  {option.value}
+                </option>
+               ))
+             } 
+            </Field>
           </div>
         }
       </div>

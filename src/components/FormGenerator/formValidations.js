@@ -1,8 +1,4 @@
-import { isEmpty } from 'lodash'
-
-export const number = value => value && isNaN(Number(value)) 
-  ? 'Must be a number'
-  : undefined;
+import { isEmpty, isNumber } from 'lodash'
 
 export const email = value => 
   value && 
@@ -12,3 +8,6 @@ export const email = value =>
 
 export const required = value => 
   isEmpty(value) ? 'Required' : undefined;
+
+export const number = value => 
+  value && isNumber(value) ? 'Must be a number' : undefined;
