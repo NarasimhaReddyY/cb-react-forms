@@ -9,8 +9,8 @@ class Checkboxes extends Component {
 			<div>
 				<HeaderLabel label={label} required={required} />
 				<div className="form-group">
-					{options.map(({ value }) => (
-						<div key={value} className="d-block">
+					{options.map(({ id, value }) => (
+						<div key={id} className="d-block">
 							<input id={value} type="checkbox" name={value} />
 							<label className="form-label ml-2" htmlFor={value}>
 								{value}

@@ -9,6 +9,7 @@ class Dropdown extends Component {
 			<div className="form-group">
 				<HeaderLabel label={label} required={required} />
 				<select className="form-control">
+					<option value={null}>Select</option>
 					{options.map(({ id, value }) => (
 						<option key={id}>{value}</option>
 					))}

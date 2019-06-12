@@ -34,12 +34,18 @@ class FormGenerator extends Component {
 						))}
 					</form>
 					<div style={{ height: "50px" }} className="mt-5">
-						<hr />
+
 						<button
-							className="btn btn-outline-secondary float-right"
+							className="btn btn-outline-secondary float-right mt-5"
 							onClick={hideDemo}
 						>
 							Close
+						</button>
+						<button
+							className="btn btn-outline-primary float-right mr-3 mt-5"
+							disabled
+						>
+							Submit
 						</button>
 					</div>
 				</div>

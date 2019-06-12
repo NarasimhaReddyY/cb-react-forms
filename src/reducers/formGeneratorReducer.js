@@ -1,7 +1,10 @@
 import { 
   LOAD_DEMO,
   HIDE_DEMO,
-  HANDLE_INPUT_CHANGE
+  HANDLE_INPUT_CHANGE,
+  HANDLE_CHECKBOX_CHANGE,
+  HANDLE_TAGS_CHANGE,
+  HANDLE_RADIOBUTTON_CHANGE
 } from '../actions/types';
 
 const initialState = {
@@ -23,10 +26,11 @@ export default (state = initialState, action) => {
         demoVisible: false,
         formData: []
       }
-    case HANDLE_INPUT_CHANGE:
+    case HANDLE_INPUT_CHANGE: {
+      const { id, value } = action.payload;
       const updatedFormData = state.formData.map(item => {
-        if(item.id === action.payload.id) {
-          item.value = action.payload.value
+        if(item.id === id) {
+          item.value = value
           return item;
         }
         return item;
@@ -35,6 +39,63 @@ export default (state = initialState, action) => {
         ...state,
         formData: [...updatedFormData]
       }
+    }
+    case HANDLE_CHECKBOX_CHANGE: {
+      const { id, optionId } = action.payload;
+      const updatedFormData = state.formData.map(item => {
+        if(item.id === id) {
+          item.options.forEach(option => {
+            if(option.id === optionId) {
+              option.checked = !option.checked
+              return option;
+            }
+            return option;
+          })
+          return item;
+        }
+        return item
+      })
+      return {
+        ...state,
+        formData: [...updatedFormData]
+      }
+    }
+    case HANDLE_TAGS_CHANGE: {
+      const { id, option } = action.payload;
+      const updatedFormData = state.formData.map(item => {
+        if(item.id === id) {
+          item.value = [...option]
+          return item;
+        }
+        return item;
+      })
+      return {
+        ...state,
+        formData: [...updatedFormData]
+      }
+    }
+    case HANDLE_RADIOBUTTON_CHANGE: {
+      const { id, optionId } = action.payload;
+      const updatedFormData = state.formData.map(item => {
+        if(item.id === id) {
+          item.options.forEach(option => {
+            if(option.id === optionId) {
+              option.checked = true;
+              return option;
+            } else {
+              option.checked = false;
+              return option;
+            }
+          })
+          return item;
+        }
+        return item;
+      })
+      return {
+        ...state,
+        formData: [...updatedFormData]
+      }
+    }
     default:
       return state
   }

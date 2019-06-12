@@ -1,12 +1,40 @@
 import React, { Component } from 'react';
 import { Field, reduxForm } from 'redux-form';
-import convertDraftjsToHtml from '../FormBuilder/FormInputs/convertDraftjsToHtml';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
+import Select from 'react-select';
+import makeAnimated from "react-select/animated";
+import convertDraftjsToHtml from '../FormBuilder/FormInputs/convertDraftjsToHtml';
 import { required } from './formValidations';
-import { handleInputChange } from '../../actions/formGeneratorActions';
+import { 
+  handleInputChange, 
+  handleCheckboxChange,
+  handleTagsChange,
+  handleRadioButtonChange 
+} from '../../actions/formGeneratorActions';
+import { 
+  Header, 
+  Paragraph, 
+  Label,
+} from '../FormBuilder/FormInputs';
 
 class ValidatedFormInputs extends Component {
+
+  showError = (touched, error, warning) => (
+    touched &&
+    (
+      (error && 
+        <span className="text-danger m-3">
+          {error}
+        </span>
+      ) || (
+        warning && 
+        <span className="text-warning">
+          {warning}
+        </span>
+      ) 
+    )
+  )
 
   forminputLabel = (label, required) => {
     return (
@@ -67,45 +95,227 @@ class ValidatedFormInputs extends Component {
           )
         }
         {
-          touched &&
-          (
-            (error && 
-              <span className="text-danger m-3">
-                {error}
-              </span>
-            ) || (
-              warning && 
-              <span className="text-warning">
-                {warning}
-              </span>
-            ) 
-          )
+          this.showError(touched, error, warning)
         }
       </div>
     )
   }
 
+  renderDropdown = (
+    {
+      handleInputChange,
+      id,
+      value,
+      isRequired,
+      input,
+      options,
+      meta: {
+        touched,
+        error,
+        warning
+      }
+    }
+  ) => (
+    <div className="form-group">
+      <select 
+        {...input}
+        value={value}
+        onChange={e => handleInputChange(id, e.target.value)}
+        className="form-control"
+        style={{ 
+          borderColor: touched && isRequired && error ? 'red' : '',
+         }}
+      >
+        <option value={null}></option>
+        {
+          options.map(option => (
+            <option 
+              key={option.id}
+              value={option.value}
+            >
+              {option.value}
+            </option>
+          ))
+        }
+      </select>
+      {
+        this.showError(touched, error, warning)
+      }
+    </div>
+  )
+
+  renderCheckboxes = (
+    {
+      id,
+      input,
+      type,
+      options,
+      handleCheckboxChange,
+      meta: {
+        touched,
+        error,
+        warning
+      }
+    }
+  ) => (
+    <React.Fragment>
+      <div className="form-group" {...input}>
+        {
+          options.map(({ id: optionId, value }) => (
+            <div key={value} className="d-block">
+              <label 
+                className="form-label ml-2" 
+                htmlFor={value}
+              >
+                <input 
+                  id={value} 
+                  type={type} 
+                  name={value}
+                  className="mr-2"
+                  onChange={() => 
+                    handleCheckboxChange(
+                      id, 
+                      optionId
+                    )
+                  }
+                />
+                {value}
+              </label>
+            </div>
+          ))
+        }
+        {
+          this.showError(touched, error, warning)
+        }
+      </div>
+    </React.Fragment>
+  )
+
+  renderTags = (
+    {
+      id,
+      input,
+      options,
+      value,
+      animatedComponents,
+      handleTagsChange,
+      meta: {
+        touched,
+        error,
+        warning
+      }
+    }
+  ) => (
+    <React.Fragment>
+      <div className="form-group">
+        <Select 
+          id={id}
+          {...input} 
+          value={value}
+          options={options}
+          components={animatedComponents}
+          isMulti
+          onChange={e => handleTagsChange(id, e)}
+        />
+        {
+          this.showError(touched, error, warning)
+        }
+      </div>
+    </React.Fragment>
+  );
+
+  renderRadioButtons = (
+    {
+      id,
+      input,
+      option,
+      value,
+      handleRadioButtonChange,
+      meta: {
+        touched,
+        error,
+        warning
+      }
+    }
+  ) => (
+    <React.Fragment>
+      <div className="d-block">
+        <label className="form-label ml-2" htmlFor={value}>
+          <input
+            {...input} 
+            id={value} 
+            type="radio" 
+            name={id}
+            className="mr-2" 
+            onChange={
+              () => handleRadioButtonChange(id, option.id)
+            }
+          />
+          {option.label}
+        </label>
+        {
+          this.showError(touched, error, warning)
+        }
+      </div>
+    </React.Fragment>
+  );
+
   render() {
+    // Animation for Tag Component
+    const animatedComponents = makeAnimated();
     const { 
       formInput, 
       formInput: {
+        id,
         element,
         value,
-        id
+        options
       },
-      handleInputChange 
+      handleInputChange,
+      handleCheckboxChange,
+      handleTagsChange,
+      handleRadioButtonChange 
     } = this.props;
 
-    // richText label
-    const label = convertDraftjsToHtml(formInput.label);
+    let label, labelText;
+    if(element !== "LineBreak") {
+      // richText label
+      label = convertDraftjsToHtml(formInput.label);
+      
+      // text label
+      labelText = 
+        formInput.label.blocks &&
+        formInput.label.blocks[0].text;
+    }
 
-    // text label
-    const labelText = 
-      formInput.label.blocks &&
-      formInput.label.blocks[0].text;
 
     return (
       <div>
+
+        {/* -------------- HEADER -------------- */}
+        {
+          element === "Header" &&
+          <Header item={{label: formInput.label}} />
+        }
+
+        {/* -------------- PARAGRAPH -------------- */}
+        {
+          element === "Paragraph" &&
+          <Paragraph item={{label: formInput.label}} />
+        }
+
+        {/* -------------- LABEL -------------- */}
+        {
+          element === "Label" &&
+          <Label item={{label: formInput.label}} />
+        }
+
+        {/* -------------- LINEBREAK -------------- */}
+        {
+          element === "LineBreak" &&
+          <hr />
+        }
+
         {/* -------------- INPUT TAG -------------- */}
         {
           element === "TextInput" &&
@@ -156,8 +366,8 @@ class ValidatedFormInputs extends Component {
               type="number"
               isRequired={formInput.required}
               validate={formInput.required ? [required] : null} 
-              value={formInput.value}
-              id={formInput.id}
+              value={value}
+              id={id}
               handleInputChange={handleInputChange}
             />
           </div>
@@ -166,27 +376,77 @@ class ValidatedFormInputs extends Component {
         {/* -------------- DROPDOWN -------------- */}
         {
           element === "Dropdown" && 
-          <div className="form-group">
+          <React.Fragment>
             {this.forminputLabel(label, formInput.required)}
             <Field 
               name={labelText}
-              component="select"
+              component={this.renderDropdown}
               className="form-control"
-              validate={formInput.required ? [required] : null} 
-              // handleInputChange={handleInputChange}
-            >
-             {
-               formInput.options.map(option => (
-                 <option 
-                  key={option.id}
-                  value={option.value}
-                >
-                  {option.value}
-                </option>
-               ))
-             } 
-            </Field>
-          </div>
+              validate={formInput.required ? [required] : null}
+              options={options} 
+              id={id}
+              handleInputChange={handleInputChange}
+            />
+          </React.Fragment>
+        }
+
+        {/* -------------- CHECKBOXES -------------- */}
+        {
+          element === "Checkboxes" &&
+          <React.Fragment>
+            {this.forminputLabel(label, formInput.required)}
+            <Field 
+              id={id}
+              name={labelText}
+              type="checkbox"
+              component={this.renderCheckboxes}
+              className="form-control"
+              validate={formInput.required ? [required] : null}
+              options={options}
+              handleCheckboxChange={handleCheckboxChange}
+            />
+          </React.Fragment>
+        }
+
+        {/* -------------- Tags -------------- */}
+        {
+          element === "Tags" &&
+          <React.Fragment>
+            {this.forminputLabel(label, formInput.required)}
+            <Field
+              id={id}
+              name={labelText}
+              component={this.renderTags}
+              validate={formInput.required ? [required] : null}
+              options={options}
+              value={value}
+              animatedComponents={animatedComponents}
+              handleTagsChange={handleTagsChange}
+            />
+          </React.Fragment>
+        }
+
+        {/* -------------- RADIO BUTTONS -------------- */}
+        {
+          element === "RadioButtons" &&
+          <React.Fragment>
+            {this.forminputLabel(label, formInput.required)}
+            <div className="form-group">
+              {
+                options.map(option => (
+                  <React.Fragment key={option.id}>
+                    <Field 
+                      name={id}
+                      id={id}
+                      component={this.renderRadioButtons}
+                      handleRadioButtonChange={handleRadioButtonChange}
+                      option={option}
+                    />
+                  </React.Fragment>
+                ))
+              }
+            </div>
+          </React.Fragment>
         }
       </div>
     )
@@ -199,7 +459,10 @@ export default compose(
       form: `${element}-${id}`,
     }),
     {
-      handleInputChange
+      handleInputChange,
+      handleCheckboxChange,
+      handleTagsChange,
+      handleRadioButtonChange
     }
   ),
   reduxForm()

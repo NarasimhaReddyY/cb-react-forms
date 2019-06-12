@@ -23,6 +23,23 @@ export default (item) => {
       };
 
     case 'Checkboxes':
+      return {
+        label: convertHtmlToRawJs(html),
+        required: false,
+        options: [
+          {
+            id: uuid(),
+            value: 'Option1',
+            checked: false
+          },
+          {
+            id: uuid(),
+            value: 'Option2',
+            checked: false
+          }
+        ]
+      };
+
     case 'Dropdown':
       return {
         label: convertHtmlToRawJs(html),
@@ -58,6 +75,24 @@ export default (item) => {
       };
       
     case 'RadioButtons':
+      return {
+        required: false,
+        label: convertHtmlToRawJs(html),
+        options: [
+          {
+            id: uuid(),
+            label: 'Label1',
+            value: 'Value1',
+            checked: false
+          },
+          {
+            id: uuid(),
+            label: 'Label2',
+            value: 'Value2',
+            checked: false
+          }
+        ]
+      };
     case 'Tags':
       return {
         required: false,
@@ -65,16 +100,16 @@ export default (item) => {
         options: [
           {
             id: uuid(),
-            label: 'Label',
-            value: 'Value'
+            label: 'Label1',
+            value: 'Value1',
           },
           {
-            id: uuid,
-            label: 'Label',
-            value: 'Value'
+            id: uuid(),
+            label: 'Label2',
+            value: 'Value2'
           }
         ],
-        value: null
+        value: []
       };
 
     case 'Range':
