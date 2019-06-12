@@ -1,4 +1,4 @@
-import { isEmpty, isNumber } from 'lodash'
+import { isEmpty, isNumber } from 'lodash';
 
 export const email = value => 
   value && 

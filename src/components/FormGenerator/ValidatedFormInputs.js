@@ -5,7 +5,10 @@ import { connect } from 'react-redux';
 import Select from 'react-select';
 import makeAnimated from "react-select/animated";
 import convertDraftjsToHtml from '../FormBuilder/FormInputs/convertDraftjsToHtml';
-import { required } from './formValidations';
+import { 
+  required,
+  checkbox 
+} from './formValidations';
 import { 
   handleInputChange, 
   handleCheckboxChange,
@@ -149,45 +152,40 @@ class ValidatedFormInputs extends Component {
       id,
       input,
       type,
-      options,
+      value,
+      option,
       handleCheckboxChange,
       meta: {
         touched,
         error,
         warning
-      }
+      },
     }
   ) => (
     <React.Fragment>
-      <div className="form-group" {...input}>
-        {
-          options.map(({ id: optionId, value }) => (
-            <div key={value} className="d-block">
-              <label 
-                className="form-label ml-2" 
-                htmlFor={value}
-              >
-                <input 
-                  id={value} 
-                  type={type} 
-                  name={value}
-                  className="mr-2"
-                  onChange={() => 
-                    handleCheckboxChange(
-                      id, 
-                      optionId
-                    )
-                  }
-                />
-                {value}
-              </label>
-            </div>
-          ))
-        }
-        {
-          this.showError(touched, error, warning)
-        }
+      <div className="d-block" {...input}>
+        <label 
+          className="form-label ml-2" 
+          htmlFor={value}
+        >
+          <input 
+            id={value} 
+            type={type} 
+            name={id}
+            className="mr-2"
+            onChange={() => 
+              handleCheckboxChange(
+                id, 
+                option.id
+              )
+            }
+          />
+          {option.value}
+        </label>
       </div>
+      {
+        this.showError(touched, error, warning)
+      }
     </React.Fragment>
   )
 
@@ -395,16 +393,22 @@ class ValidatedFormInputs extends Component {
           element === "Checkboxes" &&
           <React.Fragment>
             {this.forminputLabel(label, formInput.required)}
-            <Field 
-              id={id}
-              name={labelText}
-              type="checkbox"
-              component={this.renderCheckboxes}
-              className="form-control"
-              validate={formInput.required ? [required] : null}
-              options={options}
-              handleCheckboxChange={handleCheckboxChange}
-            />
+            <div className="from-group">
+              {
+                options.map(option => (
+                  <Field 
+                    id={id}
+                    key={option.id}
+                    name={option.value}
+                    value={option.value}
+                    type="checkbox"
+                    component={this.renderCheckboxes}
+                    option={option}
+                    handleCheckboxChange={handleCheckboxChange}
+                  />
+                ))
+              }
+            </div>
           </React.Fragment>
         }
 
