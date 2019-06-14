@@ -3,14 +3,12 @@ import HeaderLabel from './HeaderLabel';
 
 class Hyperlink extends Component {
 	render() {
-		const { label, required, url } = this.props.item;
+		const { label, required, value } = this.props.item;
 
 		return (
 			<div>
 				<HeaderLabel label={label} required={required} />
-				<a target="_blank" href={url}>
-					{url}
-				</a>
+				<input className="form-control" value={value} />
 			</div>
 		);
 	}

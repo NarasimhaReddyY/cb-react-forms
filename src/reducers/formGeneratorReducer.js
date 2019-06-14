@@ -4,7 +4,8 @@ import {
   HANDLE_INPUT_CHANGE,
   HANDLE_CHECKBOX_CHANGE,
   HANDLE_TAGS_CHANGE,
-  HANDLE_RADIOBUTTON_CHANGE
+  HANDLE_RADIOBUTTON_CHANGE,
+  HANDLE_RATING_CHANGE
 } from '../actions/types';
 
 const initialState = {
@@ -31,7 +32,6 @@ export default (state = initialState, action) => {
       const updatedFormData = state.formData.map(item => {
         if(item.id === id) {
           item.value = value
-          return item;
         }
         return item;
       })
@@ -47,7 +47,6 @@ export default (state = initialState, action) => {
           item.options.forEach(option => {
             if(option.id === optionId) {
               option.checked = !option.checked
-              return option;
             }
             return option;
           })
@@ -96,6 +95,22 @@ export default (state = initialState, action) => {
         formData: [...updatedFormData]
       }
     }
+
+    case HANDLE_RATING_CHANGE: {
+      const { id, value } = action.payload;
+      const updatedFormData = state.formData.map(item => {
+        if(item.id === id) {
+          item.value = value;
+        }
+        return item;
+      })
+      return {
+        ...state,
+        formData: [...updatedFormData]
+      }
+    }
+
+
     default:
       return state
   }

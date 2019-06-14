@@ -383,23 +383,6 @@ class FormEditor extends Component {
 						</div>
 					)}
 
-					{/* ------------- HYPERLINK OPTIONS ------------- */}
-					{
-						element === "HyperLink" && (
-						<div className="mt-5">
-							<h5>Link:</h5>
-							<input
-								className="form-control"
-								type="text"
-								value={url}
-								onChange={e =>
-									this.handleOptions("url", e.target.value)
-								}
-								min={0}
-							/>
-						</div>
-					)}
-
 					{/* ------------- RANGE OPTIONS ------------- */}
 					{
 						element === "Range" && (
