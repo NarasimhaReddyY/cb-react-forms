@@ -7,6 +7,7 @@ import {
   HANDLE_RADIOBUTTON_CHANGE,
   HANDLE_RATING_CHANGE
 } from '../actions/types';
+import { map } from 'lodash';
 
 const initialState = {
   demoVisible: false,
@@ -31,7 +32,7 @@ export default (state = initialState, action) => {
 
     case HANDLE_INPUT_CHANGE: {
       const { id, value } = action.payload;
-      const updatedFormData = state.formData.map(item => {
+      const updatedFormData = map(state.formData, item => {
         if(item.id === id) {
           item.value = value
         }
@@ -45,7 +46,7 @@ export default (state = initialState, action) => {
 
     case HANDLE_CHECKBOX_CHANGE: {
       const { id, optionId } = action.payload;
-      const updatedFormData = state.formData.map(item => {
+      const updatedFormData = map(state.formData, item => {
         if(item.id === id) {
           item.options.forEach(option => {
             if(option.id === optionId) {
@@ -64,7 +65,7 @@ export default (state = initialState, action) => {
 
     case HANDLE_TAGS_CHANGE: {
       const { id, option } = action.payload;
-      const updatedFormData = state.formData.map(item => {
+      const updatedFormData = map(state.formData, item => {
         if(item.id === id) {
           item.value = [...option]
           return item;
@@ -79,7 +80,7 @@ export default (state = initialState, action) => {
 
     case HANDLE_RADIOBUTTON_CHANGE: {
       const { id, optionId } = action.payload;
-      const updatedFormData = state.formData.map(item => {
+      const updatedFormData = map(state.formData, item => {
         if(item.id === id) {
           item.options.forEach(option => {
             if(option.id === optionId) {
@@ -102,7 +103,7 @@ export default (state = initialState, action) => {
 
     case HANDLE_RATING_CHANGE: {
       const { id, value } = action.payload;
-      const updatedFormData = state.formData.map(item => {
+      const updatedFormData = map(state.formData, item => {
         if(item.id === id) {
           item.value = value;
         }

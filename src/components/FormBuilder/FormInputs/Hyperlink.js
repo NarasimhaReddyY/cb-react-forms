@@ -8,7 +8,7 @@ class Hyperlink extends Component {
 		return (
 			<div>
 				<HeaderLabel label={label} required={required} />
-				<input className="form-control" value={value} />
+				<input className="form-control" placeholder="https://www.example.com" />
 			</div>
 		);
 	}

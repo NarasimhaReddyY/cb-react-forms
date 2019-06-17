@@ -13,7 +13,8 @@ import {
 	handleInputChange,
 	handleCheckboxChange,
 	handleTagsChange,
-	handleRadioButtonChange
+	handleRadioButtonChange,
+	hideDemo
 } from "../../actions/formGeneratorActions";
 import { Header, Paragraph, Label } from "../FormBuilder/FormInputs";
 
@@ -23,7 +24,7 @@ class ValidatedFormInputs extends Component {
 		((error && <span className="text-danger m-3">{error}</span>) ||
 			(warning && <span className="text-warning">{warning}</span>));
 
-	forminputLabel = (label, required) => {
+	formInputLabel = (label, required) => {
 		return (
 			<React.Fragment>
 				{required ? (
@@ -192,8 +193,6 @@ class ValidatedFormInputs extends Component {
 		meta: { touched, error, warning }
 	}) => {
 
-		console.log(formInput.value, "inside rating");
-
 		return (
 			<div>
 				<StarRatings
@@ -248,7 +247,8 @@ class ValidatedFormInputs extends Component {
 			handleInputChange,
 			handleCheckboxChange,
 			handleTagsChange,
-			handleRadioButtonChange
+			handleRadioButtonChange,
+			hideDemo
 		} = this.props;
 
 		console.log(formData, 'rendering');
@@ -257,7 +257,7 @@ class ValidatedFormInputs extends Component {
 			formInput.required ? [required, validateUrl] : [validateUrl];
 
 		return (
-			<React.Fragment>
+			<form>
 				{
 					map(formData, formInput => {
 						const { id, element, value, options } = formInput;
@@ -270,6 +270,7 @@ class ValidatedFormInputs extends Component {
 							labelText =
 								formInput.label.blocks && formInput.label.blocks[0].text;
 						}
+
 						return (
 							<div key={formInput.id} className="mb-4">
 								{/* -------------- HEADER -------------- */}
@@ -293,7 +294,7 @@ class ValidatedFormInputs extends Component {
 								{/* -------------- INPUT TAG -------------- */}
 								{element === "TextInput" && (
 									<div className="form-group">
-										{this.forminputLabel(label, formInput.required)}
+										{this.formInputLabel(label, formInput.required)}
 										<Field
 											name={labelText}
 											component={this.renderInputField}
@@ -311,7 +312,7 @@ class ValidatedFormInputs extends Component {
 								{/* -------------- TEXTAREA -------------- */}
 								{element === "TextArea" && (
 									<div className="form-group">
-										{this.forminputLabel(label, formInput.required)}
+										{this.formInputLabel(label, formInput.required)}
 										<Field
 											name={labelText}
 											component={this.renderInputField}
@@ -328,7 +329,7 @@ class ValidatedFormInputs extends Component {
 								{/* -------------- NUMBER INPUT TAG -------------- */}
 								{element === "NumberInput" && (
 									<div className="form-group">
-										{this.forminputLabel(label, formInput.required)}
+										{this.formInputLabel(label, formInput.required)}
 										<Field
 											name={labelText}
 											component={this.renderInputField}
@@ -345,7 +346,7 @@ class ValidatedFormInputs extends Component {
 								{/* -------------- DROPDOWN -------------- */}
 								{element === "Dropdown" && (
 									<React.Fragment>
-										{this.forminputLabel(label, formInput.required)}
+										{this.formInputLabel(label, formInput.required)}
 										<Field
 											name={labelText}
 											component={this.renderDropdown}
@@ -361,7 +362,7 @@ class ValidatedFormInputs extends Component {
 								{/* -------------- CHECKBOXES -------------- */}
 								{element === "Checkboxes" && (
 									<React.Fragment>
-										{this.forminputLabel(label, formInput.required)}
+										{this.formInputLabel(label, formInput.required)}
 										<div className="from-group">
 											{options.map(option => (
 												<Field
@@ -382,7 +383,7 @@ class ValidatedFormInputs extends Component {
 								{/* -------------- Tags -------------- */}
 								{element === "Tags" && (
 									<React.Fragment>
-										{this.forminputLabel(label, formInput.required)}
+										{this.formInputLabel(label, formInput.required)}
 										<Field
 											id={id}
 											name={labelText}
@@ -399,7 +400,7 @@ class ValidatedFormInputs extends Component {
 								{/* -------------- RADIO BUTTONS -------------- */}
 								{element === "RadioButtons" && (
 									<React.Fragment>
-										{this.forminputLabel(label, formInput.required)}
+										{this.formInputLabel(label, formInput.required)}
 										<div className="form-group">
 											{options.map(option => (
 												<React.Fragment key={option.id}>
@@ -419,7 +420,7 @@ class ValidatedFormInputs extends Component {
 								{/* -------------- STAR RATING -------------- */}
 								{element === "Rating" && (
 									<React.Fragment>
-										{this.forminputLabel(label, formInput.required)}
+										{this.formInputLabel(label, formInput.required)}
 										<Field
 											id={id}
 											name={element}
@@ -435,7 +436,7 @@ class ValidatedFormInputs extends Component {
 								{/* -------------- HYPERLINK -------------- */}
 								{element === "HyperLink" && (
 									<React.Fragment>
-										{this.forminputLabel(label, formInput.required)}
+										{this.formInputLabel(label, formInput.required)}
 										<Field
 											id={id}
 											name={element}
@@ -450,7 +451,7 @@ class ValidatedFormInputs extends Component {
 								{/* -------------- RANGE -------------- */}
 								{element === "Range" && (
 									<React.Fragment>
-										{this.forminputLabel(label, formInput.required)}
+										{this.formInputLabel(label, formInput.required)}
 										<Field
 											id={id}
 											name={element}
@@ -465,17 +466,32 @@ class ValidatedFormInputs extends Component {
 						)
 					})
 				}
-			</React.Fragment>
+				<div style={{ height: "50px" }} className="mt-5">
+					<button
+						className="btn btn-outline-secondary float-right mt-5"
+						onClick={hideDemo}
+					>
+						Close
+					</button>
+					<button
+						className="btn btn-outline-primary float-right mr-3 mt-5"
+						disabled
+					>
+						Submit
+					</button>
+				</div>
+			</form>
 		);
 	}
 }
 
 export default compose(
 	connect(
-		state => ({
+		state =>  ({
 			formData: state.formGenerator.formData
 		}),
 		{
+			hideDemo,
 			handleInputChange,
 			handleCheckboxChange,
 			handleTagsChange,

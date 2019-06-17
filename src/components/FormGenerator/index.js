@@ -25,27 +25,7 @@ class FormGenerator extends Component {
 							<i className="fa fa-times" />
 						</span>
 					</div>
-					<form>
-						<React.Fragment>
-							<ValidatedFormInputs />
-							<div style={{ height: "50px" }} className="mt-5">
-
-								<button
-									className="btn btn-outline-secondary float-right mt-5"
-									onClick={hideDemo}
-								>
-									Close
-								</button>
-								<button
-									className="btn btn-outline-primary float-right mr-3 mt-5"
-									type="submit"
-									disabled
-								>
-									Submit
-								</button>
-							</div>
-						</React.Fragment>
-					</form>
+					<ValidatedFormInputs />
 				</div>
 			</div>
 		);

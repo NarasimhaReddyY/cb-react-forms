@@ -61,7 +61,7 @@ export default (item) => {
       return {
         label: convertHtmlToRawJs(html),
         required: false,
-        value: 'www.example.com'
+        value: ''
       };
 
     case 'LineBreak':
