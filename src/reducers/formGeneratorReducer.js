@@ -21,12 +21,14 @@ export default (state = initialState, action) => {
         demoVisible: true,
         formData: action.payload.data
       }
+
     case HIDE_DEMO:
       return {
         ...state,
         demoVisible: false,
         formData: []
       }
+
     case HANDLE_INPUT_CHANGE: {
       const { id, value } = action.payload;
       const updatedFormData = state.formData.map(item => {
@@ -40,6 +42,7 @@ export default (state = initialState, action) => {
         formData: [...updatedFormData]
       }
     }
+
     case HANDLE_CHECKBOX_CHANGE: {
       const { id, optionId } = action.payload;
       const updatedFormData = state.formData.map(item => {
@@ -50,7 +53,6 @@ export default (state = initialState, action) => {
             }
             return option;
           })
-          return item;
         }
         return item
       })
@@ -59,6 +61,7 @@ export default (state = initialState, action) => {
         formData: [...updatedFormData]
       }
     }
+
     case HANDLE_TAGS_CHANGE: {
       const { id, option } = action.payload;
       const updatedFormData = state.formData.map(item => {
@@ -73,6 +76,7 @@ export default (state = initialState, action) => {
         formData: [...updatedFormData]
       }
     }
+
     case HANDLE_RADIOBUTTON_CHANGE: {
       const { id, optionId } = action.payload;
       const updatedFormData = state.formData.map(item => {
@@ -109,7 +113,6 @@ export default (state = initialState, action) => {
         formData: [...updatedFormData]
       }
     }
-
 
     default:
       return state

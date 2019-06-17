@@ -3,6 +3,7 @@ import { Field, reduxForm } from "redux-form";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import Select from "react-select";
+import { map } from 'lodash';
 import makeAnimated from "react-select/animated";
 import StarRatings from "react-star-ratings";
 import Slider from "react-rangeslider";
@@ -40,11 +41,11 @@ class ValidatedFormInputs extends Component {
 
 	renderInputField = ({
 		id,
-		handleInputChange,
+		type,
+		input,
 		value,
 		isRequired,
-		input,
-		type,
+		handleInputChange,
 		meta: { touched, error, warning }
 	}) => {
 		return (
@@ -78,12 +79,12 @@ class ValidatedFormInputs extends Component {
 	};
 
 	renderDropdown = ({
-		handleInputChange,
 		id,
 		value,
 		isRequired,
 		input,
 		options,
+		handleInputChange,
 		meta: { touched, error, warning }
 	}) => (
 		<div className="form-group">
@@ -185,29 +186,33 @@ class ValidatedFormInputs extends Component {
 	);
 
 	renderRating = ({
-		id,
 		input,
 		formInput,
 		handleInputChange,
 		meta: { touched, error, warning }
-	}) => (
-		<div>
-			<StarRatings
-				{...input}
-				numberOfStars={formInput.numberOfStars}
-				name="rating"
-				starHoverColor="gray"
-				starRatedColor="orange"
-				isAggregateRating={true}
-				isSelectable={true}
-        rating={formInput.value}
-				changeRating={value =>
-					handleInputChange(formInput.id, value)
-				}
-			/>
-			{this.showError(touched, error, warning)}
-		</div>
-	);
+	}) => {
+
+		console.log(formInput.value, "inside rating");
+
+		return (
+			<div>
+				<StarRatings
+					{...input}
+					numberOfStars={formInput.numberOfStars}
+					name="rating"
+					starHoverColor="chocolate"
+					starRatedColor="orange"
+					isAggregateRating={true}
+					isSelectable={true}
+					rating={formInput.value}
+					changeRating={value =>
+						handleInputChange(formInput.id, value)
+					}
+				/>
+				{this.showError(touched, error, warning)}
+			</div>
+		);
+	}
 
 	renderRange = ({
 		input,
@@ -237,227 +242,238 @@ class ValidatedFormInputs extends Component {
 	render() {
 		// Animation for Tag Component
 		const animatedComponents = makeAnimated();
+		
 		const {
-			formInput,
-			formInput: { id, element, value, options },
+			formData,
 			handleInputChange,
 			handleCheckboxChange,
 			handleTagsChange,
 			handleRadioButtonChange
 		} = this.props;
+
+		console.log(formData, 'rendering');
+		
 		const urlValidator = formInput =>
 			formInput.required ? [required, validateUrl] : [validateUrl];
 
-		let label, labelText;
-		if (element !== "LineBreak") {
-			// richText label
-			label = convertDraftjsToHtml(formInput.label);
-
-			// text label
-			labelText =
-				formInput.label.blocks && formInput.label.blocks[0].text;
-		}
-
 		return (
-			<div key={formInput.id}>
-				{/* -------------- HEADER -------------- */}
-				{element === "Header" && (
-					<Header item={{ label: formInput.label }} />
-				)}
+			<React.Fragment>
+				{
+					map(formData, formInput => {
+						const { id, element, value, options } = formInput;
+						let label, labelText;
+						if (element !== "LineBreak") {
+							// richText label
+							label = convertDraftjsToHtml(formInput.label);
 
-				{/* -------------- PARAGRAPH -------------- */}
-				{element === "Paragraph" && (
-					<Paragraph item={{ label: formInput.label }} />
-				)}
+							// text label
+							labelText =
+								formInput.label.blocks && formInput.label.blocks[0].text;
+						}
+						return (
+							<div key={formInput.id} className="mb-4">
+								{/* -------------- HEADER -------------- */}
+								{element === "Header" && (
+									<Header item={{ label: formInput.label }} />
+								)}
 
-				{/* -------------- LABEL -------------- */}
-				{element === "Label" && (
-					<Label item={{ label: formInput.label }} />
-				)}
+								{/* -------------- PARAGRAPH -------------- */}
+								{element === "Paragraph" && (
+									<Paragraph item={{ label: formInput.label }} />
+								)}
 
-				{/* -------------- LINEBREAK -------------- */}
-				{element === "LineBreak" && <hr />}
+								{/* -------------- LABEL -------------- */}
+								{element === "Label" && (
+									<Label item={{ label: formInput.label }} />
+								)}
 
-				{/* -------------- INPUT TAG -------------- */}
-				{element === "TextInput" && (
-					<div className="form-group">
-						{this.forminputLabel(label, formInput.required)}
-						<Field
-							name={labelText}
-							component={this.renderInputField}
-							type="text"
-							label={labelText}
-							validate={formInput.required ? [required] : null}
-							isRequired={formInput.required}
-							value={value}
-							id={id}
-							handleInputChange={handleInputChange}
-						/>
-					</div>
-				)}
+								{/* -------------- LINEBREAK -------------- */}
+								{element === "LineBreak" && <hr />}
 
-				{/* -------------- TEXTAREA -------------- */}
-				{element === "TextArea" && (
-					<div className="form-group">
-						{this.forminputLabel(label, formInput.required)}
-						<Field
-							name={labelText}
-							component={this.renderInputField}
-							type="textarea"
-							validate={formInput.required ? [required] : null}
-							isRequired={formInput.required}
-							value={value}
-							id={id}
-							handleInputChange={handleInputChange}
-						/>
-					</div>
-				)}
+								{/* -------------- INPUT TAG -------------- */}
+								{element === "TextInput" && (
+									<div className="form-group">
+										{this.forminputLabel(label, formInput.required)}
+										<Field
+											name={labelText}
+											component={this.renderInputField}
+											type="text"
+											label={labelText}
+											validate={formInput.required ? [required] : null}
+											isRequired={formInput.required}
+											value={value}
+											id={id}
+											handleInputChange={handleInputChange}
+										/>
+									</div>
+								)}
 
-				{/* -------------- NUMBER INPUT TAG -------------- */}
-				{element === "NumberInput" && (
-					<div className="form-group">
-						{this.forminputLabel(label, formInput.required)}
-						<Field
-							name={labelText}
-							component={this.renderInputField}
-							type="number"
-							isRequired={formInput.required}
-							validate={formInput.required ? [required] : null}
-							value={value}
-							id={id}
-							handleInputChange={handleInputChange}
-						/>
-					</div>
-				)}
+								{/* -------------- TEXTAREA -------------- */}
+								{element === "TextArea" && (
+									<div className="form-group">
+										{this.forminputLabel(label, formInput.required)}
+										<Field
+											name={labelText}
+											component={this.renderInputField}
+											type="textarea"
+											validate={formInput.required ? [required] : null}
+											isRequired={formInput.required}
+											value={value}
+											id={id}
+											handleInputChange={handleInputChange}
+										/>
+									</div>
+								)}
 
-				{/* -------------- DROPDOWN -------------- */}
-				{element === "Dropdown" && (
-					<React.Fragment>
-						{this.forminputLabel(label, formInput.required)}
-						<Field
-							name={labelText}
-							component={this.renderDropdown}
-							className="form-control"
-							validate={formInput.required ? [required] : null}
-							options={options}
-							id={id}
-							handleInputChange={handleInputChange}
-						/>
-					</React.Fragment>
-				)}
+								{/* -------------- NUMBER INPUT TAG -------------- */}
+								{element === "NumberInput" && (
+									<div className="form-group">
+										{this.forminputLabel(label, formInput.required)}
+										<Field
+											name={labelText}
+											component={this.renderInputField}
+											type="number"
+											isRequired={formInput.required}
+											validate={formInput.required ? [required] : null}
+											value={value}
+											id={id}
+											handleInputChange={handleInputChange}
+										/>
+									</div>
+								)}
 
-				{/* -------------- CHECKBOXES -------------- */}
-				{element === "Checkboxes" && (
-					<React.Fragment>
-						{this.forminputLabel(label, formInput.required)}
-						<div className="from-group">
-							{options.map(option => (
-								<Field
-									id={id}
-									key={option.id}
-									name={option.value}
-									value={option.value}
-									type="checkbox"
-									component={this.renderCheckboxes}
-									option={option}
-									handleCheckboxChange={handleCheckboxChange}
-								/>
-							))}
-						</div>
-					</React.Fragment>
-				)}
+								{/* -------------- DROPDOWN -------------- */}
+								{element === "Dropdown" && (
+									<React.Fragment>
+										{this.forminputLabel(label, formInput.required)}
+										<Field
+											name={labelText}
+											component={this.renderDropdown}
+											className="form-control"
+											validate={formInput.required ? [required] : null}
+											options={options}
+											id={id}
+											handleInputChange={handleInputChange}
+										/>
+									</React.Fragment>
+								)}
 
-				{/* -------------- Tags -------------- */}
-				{element === "Tags" && (
-					<React.Fragment>
-						{this.forminputLabel(label, formInput.required)}
-						<Field
-							id={id}
-							name={labelText}
-							component={this.renderTags}
-							validate={formInput.required ? [required] : null}
-							options={options}
-							value={value}
-							animatedComponents={animatedComponents}
-							handleTagsChange={handleTagsChange}
-						/>
-					</React.Fragment>
-				)}
+								{/* -------------- CHECKBOXES -------------- */}
+								{element === "Checkboxes" && (
+									<React.Fragment>
+										{this.forminputLabel(label, formInput.required)}
+										<div className="from-group">
+											{options.map(option => (
+												<Field
+													id={id}
+													key={option.id}
+													name={option.value}
+													value={option.value}
+													type="checkbox"
+													component={this.renderCheckboxes}
+													option={option}
+													handleCheckboxChange={handleCheckboxChange}
+												/>
+											))}
+										</div>
+									</React.Fragment>
+								)}
 
-				{/* -------------- RADIO BUTTONS -------------- */}
-				{element === "RadioButtons" && (
-					<React.Fragment>
-						{this.forminputLabel(label, formInput.required)}
-						<div className="form-group">
-							{options.map(option => (
-								<React.Fragment key={option.id}>
-									<Field
-										name={id}
-										id={id}
-										component={this.renderRadioButtons}
-										handleRadioButtonChange={handleRadioButtonChange}
-										option={option}
-									/>
-								</React.Fragment>
-							))}
-						</div>
-					</React.Fragment>
-				)}
+								{/* -------------- Tags -------------- */}
+								{element === "Tags" && (
+									<React.Fragment>
+										{this.forminputLabel(label, formInput.required)}
+										<Field
+											id={id}
+											name={labelText}
+											component={this.renderTags}
+											validate={formInput.required ? [required] : null}
+											options={options}
+											value={value}
+											animatedComponents={animatedComponents}
+											handleTagsChange={handleTagsChange}
+										/>
+									</React.Fragment>
+								)}
 
-				{/* -------------- STAR RATING -------------- */}
-				{element === "Rating" && (
-					<React.Fragment>
-						{this.forminputLabel(label, formInput.required)}
-						<Field
-							id={id}
-							name={element}
-							component={this.renderRating}
-							value={formInput.value}
-							numberOfStars={formInput.StarRatings}
-							handleInputChange={handleInputChange}
-							formInput={formInput}
-            />
-					</React.Fragment>
-				)}
+								{/* -------------- RADIO BUTTONS -------------- */}
+								{element === "RadioButtons" && (
+									<React.Fragment>
+										{this.forminputLabel(label, formInput.required)}
+										<div className="form-group">
+											{options.map(option => (
+												<React.Fragment key={option.id}>
+													<Field
+														name={id}
+														id={id}
+														component={this.renderRadioButtons}
+														handleRadioButtonChange={handleRadioButtonChange}
+														option={option}
+													/>
+												</React.Fragment>
+											))}
+										</div>
+									</React.Fragment>
+								)}
 
-				{/* -------------- HYPERLINK -------------- */}
-				{element === "HyperLink" && (
-					<React.Fragment>
-						{this.forminputLabel(label, formInput.required)}
-						<Field
-							id={id}
-							name={element}
-							component={this.renderInputField}
-							value={value}
-							handleInputChange={handleInputChange}
-							validate={urlValidator(formInput)}
-						/>
-					</React.Fragment>
-				)}
+								{/* -------------- STAR RATING -------------- */}
+								{element === "Rating" && (
+									<React.Fragment>
+										{this.forminputLabel(label, formInput.required)}
+										<Field
+											id={id}
+											name={element}
+											component={this.renderRating}
+											value={formInput.value}
+											numberOfStars={formInput.numberOfStars}
+											handleInputChange={handleInputChange}
+											formInput={formInput}
+										/>
+									</React.Fragment>
+								)}
 
-				{/* -------------- RANGE -------------- */}
-				{element === "Range" && (
-					<React.Fragment>
-						{this.forminputLabel(label, formInput.required)}
-						<Field
-							id={id}
-							name={element}
-							component={this.renderRange}
-							handleInputChange={handleInputChange}
-							validate={[required]}
-							formInput={formInput}
-						/>
-					</React.Fragment>
-				)}
-			</div>
+								{/* -------------- HYPERLINK -------------- */}
+								{element === "HyperLink" && (
+									<React.Fragment>
+										{this.forminputLabel(label, formInput.required)}
+										<Field
+											id={id}
+											name={element}
+											component={this.renderInputField}
+											value={value}
+											handleInputChange={handleInputChange}
+											validate={urlValidator(formInput)}
+										/>
+									</React.Fragment>
+								)}
+
+								{/* -------------- RANGE -------------- */}
+								{element === "Range" && (
+									<React.Fragment>
+										{this.forminputLabel(label, formInput.required)}
+										<Field
+											id={id}
+											name={element}
+											component={this.renderRange}
+											handleInputChange={handleInputChange}
+											validate={[required]}
+											formInput={formInput}
+										/>
+									</React.Fragment>
+								)}
+							</div>
+						)
+					})
+				}
+			</React.Fragment>
 		);
 	}
 }
 
 export default compose(
 	connect(
-		(state, { formInput: { element, id } }) => ({
-			form: `${element}-${id}`
+		state => ({
+			formData: state.formGenerator.formData
 		}),
 		{
 			handleInputChange,
@@ -466,5 +482,7 @@ export default compose(
 			handleRadioButtonChange
 		}
 	),
-	reduxForm()
+	reduxForm({
+		form: 'form'
+	})
 )(ValidatedFormInputs);

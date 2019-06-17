@@ -39,7 +39,6 @@
     "react-select": "^3.0.3",
     "react-star-ratings": "^2.3.0",
     "redux": "^4.0.1",
-    "redux-devtools-extension": "^2.13.8",
     "redux-form": "^8.2.3",
     "uuid": "^3.3.2"
   },
@@ -67,6 +66,7 @@
     "html-webpack-plugin": "^3.2.0",
     "node-sass": "^4.11.0",
     "optimize-css-assets-webpack-plugin": "^5.0.1",
+    "redux-devtools-extension": "^2.13.8",
     "sass-loader": "^7.1.0",
     "style-loader": "^0.23.1",
     "uglifyjs-webpack-plugin": "^2.1.1",
