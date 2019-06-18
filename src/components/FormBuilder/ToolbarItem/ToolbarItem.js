@@ -17,10 +17,10 @@ const spec = {
     };
   },
   endDrag(props, monitor, component) {
-    if(!monitor.didDrop()) return; // return if not dropped in the Preview component
+    if (!monitor.didDrop()) return; // return if not dropped in the Preview component
     props.addItem(props.data.key);
   }
-}
+};
 
 const collect = (connect, monitor) => {
   return {
@@ -28,7 +28,7 @@ const collect = (connect, monitor) => {
     connectDragPreview: connect.dragPreview(),
     isDragging: monitor.isDragging(),
   }
-}
+};
 
 const ToolbarItem = props => {
   const { isDragging, connectDragSource, data } = props;
@@ -37,16 +37,20 @@ const ToolbarItem = props => {
   const backgroundColor = isDragging ? 'lightgray' : 'white';
   
   return connectDragSource(
-    <li style={{cursor: 'pointer', opacity, backgroundColor }} className="list-group-item mb-1" onClick={() => props.addItem(props.data.key)}>
+    <li 
+      style={{cursor: 'pointer', opacity, backgroundColor }} 
+      className="list-group-item mb-1" 
+      onClick={() => props.addItem(props.data.key)}
+    >
       <i className={classNames(data.icon, 'mr-3')}/>
       {data.name}
     </li>
   )
-}
+};
 
 export default compose(
   connect(state => ({
-    previewItems: state.previewItems
+    previewItems: state.formBuilder
   }), {
     addItem
   }),

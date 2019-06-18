@@ -22,8 +22,10 @@
   ],
   "dependencies": {
     "bootstrap": "^4.3.1",
-    "classnames": "^2.2.6",
+    "draft-js": "^0.10.5",
+    "draftjs-to-html": "^0.8.4",
     "font-awesome": "^4.7.0",
+    "html-to-draftjs": "^1.4.0",
     "immutability-helper": "^3.0.0",
     "lodash": "^4.17.11",
     "lodash.flow": "^3.5.0",
@@ -31,7 +33,11 @@
     "react-dnd": "^7.4.5",
     "react-dnd-html5-backend": "^7.4.4",
     "react-dom": "^16.8.6",
+    "react-draft-wysiwyg": "^1.13.2",
+    "react-rangeslider": "^2.2.0",
     "react-redux": "^7.0.3",
+    "react-select": "^3.0.3",
+    "react-star-ratings": "^2.3.0",
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
     "uuid": "^3.3.2"

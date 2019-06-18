@@ -3,6 +3,8 @@ import { findDOMNode } from "react-dom";
 import flow from "lodash/flow";
 import { DragSource, DropTarget } from "react-dnd";
 import { isEqual } from 'lodash';
+import HeaderBar from '../FormInputs/HeaderBar'
+import switchItems from '../FormInputs/switchItems';
 
 const cardSource = {
 	beginDrag(props) {
@@ -59,12 +61,19 @@ const cardTarget = {
 	}
 };
 
-class PreviewItems extends Component {
-  
+class FormInputs extends Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			isHovering: false
+		}
+	}
+
   render() {
 		const { 
       item, 
-      removeItem, 
+			removeItem,
+			showEditor, 
       id, 
       isDragging,
       connectDragSource, 
@@ -78,11 +87,22 @@ class PreviewItems extends Component {
 			connectDropTarget &&
 			connectDragSource(
 				connectDropTarget(
-					<div className="list-group-item mb-1" style={{ opacity }}>
-						<span onClick={() => removeItem(id)}>
-							<i className="fa fa-times" />{" "}
-						</span>
-						{item}
+					<div 
+						className="list-group-item mb-1 bg-light preview_item" 
+						style={{ opacity }}
+						onMouseOver={() => this.setState({isHovering: true})}
+						onMouseLeave={() => this.setState({ isHovering: false })}
+					>
+						<HeaderBar 
+							item={item} 
+							id={id} 
+							removeItem={removeItem}
+							showEditor={showEditor}
+							isHovering={this.state.isHovering} 
+						/>
+						{
+							switchItems(item)
+						}
 					</div>
 				)
 			)
@@ -91,11 +111,15 @@ class PreviewItems extends Component {
 }
 
 export default flow(
-	DragSource("item", cardSource, (connect, monitor) => ({
+	DragSource("item", 
+	cardSource, 
+	(connect, monitor) => ({
 		connectDragSource: connect.dragSource(),
 		isDragging: monitor.isDragging()
 	})),
-	DropTarget("item", cardTarget, connect => ({
+	DropTarget("item", 
+	cardTarget, 
+	connect => ({
 		connectDropTarget: connect.dropTarget()
 	}))
-)(PreviewItems);
+)(FormInputs);

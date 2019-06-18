@@ -12,12 +12,13 @@ class Toolbar extends Component {
   }
 
   render() {
+    const { items } = this.state;
     return (
       <>
-        <h4 className="text-center">Toolbox</h4>
+        <h3 className="text-center mt-3" style={{ height: '50px', margin: 0 }}>Toolbox</h3>
         <ul className="list-group">
           {
-            this.state.items.map(item => (
+            items.map(item => (
               <ToolbarItem
                 data={item}
                 key={item.key}

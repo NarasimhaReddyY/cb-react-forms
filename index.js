@@ -3,7 +3,8 @@ import ReactDOM from 'react-dom';
 import App from './src/App';
 
 import 'bootstrap/dist/css/bootstrap.css';
-import 'font-awesome/css/font-awesome.min.css'; 
+import 'font-awesome/css/font-awesome.min.css';
+import 'react-rangeslider/lib/index.css';
 
 import './index.scss';
 
