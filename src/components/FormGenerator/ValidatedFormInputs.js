@@ -60,7 +60,10 @@ class ValidatedFormInputs extends Component {
 						type={type}
 						value={value}
 						className="form-control"
-						onChange={e => handleInputChange(id, e.target.value)}
+						onChange={e => {
+							handleInputChange(id, e.target.value);
+							input.onChange(e.target.value);
+						}}
 					/>
 				) : (
 					<input
@@ -71,7 +74,10 @@ class ValidatedFormInputs extends Component {
 						type={type}
 						value={value}
 						className="form-control"
-						onChange={e => handleInputChange(id, e.target.value)}
+						onChange={e => {
+							handleInputChange(id, e.target.value);
+							input.onChange(e.target.value);
+						}}
 					/>
 				)}
 				{this.showError(touched, error, warning)}
@@ -82,7 +88,6 @@ class ValidatedFormInputs extends Component {
 	renderDropdown = ({
 		id,
 		value,
-		isRequired,
 		input,
 		options,
 		handleInputChange,
@@ -92,10 +97,10 @@ class ValidatedFormInputs extends Component {
 			<select
 				{...input}
 				value={value}
-				onChange={e => handleInputChange(id, e.target.value)}
 				className="form-control"
-				style={{
-					borderColor: touched && isRequired && error ? "red" : ""
+				onChange={e => {
+					handleInputChange(id, e.target.value);
+					input.onChange(e.target.value);
 				}}
 			>
 				<option value={null} />
@@ -126,7 +131,10 @@ class ValidatedFormInputs extends Component {
 						type={type}
 						name={id}
 						className="mr-2"
-						onChange={() => handleCheckboxChange(id, option.id)}
+						onChange={() => {
+							handleCheckboxChange(id, option.id);
+							input.onChange(value);
+						}}
 					/>
 					{option.value}
 				</label>
@@ -153,7 +161,10 @@ class ValidatedFormInputs extends Component {
 					options={options}
 					components={animatedComponents}
 					isMulti
-					onChange={e => handleTagsChange(id, e)}
+					onChange={option => {
+						handleTagsChange(id, option);
+						input.onChange(option);
+					}}
 				/>
 				{this.showError(touched, error, warning)}
 			</div>
@@ -177,7 +188,10 @@ class ValidatedFormInputs extends Component {
 						type="radio"
 						name={id}
 						className="mr-2"
-						onChange={() => handleRadioButtonChange(id, option.id)}
+						onChange={() => {
+							handleRadioButtonChange(id, option.id)
+							input.onChange(value);
+						}}
 					/>
 					{option.label}
 				</label>
@@ -187,26 +201,28 @@ class ValidatedFormInputs extends Component {
 	);
 
 	renderRating = ({
+		id,
 		input,
-		formInput,
+		value,
+		numberOfStars,
 		handleInputChange,
 		meta: { touched, error, warning }
 	}) => {
-
 		return (
 			<div>
 				<StarRatings
 					{...input}
-					numberOfStars={formInput.numberOfStars}
+					numberOfStars={numberOfStars}
 					name="rating"
 					starHoverColor="chocolate"
 					starRatedColor="orange"
 					isAggregateRating={true}
 					isSelectable={true}
-					rating={formInput.value}
-					changeRating={value =>
-						handleInputChange(formInput.id, value)
-					}
+					rating={value}
+					changeRating={(val) => {
+						handleInputChange(id, val);
+						input.onChange(val);
+					}}
 				/>
 				{this.showError(touched, error, warning)}
 			</div>
@@ -230,7 +246,10 @@ class ValidatedFormInputs extends Component {
 					[formInput.min]: "Low",
 					[formInput.max]: "High"
 				}}
-				onChange={val => handleInputChange(formInput.id, val)}
+				onChange={val => {
+					handleInputChange(formInput.id, val);
+					input.onChange(val);
+				}}
 				validate={[required]}
 			/>
 			<div className="text-center">{formInput.value}</div>
@@ -260,7 +279,12 @@ class ValidatedFormInputs extends Component {
 			<form>
 				{
 					map(formData, formInput => {
-						const { id, element, value, options } = formInput;
+						const { 
+							id, 
+							element, 
+							value, 
+							options 
+						} = formInput;
 						let label, labelText;
 						if (element !== "LineBreak") {
 							// richText label
@@ -298,13 +322,15 @@ class ValidatedFormInputs extends Component {
 										<Field
 											name={labelText}
 											component={this.renderInputField}
-											type="text"
-											label={labelText}
 											validate={formInput.required ? [required] : null}
-											isRequired={formInput.required}
-											value={value}
-											id={id}
-											handleInputChange={handleInputChange}
+											props={{
+												id,
+												value,
+												type: 'text',
+												label: labelText,
+												handleInputChange,
+												isRequired: formInput.required
+											}}
 										/>
 									</div>
 								)}
@@ -316,12 +342,14 @@ class ValidatedFormInputs extends Component {
 										<Field
 											name={labelText}
 											component={this.renderInputField}
-											type="textarea"
 											validate={formInput.required ? [required] : null}
-											isRequired={formInput.required}
-											value={value}
-											id={id}
-											handleInputChange={handleInputChange}
+											props={{
+												id,
+												value,
+												type: 'textarea',
+												handleInputChange,
+												isRequired: formInput.required,
+											}}
 										/>
 									</div>
 								)}
@@ -333,12 +361,14 @@ class ValidatedFormInputs extends Component {
 										<Field
 											name={labelText}
 											component={this.renderInputField}
-											type="number"
-											isRequired={formInput.required}
 											validate={formInput.required ? [required] : null}
-											value={value}
-											id={id}
-											handleInputChange={handleInputChange}
+											props={{
+												id,
+												value,
+												type: 'number',
+												handleInputChange,
+												isRequired: formInput.required,
+											}}
 										/>
 									</div>
 								)}
@@ -350,11 +380,12 @@ class ValidatedFormInputs extends Component {
 										<Field
 											name={labelText}
 											component={this.renderDropdown}
-											className="form-control"
 											validate={formInput.required ? [required] : null}
-											options={options}
-											id={id}
-											handleInputChange={handleInputChange}
+											props={{
+												options,
+												id,
+												handleInputChange
+											}}
 										/>
 									</React.Fragment>
 								)}
@@ -366,14 +397,15 @@ class ValidatedFormInputs extends Component {
 										<div className="from-group">
 											{options.map(option => (
 												<Field
-													id={id}
-													key={option.id}
 													name={option.value}
-													value={option.value}
-													type="checkbox"
 													component={this.renderCheckboxes}
-													option={option}
-													handleCheckboxChange={handleCheckboxChange}
+													props={{
+														id,
+														value,
+														option,
+														handleCheckboxChange,
+														type: 'checkbox'
+													}}
 												/>
 											))}
 										</div>
@@ -385,14 +417,16 @@ class ValidatedFormInputs extends Component {
 									<React.Fragment>
 										{this.formInputLabel(label, formInput.required)}
 										<Field
-											id={id}
 											name={labelText}
 											component={this.renderTags}
 											validate={formInput.required ? [required] : null}
-											options={options}
-											value={value}
-											animatedComponents={animatedComponents}
-											handleTagsChange={handleTagsChange}
+											props={{
+												id,
+												options,
+												value,
+												animatedComponents,
+												handleTagsChange
+											}}
 										/>
 									</React.Fragment>
 								)}
@@ -406,10 +440,12 @@ class ValidatedFormInputs extends Component {
 												<React.Fragment key={option.id}>
 													<Field
 														name={id}
-														id={id}
 														component={this.renderRadioButtons}
-														handleRadioButtonChange={handleRadioButtonChange}
-														option={option}
+														props={{
+															id,
+															handleRadioButtonChange,
+															option
+														}}
 													/>
 												</React.Fragment>
 											))}
@@ -422,13 +458,14 @@ class ValidatedFormInputs extends Component {
 									<React.Fragment>
 										{this.formInputLabel(label, formInput.required)}
 										<Field
-											id={id}
 											name={element}
 											component={this.renderRating}
-											value={formInput.value}
-											numberOfStars={formInput.numberOfStars}
-											handleInputChange={handleInputChange}
-											formInput={formInput}
+											props={{
+												id,
+												handleInputChange,
+												numberOfStars: formInput.numberOfStars,
+												value: formInput.value,
+											}}
 										/>
 									</React.Fragment>
 								)}
@@ -438,11 +475,13 @@ class ValidatedFormInputs extends Component {
 									<React.Fragment>
 										{this.formInputLabel(label, formInput.required)}
 										<Field
-											id={id}
 											name={element}
 											component={this.renderInputField}
-											value={value}
-											handleInputChange={handleInputChange}
+											props={{
+												id,
+												value,
+												handleInputChange
+											}}
 											validate={urlValidator(formInput)}
 										/>
 									</React.Fragment>
@@ -453,12 +492,14 @@ class ValidatedFormInputs extends Component {
 									<React.Fragment>
 										{this.formInputLabel(label, formInput.required)}
 										<Field
-											id={id}
 											name={element}
 											component={this.renderRange}
-											handleInputChange={handleInputChange}
+											props={{
+												id,
+												formInput,
+												handleInputChange,
+											}}
 											validate={[required]}
-											formInput={formInput}
 										/>
 									</React.Fragment>
 								)}
@@ -486,6 +527,9 @@ class ValidatedFormInputs extends Component {
 }
 
 export default compose(
+	reduxForm({
+		form: 'form'
+	}),
 	connect(
 		state =>  ({
 			formData: state.formGenerator.formData
@@ -497,8 +541,5 @@ export default compose(
 			handleTagsChange,
 			handleRadioButtonChange
 		}
-	),
-	reduxForm({
-		form: 'form'
-	})
+	)
 )(ValidatedFormInputs);
