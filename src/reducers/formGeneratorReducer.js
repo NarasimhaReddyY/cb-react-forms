@@ -45,13 +45,17 @@ export default (state = initialState, action) => {
     }
 
     case HANDLE_CHECKBOX_CHANGE: {
-      const { id, optionId } = action.payload;
+      const { id, optionIDs } = action.payload;
       const updatedFormData = map(state.formData, item => {
         if(item.id === id) {
           item.options.forEach(option => {
-            if(option.id === optionId) {
-              option.checked = !option.checked
-            }
+            option.checked = false;
+            optionIDs.forEach(optionId => {
+              if(option.id === optionId){
+                option.checked = true
+              }
+              return optionId;
+            })
             return option;
           })
         }
@@ -92,20 +96,6 @@ export default (state = initialState, action) => {
             }
           })
           return item;
-        }
-        return item;
-      })
-      return {
-        ...state,
-        formData: [...updatedFormData]
-      }
-    }
-
-    case HANDLE_RATING_CHANGE: {
-      const { id, value } = action.payload;
-      const updatedFormData = map(state.formData, item => {
-        if(item.id === id) {
-          item.value = value;
         }
         return item;
       })

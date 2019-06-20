@@ -1,11 +1,25 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
-import { hideDemo } from "../../actions/formGeneratorActions";
 import ValidatedFormInputs from "./ValidatedFormInputs";
+import {
+	handleInputChange,
+	handleCheckboxChange,
+	handleTagsChange,
+	handleRadioButtonChange,
+	hideDemo
+} from "../../actions/formGeneratorActions";
 
 class FormGenerator extends Component {
 	render() {
-		const { hideDemo } = this.props;
+		const {
+			formData,
+			handleInputChange,
+			handleCheckboxChange,
+			handleTagsChange,
+			handleRadioButtonChange,
+			hideDemo
+		} = this.props;
+		
 		return (
 			<div className="demo-form">
 				<div
@@ -25,7 +39,13 @@ class FormGenerator extends Component {
 							<i className="fa fa-times" />
 						</span>
 					</div>
-					<ValidatedFormInputs />
+					<ValidatedFormInputs 
+						formData={formData}
+						handleInputChange= {handleInputChange}
+						handleCheckboxChange= {handleCheckboxChange}
+						handleTagsChange= {handleTagsChange}
+						handleRadioButtonChange= {handleRadioButtonChange}
+					/>
 				</div>
 			</div>
 		);
@@ -35,6 +55,10 @@ class FormGenerator extends Component {
 export default connect(
 	null,
 	{
-		hideDemo
+		hideDemo,
+		handleInputChange,
+		handleCheckboxChange,
+		handleTagsChange,
+		handleRadioButtonChange
 	}
 )(FormGenerator);

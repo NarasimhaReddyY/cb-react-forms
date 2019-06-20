@@ -1,24 +1,28 @@
 import React, { Component } from "react";
-import { Field, reduxForm } from "redux-form";
+import { 
+	Field, 
+	reduxForm, 
+	SubmissionError, 
+	Form 
+} from "redux-form";
 import { compose } from "redux";
 import { connect } from "react-redux";
 import Select from "react-select";
-import { map } from 'lodash';
+import { map, includes } from 'lodash';
 import makeAnimated from "react-select/animated";
 import StarRatings from "react-star-ratings";
 import Slider from "react-rangeslider";
 import convertDraftjsToHtml from "../FormBuilder/FormInputs/convertDraftjsToHtml";
-import { required, validateUrl } from "./formValidations";
-import {
-	handleInputChange,
-	handleCheckboxChange,
-	handleTagsChange,
-	handleRadioButtonChange,
-	hideDemo
-} from "../../actions/formGeneratorActions";
-import { Header, Paragraph, Label } from "../FormBuilder/FormInputs";
+import { isRequired, validateUrl, isBlank } from "./formValidations";
+
+import { 
+	Header, 
+	Paragraph, 
+	Label 
+} from "../FormBuilder/FormInputs";
 
 class ValidatedFormInputs extends Component {
+
 	showError = (touched, error, warning) =>
 		touched &&
 		((error && <span className="text-danger m-3">{error}</span>) ||
@@ -44,53 +48,45 @@ class ValidatedFormInputs extends Component {
 		id,
 		type,
 		input,
-		value,
-		isRequired,
-		handleInputChange,
+		input: { value, onChange },
+		required,
 		meta: { touched, error, warning }
 	}) => {
 		return (
-			<div>
+			<React.Fragment>
 				{type === "textarea" ? (
 					<textarea
 						{...input}
 						style={{
-							borderColor: touched && isRequired && error ? "red" : ""
+							borderColor: touched && required && error ? "red !important" : ""
 						}}
 						type={type}
 						value={value}
 						className="form-control"
-						onChange={e => {
-							handleInputChange(id, e.target.value);
-							input.onChange(e.target.value);
-						}}
+						onChange={e => onChange(e.target.value)}
 					/>
 				) : (
 					<input
 						{...input}
 						style={{
-							borderColor: touched && isRequired && error ? "red" : ""
+							borderColor: touched && required && error ? "red" : ""
 						}}
 						type={type}
 						value={value}
 						className="form-control"
-						onChange={e => {
-							handleInputChange(id, e.target.value);
-							input.onChange(e.target.value);
-						}}
+						onChange={e => onChange(e.target.value)}
 					/>
 				)}
 				{this.showError(touched, error, warning)}
-			</div>
+			</React.Fragment>
 		);
 	};
 
 	renderDropdown = ({
 		id,
-		value,
 		input,
+		input: { value, onChange },
 		options,
-		handleInputChange,
 		meta: { touched, error, warning }
 	}) => (
 		<div className="form-group">
@@ -98,14 +94,14 @@ class ValidatedFormInputs extends Component {
 				{...input}
 				value={value}
 				className="form-control"
-				onChange={e => {
-					handleInputChange(id, e.target.value);
-					input.onChange(e.target.value);
-				}}
+				onChange={e => onChange(e.target.value)}
 			>
 				<option value={null} />
 				{options.map(option => (
-					<option key={option.id} value={option.value}>
+					<option 
+						key={option.id} 
+						value={option.value}
+					>
 						{option.value}
 					</option>
 				))}
@@ -115,55 +111,68 @@ class ValidatedFormInputs extends Component {
 	);
 
 	renderCheckboxes = ({
-		id,
-		input,
-		type,
-		value,
-		option,
-		handleCheckboxChange,
+		input: { onChange, value },
+		options,
 		meta: { touched, error, warning }
 	}) => (
 		<React.Fragment>
-			<div className="d-block" {...input}>
-				<label className="form-label ml-2" htmlFor={value}>
-					<input
-						id={value}
-						type={type}
-						name={id}
-						className="mr-2"
-						onChange={() => {
-							handleCheckboxChange(id, option.id);
-							input.onChange(value);
-						}}
-					/>
-					{option.value}
-				</label>
-			</div>
+			{
+				map(options, option => (
+					<div className="d-block" key={option.id}>
+						<label className="form-label ml-2" htmlFor={option.id}>
+							<input
+								id={option.id}
+								name={option.id}
+								value={option.value}
+								type="checkbox"
+								checked={Array.isArray(value) && value.some(id => id === option.id)}
+								className="mr-2"
+								onChange={e => {
+									let newValue = [...value];
+									if(e.target.checked) {
+										newValue = [...newValue, option.id]
+									} else {
+										newValue = newValue.filter(id => id !== option.id)
+									}
+									return onChange(newValue);
+								}}
+							/>
+							{option.value}
+						</label>
+					</div>
+				))
+			}
 			{this.showError(touched, error, warning)}
 		</React.Fragment>
 	);
 
 	renderTags = ({
-		id,
-		input,
+		input: { value, onChange },
 		options,
-		value,
 		animatedComponents,
-		handleTagsChange,
 		meta: { touched, error, warning }
 	}) => (
 		<React.Fragment>
 			<div className="form-group">
 				<Select
-					id={id}
-					{...input}
 					value={value}
 					options={options}
 					components={animatedComponents}
 					isMulti
-					onChange={option => {
-						handleTagsChange(id, option);
-						input.onChange(option);
+					onChange={(val, { action, removedValue }) => {
+						let newValue = [...value];
+						if(action === 'select-option') {
+							newValue = [...val];
+						} else if (action === 'remove-value') {
+							newValue.splice(
+								newValue.indexOf(
+									removedValue
+								), 1)
+						} else if (action === 'clear') {
+							newValue = []
+						}
+
+						return onChange(newValue);
 					}}
 				/>
 				{this.showError(touched, error, warning)}
@@ -174,88 +183,148 @@ class ValidatedFormInputs extends Component {
 	renderRadioButtons = ({
 		id,
 		input,
-		option,
-		value,
-		handleRadioButtonChange,
+		input: { value, onChange },
+		options,
 		meta: { touched, error, warning }
 	}) => (
 		<React.Fragment>
-			<div className="d-block">
-				<label className="form-label ml-2" htmlFor={value}>
-					<input
-						{...input}
-						id={value}
-						type="radio"
-						name={id}
-						className="mr-2"
-						onChange={() => {
-							handleRadioButtonChange(id, option.id)
-							input.onChange(value);
-						}}
-					/>
-					{option.label}
-				</label>
-				{this.showError(touched, error, warning)}
-			</div>
+			{
+				map(options, option => (
+					<div className="d-block" key={option.id}>
+						<input
+							{...input}
+							id={option.id}
+							type="radio"
+							name={id}
+							checked={value === option.id}
+							className="mr-2"
+							onChange={() => onChange(option.id)}
+						/>
+						<label 
+							className="form-label ml-2" 
+							htmlFor={option.id}
+						>
+							{option.label}
+						</label>
+					</div>
+				))
+			}
+			{this.showError(touched, error, warning)}
 		</React.Fragment>
 	);
 
 	renderRating = ({
-		id,
-		input,
-		value,
 		numberOfStars,
-		handleInputChange,
+		input: { value, onChange },
 		meta: { touched, error, warning }
 	}) => {
+
+		let newValue = isBlank(value) ? 0 : value;
+		
 		return (
-			<div>
+			<React.Fragment>
 				<StarRatings
-					{...input}
 					numberOfStars={numberOfStars}
 					name="rating"
 					starHoverColor="chocolate"
 					starRatedColor="orange"
 					isAggregateRating={true}
 					isSelectable={true}
-					rating={value}
-					changeRating={(val) => {
-						handleInputChange(id, val);
-						input.onChange(val);
-					}}
+					rating={newValue}
+					changeRating={(val) => onChange(val)}
 				/>
-				{this.showError(touched, error, warning)}
-			</div>
+				<div>
+					{this.showError(touched, error, warning)}
+				</div>
+			</React.Fragment>
 		);
 	}
 
 	renderRange = ({
 		input,
+		input: { value, onChange },
     formInput,
-    handleInputChange,
 		meta: { touched, error, warning }
-	}) => (
+	}) => {
+		let newValue = isBlank(value) ? value : 0;
+		return (
 		<React.Fragment>
 			<Slider
 				{...input}
 				min={formInput.min}
 				max={formInput.max}
 				step={1}
-				value={formInput.value}
+				value={newValue}
 				labels={{
 					[formInput.min]: "Low",
 					[formInput.max]: "High"
 				}}
-				onChange={val => {
-					handleInputChange(formInput.id, val);
-					input.onChange(val);
-				}}
-				validate={[required]}
+				onChange={val => onChange(val)}
 			/>
-			<div className="text-center">{formInput.value}</div>
+			<div className="text-center">{value ? value : 0}</div>
 			{this.showError(touched, error, warning)}
 		</React.Fragment>
-	);
+	)};
+
+	submit = (values) => {
+		console.log('values', values);
+		this.props.formData.forEach(formInput => {
+			const { id, element, required, value } = formInput;
+			if (
+				required && isBlank(value)
+			) {
+				throw new SubmissionError({
+					_error: 'Please enter all the required fields'
+				})
+			} else {
+				switch(element) {
+					case 'Tags': 
+						Object.keys(values).forEach(valueId => {
+							if(id === valueId) {
+								this.props.handleTagsChange(id, values[valueId])
+							}
+						})
+						break;
+					
+					case 'TextInput':
+					case 'NumberInput':
+					case 'Dropdown':
+					case 'Rating':
+					case 'Range':
+					case 'HyperLink':
+					case 'TextArea': {
+						Object.keys(values).forEach(valueId => {
+							if(id === valueId) {
+								this.props.handleInputChange(id, values[valueId])
+							}
+						})
+						break;
+					}
+
+					case 'Checkboxes': {
+						Object.keys(values).forEach(valueId => {
+							if(id === valueId) {
+								this.props.handleCheckboxChange(valueId, values[valueId])
+							}
+						})
+						break;
+					}
+
+					case 'RadioButtons': {
+						Object.keys(values).forEach(valueId =>{
+							if(id === valueId) {
+								this.props.handleRadioButtonChange(valueId, values[valueId])
+							} 
+						})
+						break;
+					}
+
+					default: 
+						break;
+				}
+			}
+		})
+	};
 
 	render() {
 		// Animation for Tag Component
@@ -263,27 +332,22 @@ class ValidatedFormInputs extends Component {
 		
 		const {
 			formData,
-			handleInputChange,
-			handleCheckboxChange,
-			handleTagsChange,
-			handleRadioButtonChange,
-			hideDemo
+			handleSubmit,
 		} = this.props;
 
-		console.log(formData, 'rendering');
-		
 		const urlValidator = formInput =>
-			formInput.required ? [required, validateUrl] : [validateUrl];
+			formInput.required ? [isRequired, validateUrl] : [validateUrl];
 
 		return (
-			<form>
+			<form onSubmit={handleSubmit(this.submit)}>
 				{
 					map(formData, formInput => {
 						const { 
 							id, 
 							element, 
 							value, 
-							options 
+							options,
+							required 
 						} = formInput;
 						let label, labelText;
 						if (element !== "LineBreak") {
@@ -318,18 +382,17 @@ class ValidatedFormInputs extends Component {
 								{/* -------------- INPUT TAG -------------- */}
 								{element === "TextInput" && (
 									<div className="form-group">
-										{this.formInputLabel(label, formInput.required)}
+										{this.formInputLabel(label, required)}
 										<Field
-											name={labelText}
+											name={id}
 											component={this.renderInputField}
-											validate={formInput.required ? [required] : null}
+											validate={required ? [isRequired] : null}
 											props={{
 												id,
 												value,
 												type: 'text',
 												label: labelText,
-												handleInputChange,
-												isRequired: formInput.required
+												required: required
 											}}
 										/>
 									</div>
@@ -338,17 +401,16 @@ class ValidatedFormInputs extends Component {
 								{/* -------------- TEXTAREA -------------- */}
 								{element === "TextArea" && (
 									<div className="form-group">
-										{this.formInputLabel(label, formInput.required)}
+										{this.formInputLabel(label, required)}
 										<Field
-											name={labelText}
+											name={id}
 											component={this.renderInputField}
-											validate={formInput.required ? [required] : null}
+											validate={required ? [isRequired] : null}
 											props={{
 												id,
 												value,
 												type: 'textarea',
-												handleInputChange,
-												isRequired: formInput.required,
+												isRequired: required,
 											}}
 										/>
 									</div>
@@ -357,17 +419,16 @@ class ValidatedFormInputs extends Component {
 								{/* -------------- NUMBER INPUT TAG -------------- */}
 								{element === "NumberInput" && (
 									<div className="form-group">
-										{this.formInputLabel(label, formInput.required)}
+										{this.formInputLabel(label, required)}
 										<Field
-											name={labelText}
+											name={id}
 											component={this.renderInputField}
-											validate={formInput.required ? [required] : null}
+											validate={required ? [isRequired] : null}
 											props={{
 												id,
 												value,
 												type: 'number',
-												handleInputChange,
-												isRequired: formInput.required,
+												isRequired: required,
 											}}
 										/>
 									</div>
@@ -376,15 +437,14 @@ class ValidatedFormInputs extends Component {
 								{/* -------------- DROPDOWN -------------- */}
 								{element === "Dropdown" && (
 									<React.Fragment>
-										{this.formInputLabel(label, formInput.required)}
+										{this.formInputLabel(label, required)}
 										<Field
-											name={labelText}
+											name={id}
 											component={this.renderDropdown}
-											validate={formInput.required ? [required] : null}
+											validate={required ? [isRequired] : null}
 											props={{
 												options,
 												id,
-												handleInputChange
 											}}
 										/>
 									</React.Fragment>
@@ -393,21 +453,23 @@ class ValidatedFormInputs extends Component {
 								{/* -------------- CHECKBOXES -------------- */}
 								{element === "Checkboxes" && (
 									<React.Fragment>
-										{this.formInputLabel(label, formInput.required)}
+										{this.formInputLabel(label, required)}
 										<div className="from-group">
-											{options.map(option => (
-												<Field
-													name={option.value}
-													component={this.renderCheckboxes}
-													props={{
-														id,
-														value,
-														option,
-														handleCheckboxChange,
-														type: 'checkbox'
-													}}
-												/>
-											))}
+											{
+												// map(options, option => (
+													<React.Fragment>
+
+														<Field
+															name={id}
+															component={this.renderCheckboxes}
+															validate={required ? [isRequired] : null}
+															props={{
+																options,
+															}}
+														/>
+													</React.Fragment>
+												// ))
+											}
 										</div>
 									</React.Fragment>
 								)}
@@ -415,17 +477,16 @@ class ValidatedFormInputs extends Component {
 								{/* -------------- Tags -------------- */}
 								{element === "Tags" && (
 									<React.Fragment>
-										{this.formInputLabel(label, formInput.required)}
+										{this.formInputLabel(label, required)}
 										<Field
-											name={labelText}
+											name={id}
 											component={this.renderTags}
-											validate={formInput.required ? [required] : null}
+											validate={required ? [isRequired] : null}
 											props={{
 												id,
 												options,
 												value,
 												animatedComponents,
-												handleTagsChange
 											}}
 										/>
 									</React.Fragment>
@@ -434,21 +495,17 @@ class ValidatedFormInputs extends Component {
 								{/* -------------- RADIO BUTTONS -------------- */}
 								{element === "RadioButtons" && (
 									<React.Fragment>
-										{this.formInputLabel(label, formInput.required)}
+										{this.formInputLabel(label, required)}
 										<div className="form-group">
-											{options.map(option => (
-												<React.Fragment key={option.id}>
-													<Field
-														name={id}
-														component={this.renderRadioButtons}
-														props={{
-															id,
-															handleRadioButtonChange,
-															option
-														}}
-													/>
-												</React.Fragment>
-											))}
+											<Field
+												name={id}
+												component={this.renderRadioButtons}
+												validate={required ? [isRequired] : null}
+												props={{
+													id,
+													options
+												}}
+											/>
 										</div>
 									</React.Fragment>
 								)}
@@ -456,15 +513,14 @@ class ValidatedFormInputs extends Component {
 								{/* -------------- STAR RATING -------------- */}
 								{element === "Rating" && (
 									<React.Fragment>
-										{this.formInputLabel(label, formInput.required)}
+										{this.formInputLabel(label, required)}
 										<Field
-											name={element}
+											name={id}
 											component={this.renderRating}
+											validate={required ? [isRequired] : null}
 											props={{
 												id,
-												handleInputChange,
-												numberOfStars: formInput.numberOfStars,
-												value: formInput.value,
+												numberOfStars: formInput.numberOfStars
 											}}
 										/>
 									</React.Fragment>
@@ -473,16 +529,15 @@ class ValidatedFormInputs extends Component {
 								{/* -------------- HYPERLINK -------------- */}
 								{element === "HyperLink" && (
 									<React.Fragment>
-										{this.formInputLabel(label, formInput.required)}
+										{this.formInputLabel(label, required)}
 										<Field
-											name={element}
+											name={id}
 											component={this.renderInputField}
+											validate={urlValidator(formInput)}
 											props={{
 												id,
 												value,
-												handleInputChange
 											}}
-											validate={urlValidator(formInput)}
 										/>
 									</React.Fragment>
 								)}
@@ -490,16 +545,15 @@ class ValidatedFormInputs extends Component {
 								{/* -------------- RANGE -------------- */}
 								{element === "Range" && (
 									<React.Fragment>
-										{this.formInputLabel(label, formInput.required)}
+										{this.formInputLabel(label, required)}
 										<Field
-											name={element}
+											name={id}
 											component={this.renderRange}
+											validate={required ? [isRequired] : null}
 											props={{
 												id,
 												formInput,
-												handleInputChange,
 											}}
-											validate={[required]}
 										/>
 									</React.Fragment>
 								)}
@@ -509,14 +563,8 @@ class ValidatedFormInputs extends Component {
 				}
 				<div style={{ height: "50px" }} className="mt-5">
 					<button
-						className="btn btn-outline-secondary float-right mt-5"
-						onClick={hideDemo}
-					>
-						Close
-					</button>
-					<button
 						className="btn btn-outline-primary float-right mr-3 mt-5"
-						disabled
+						type="submit"
 					>
 						Submit
 					</button>
@@ -530,16 +578,4 @@ export default compose(
 	reduxForm({
 		form: 'form'
 	}),
-	connect(
-		state =>  ({
-			formData: state.formGenerator.formData
-		}),
-		{
-			hideDemo,
-			handleInputChange,
-			handleCheckboxChange,
-			handleTagsChange,
-			handleRadioButtonChange
-		}
-	)
 )(ValidatedFormInputs);

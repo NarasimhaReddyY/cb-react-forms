@@ -4,13 +4,15 @@ import FormGenerator from './components/FormGenerator';
 import { connect } from 'react-redux';
 import './App.scss';
 
-const App = ({ demoVisible }) => {
+const App = ({ demoVisible, formData }) => {
   return(
     <div className="container">
       <FormBuilder />
       {
         demoVisible &&
-        <FormGenerator />
+        <FormGenerator 
+          formData={formData}
+        />
       }
     </div>
   )
@@ -19,7 +21,8 @@ const App = ({ demoVisible }) => {
 export default connect(
   state => (
     {
-      demoVisible: state.formGenerator.demoVisible
+      demoVisible: state.formGenerator.demoVisible,
+      formData: state.formGenerator.formData
     }
   ), null
 )(App);

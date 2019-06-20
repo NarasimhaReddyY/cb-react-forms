@@ -116,8 +116,8 @@ export default (item) => {
       return {
         required: false,
         label: convertHtmlToRawJs(html),
-        value: 3,
-        min: 1,
+        value: 0,
+        min: 0,
         max: 5
       };
 

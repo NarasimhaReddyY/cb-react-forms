@@ -60,16 +60,22 @@ class FormEditor extends Component {
 
 	addOption = (element = "non-tags") => {
 		let option;
-		if (element === "tags") {
+		if (element === "Tags") {
 			option = {
 				id: uuid(),
 				label: "",
 				value: ""
 			};
+		} else if(element === 'Checkboxes') {
+			option = {
+				id: uuid(),
+				value: "",
+				checked: false
+			};
 		} else {
 			option = {
 				id: uuid(),
-				value: ""
+				value: "",
 			};
 		}
 
@@ -147,7 +153,6 @@ class FormEditor extends Component {
 				min,
 				max,
 				value,
-				url
 			}
 		} = this.state;
 
@@ -173,7 +178,9 @@ class FormEditor extends Component {
 						wrapperClassName="demo-wrapper"
 						editorClassName="demo-editor"
 						editorState={label}
-						onEditorStateChange={editorState => this.handleOptions('label', editorState)}
+						onEditorStateChange={
+							editorState => this.handleOptions('label', editorState)
+						}
 					/>
 
 					<div className="mt-5">
@@ -212,7 +219,9 @@ class FormEditor extends Component {
 										<button
 											className="btn btn-danger"
 											disabled={options.length === 1}
-											style={{ cursor: `${options.length === 1 ? 'not-allowed' : 'pointer'}` }}
+											style={{ 
+												cursor: `${options.length === 1 ? 'not-allowed' : 'pointer'}` 
+											}}
 											onClick={() => {
 												this.removeOption(id);
 											}}
@@ -259,7 +268,9 @@ class FormEditor extends Component {
 											<button
 												className="btn btn-danger"
 												disabled={options.length === 1}
-												style={{ cursor: `${options.length === 1 ? 'not-allowed' : 'pointer'}` }}
+												style={{ 
+													cursor: `${options.length === 1 ? 'not-allowed' : 'pointer'}` 
+												}}
 												onClick={() => {
 													this.removeOption(id);
 												}}
@@ -312,7 +323,7 @@ class FormEditor extends Component {
 							}
 							<button
 								className="btn btn-primary"
-								onClick={this.addOption}
+								onClick={() => this.addOption('Checkboxes')}
 							>
 								Add Option
 							</button>
@@ -396,7 +407,7 @@ class FormEditor extends Component {
 									className="form-control"
 									type="number"
 									name="min"
-									value={min || ""} // default to empty string to avoid error
+									value={min} // default to empty string to avoid error
 									onChange={({ target: { name, value } }) =>
 										this.handleOptions(name, parseFloat(value))
 									}
@@ -411,22 +422,7 @@ class FormEditor extends Component {
 									className="form-control"
 									type="number"
 									name="max"
-									value={max || ""}
-									onChange={({ target: { name, value } }) =>
-										this.handleOptions(name, parseFloat(value))
-									}
-									min={0}
-								/>
-							</div>
-							<div className="input-group mb-3">
-								<div className="input-group-prepend">
-									<span className="input-group-text">Value</span>
-								</div>
-								<input
-									className="form-control"
-									type="number"
-									name="value"
-									value={value || ""}
+									value={max}
 									onChange={({ target: { name, value } }) =>
 										this.handleOptions(name, parseFloat(value))
 									}

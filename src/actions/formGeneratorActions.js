@@ -5,7 +5,6 @@ import {
   HANDLE_CHECKBOX_CHANGE,
   HANDLE_TAGS_CHANGE,
   HANDLE_RADIOBUTTON_CHANGE,
-  HANDLE_RATING_CHANGE
 } from './types';
 
 export const loadDemo = data => (
@@ -30,10 +29,10 @@ export const handleInputChange = (id, value) => (
   }
 )
 
-export const handleCheckboxChange = (id, optionId) => (
+export const handleCheckboxChange = (id, optionIDs) => (
   {
     type: HANDLE_CHECKBOX_CHANGE,
-    payload: { id, optionId }
+    payload: { id, optionIDs }
   }
 )
 
@@ -48,12 +47,5 @@ export const handleRadioButtonChange = (id, optionId) => (
   {
     type: HANDLE_RADIOBUTTON_CHANGE,
     payload: { id, optionId }
-  }
-)
-
-export const handleRatingChange = (id, value) => (
-  {
-    type: HANDLE_RATING_CHANGE,
-    payload: { id, value }
   }
 )

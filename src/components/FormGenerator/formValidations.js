@@ -1,11 +1,11 @@
-import { isEmpty, isNumber } from "lodash";
+import { isEmpty, isNumber, isNaN } from "lodash";
 
 export const email = value =>
 	value && !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(value)
 		? "Invalid email address"
 		: undefined;
 
-export const required = value =>
+export const isRequired = value =>
 	isEmpty(value) ? "Required" : undefined;
 
 export const number = value =>
@@ -19,3 +19,8 @@ export const validateUrl = value =>
 	)
 		? undefined
 		: "Enter Valid URL";
+
+
+export const isBlank = value => {
+	return isEmpty(value) && !isNumber(value) || isNaN(value);
+}
