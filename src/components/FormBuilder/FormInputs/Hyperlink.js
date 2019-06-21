@@ -6,10 +6,10 @@ class Hyperlink extends Component {
 		const { label, required, value } = this.props.item;
 
 		return (
-			<div>
-				<HeaderLabel label={label} required={required} />
-				<input className="form-control" placeholder="https://www.example.com" />
-			</div>
+  <div>
+    <HeaderLabel label={label} required={required} />
+    <input className="form-control" placeholder="https://www.example.com" />
+  </div>
 		);
 	}
 }

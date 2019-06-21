@@ -87,23 +87,23 @@ class FormInputs extends Component {
 			connectDropTarget &&
 			connectDragSource(
 				connectDropTarget(
-					<div 
-						className="list-group-item mb-1 bg-light preview_item" 
-						style={{ opacity }}
-						onMouseOver={() => this.setState({isHovering: true})}
-						onMouseLeave={() => this.setState({ isHovering: false })}
-					>
-						<HeaderBar 
-							item={item} 
-							id={id} 
-							removeItem={removeItem}
-							showEditor={showEditor}
-							isHovering={this.state.isHovering} 
-						/>
-						{
+  <div 
+    className="list-group-item mb-1 bg-light preview_item" 
+    style={{ opacity }}
+    onMouseOver={() => this.setState({isHovering: true})}
+    onMouseLeave={() => this.setState({ isHovering: false })}
+  >
+    <HeaderBar 
+      item={item} 
+      id={id} 
+      removeItem={removeItem}
+      showEditor={showEditor}
+      isHovering={this.state.isHovering}
+    />
+    {
 							switchItems(item)
 						}
-					</div>
+  </div>
 				)
 			)
 		);

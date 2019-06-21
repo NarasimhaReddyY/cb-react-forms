@@ -136,5 +136,7 @@ export default (item) => {
         label: convertHtmlToRawJs(html),
         value: ''
       };
+    default:
+      return;
   }
 }

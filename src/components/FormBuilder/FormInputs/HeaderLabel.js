@@ -7,14 +7,15 @@ class HeaderLabel extends Component {
 		const text = convertToHtml(label);
 
 		return (
-			<div>
-				{required ? (
-					<span className="ml-1 badge badge-danger float-right">
+  <div>
+    {required ? (
+      <span className="ml-1 badge badge-danger float-right">
 						Required
-					</span>
+					
+      </span>
 				) : null}
-				<p dangerouslySetInnerHTML={{ __html: text }} />
-			</div>
+    <p dangerouslySetInnerHTML={{ __html: text }} />
+  </div>
 		);
 	}
 }

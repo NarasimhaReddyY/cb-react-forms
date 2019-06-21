@@ -1,5 +1,4 @@
-export default () => {
-  return [
+export default () => [
     {
       key: 'Header',
       name: 'Header Text',
@@ -70,5 +69,4 @@ export default () => {
       name: 'Range',
       icon: 'fa fa-sliders',
     },
-  ];
-}
+  ]

@@ -4,14 +4,20 @@ import FormGenerator from './components/FormGenerator';
 import { connect } from 'react-redux';
 import './App.scss';
 
-const App = ({ demoVisible, formData }) => {
+const App = ({ demoVisible }) => {
   return(
     <div className="container">
-      <FormBuilder />
+      <FormBuilder 
+        onSubmit={(data) => console.log(data)}
+        // items={[]}
+      />
       {
         demoVisible &&
         <FormGenerator 
-          formData={formData}
+          userFormData={userFormData}
+          responseData={responseData}
+          readOnly={true}
+          onSubmit={(data) => console.log(JSON.stringify(data))} 
         />
       }
     </div>
@@ -21,8 +27,7 @@ const App = ({ demoVisible, formData }) => {
 export default connect(
   state => (
     {
-      demoVisible: state.formGenerator.demoVisible,
-      formData: state.formGenerator.formData
+      demoVisible: state.formGenerator.demoVisible
     }
   ), null
 )(App);

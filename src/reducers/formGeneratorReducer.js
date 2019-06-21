@@ -1,3 +1,4 @@
+import { map } from 'lodash';
 import { 
   LOAD_DEMO,
   HIDE_DEMO,
@@ -7,7 +8,6 @@ import {
   HANDLE_RADIOBUTTON_CHANGE,
   HANDLE_RATING_CHANGE
 } from '../actions/types';
-import { map } from 'lodash';
 
 const initialState = {
   demoVisible: false,
@@ -90,10 +90,10 @@ export default (state = initialState, action) => {
             if(option.id === optionId) {
               option.checked = true;
               return option;
-            } else {
+            } 
               option.checked = false;
               return option;
-            }
+            
           })
           return item;
         }

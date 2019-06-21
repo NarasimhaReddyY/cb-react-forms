@@ -6,12 +6,12 @@ class TextInput extends Component {
 		const { label, required } = this.props.item;
 
 		return (
-			<div>
-				<HeaderLabel label={label} required={required} />
-				<div className="form-group">
-					<input className="form-control" type="text" />
-				</div>
-			</div>
+  <div>
+    <HeaderLabel label={label} required={required} />
+    <div className="form-group">
+      <input className="form-control" type="text" />
+    </div>
+  </div>
 		);
 	}
 }

@@ -19,21 +19,21 @@ class Range extends Component {
 		const { value } = this.state;
 
 		return (
-			<div>
-				<HeaderLabel label={label} required={required} />
-				<Slider
-					min={min}
-					max={max}
-					step={1}
-					value={value}
-					labels={{
+  <div>
+    <HeaderLabel label={label} required={required} />
+    <Slider
+      min={min}
+      max={max}
+      step={1}
+      value={value}
+      labels={{
 						[min]: "Low",
 						[max]: "High"
 					}}
-					onChange={this.handleChange}
-				/>
-				<div className="text-center">{value}</div>
-			</div>
+      onChange={this.handleChange}
+    />
+    <div className="text-center">{value}</div>
+  </div>
 		);
 	}
 }

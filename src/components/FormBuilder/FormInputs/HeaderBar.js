@@ -12,23 +12,23 @@ class HeaderBar extends Component {
 		const opacity = isHovering ? 1 : 0;
 
 		return (
-			<div style={{ opacity }}>
-				<span className="badge badge-secondary">{item.element}</span>
-				<span
-					onClick={() => removeItem(id)}
-					className="float-right onHover"
-				>
-					<i className="fa fa-trash-o" />
-				</span>
-				{item.element !== "LineBreak" && (
-					<span
-						onClick={() => showEditor(item)}
-						className="float-right onHover"
-					>
-						<i className="fa fa-edit mr-3" />
-					</span>
+  <div style={{ opacity }}>
+    <span className="badge badge-secondary">{item.element}</span>
+    <span
+      onClick={() => removeItem(id)}
+      className="float-right onHover"
+    >
+      <i className="fa fa-trash-o" />
+    </span>
+    {item.element !== "LineBreak" && (
+    <span
+      onClick={() => showEditor(item)}
+      className="float-right onHover"
+    >
+      <i className="fa fa-edit mr-3" />
+    </span>
 				)}
-			</div>
+  </div>
 		);
 	}
 }

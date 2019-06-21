@@ -6,26 +6,36 @@ import {
 	handleCheckboxChange,
 	handleTagsChange,
 	handleRadioButtonChange,
-	hideDemo
+	hideDemo,
+	loadDemo,
 } from "../../actions/formGeneratorActions";
 
 class FormGenerator extends Component {
+
+	componentWillMount() {
+		if(this.props.userFormData) {
+			this.props.loadDemo(this.props.userFormData)
+		}
+	}
+	
 	render() {
 		const {
-			formData,
+			hideDemo,
+			onSubmit,
+			readOnly,
+			userFormData,
+			responseData,
+			handleTagsChange,
 			handleInputChange,
 			handleCheckboxChange,
-			handleTagsChange,
 			handleRadioButtonChange,
-			hideDemo
 		} = this.props;
-		
 		return (
 			<div className="demo-form">
 				<div
 					className="jumbotron bg-default mt-3 mx-auto"
 					style={{
-						height: "100%",
+						minHeight: "100%",
 						maxWidth: "700px",
 						border: "1px solid #ccc"
 					}}
@@ -40,11 +50,14 @@ class FormGenerator extends Component {
 						</span>
 					</div>
 					<ValidatedFormInputs 
-						formData={formData}
-						handleInputChange= {handleInputChange}
-						handleCheckboxChange= {handleCheckboxChange}
-						handleTagsChange= {handleTagsChange}
-						handleRadioButtonChange= {handleRadioButtonChange}
+						formData={userFormData}
+						responseData={responseData}
+						onSubmit={onSubmit}
+						readOnly={readOnly}
+						handleInputChange={handleInputChange}
+						handleCheckboxChange={handleCheckboxChange}
+						handleTagsChange={handleTagsChange}
+						handleRadioButtonChange={handleRadioButtonChange}
 					/>
 				</div>
 			</div>
@@ -52,10 +65,15 @@ class FormGenerator extends Component {
 	}
 }
 
+FormGenerator.defaultProps = {
+	readOnly: false
+}
+
 export default connect(
 	null,
 	{
 		hideDemo,
+		loadDemo,
 		handleInputChange,
 		handleCheckboxChange,
 		handleTagsChange,

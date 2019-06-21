@@ -6,19 +6,19 @@ class Checkboxes extends Component {
 		const { label, options, required } = this.props.item;
 
 		return (
-			<div>
-				<HeaderLabel label={label} required={required} />
-				<div className="form-group">
-					{options.map(({ id, value }) => (
-						<div key={id} className="d-block">
-							<input id={value} type="checkbox" name={value} />
-							<label className="form-label ml-2" htmlFor={value}>
-								{value}
-							</label>
-						</div>
+  <div>
+    <HeaderLabel label={label} required={required} />
+    <div className="form-group">
+      {options.map(({ id, value }) => (
+        <div key={id} className="d-block">
+          <input id={value} type="checkbox" name={value} />
+          <label className="form-label ml-2" htmlFor={value}>
+            {value}
+          </label>
+        </div>
 					))}
-				</div>
-			</div>
+    </div>
+  </div>
 		);
 	}
 }

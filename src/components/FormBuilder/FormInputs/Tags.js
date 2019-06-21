@@ -9,14 +9,14 @@ class Tags extends Component {
 		const animatedComponents = makeAnimated();
 
 		return (
-			<div>
-				<HeaderLabel label={label} required={required} />
-				<Select
-					options={options}
-					components={animatedComponents}
-					isMulti
-				/>
-			</div>
+  <div>
+    <HeaderLabel label={label} required={required} />
+    <Select
+      options={options}
+      components={animatedComponents}
+      isMulti
+    />
+  </div>
 		);
 	}
 }

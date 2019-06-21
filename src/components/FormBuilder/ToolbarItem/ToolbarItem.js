@@ -6,9 +6,7 @@ import { compose } from 'redux';
 import { addItem } from '../../../actions/formBuilderActions';
 
 // type, spec and collect are the paramters to the DragSource HOC
-const type = props => {
-  return 'items'
-}
+const type = props => 'items'
 
 const spec = {
   beginDrag(props) {
@@ -22,15 +20,14 @@ const spec = {
   }
 };
 
-const collect = (connect, monitor) => {
-  return {
+const collect = (connect, monitor) => ({
     connectDragSource: connect.dragSource(),
     connectDragPreview: connect.dragPreview(),
     isDragging: monitor.isDragging(),
-  }
-};
+  });
 
-const ToolbarItem = props => {
+const ToolbarItem = (props) => {
+
   const { isDragging, connectDragSource, data } = props;
 
   const opacity = isDragging ? 0.5 : 1;
@@ -42,7 +39,7 @@ const ToolbarItem = props => {
       className="list-group-item mb-1" 
       onClick={() => props.addItem(props.data.key)}
     >
-      <i className={classNames(data.icon, 'mr-3')}/>
+      <i className={classNames(data.icon, 'mr-3')} />
       {data.name}
     </li>
   )

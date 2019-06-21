@@ -15,17 +15,13 @@ import FormInputs from "./SortableFormInputs";
 import FinalFormPreview from './FinalFormPreview';
 
 // DropTarget parameters
-const type = () => {
-	return "items";
-};
+const type = () => "items";
 
-const collect = (connect, monitor) => {
-	return {
+const collect = (connect, monitor) => ({
 		connectDropTarget: connect.dropTarget(),
 		hovered: monitor.isOver(),
 		item: monitor.getItem()
-	};
-};
+	});
 
 class Preview extends Component {
   constructor(props) {
@@ -45,19 +41,20 @@ class Preview extends Component {
       hovered,
       dragItem,
       previewItems,
-      loadDemo 
+      loadDemo,
+      onSubmit 
     } = this.props;
 		const border = hovered ? "1px solid green" : "1px solid #ccc";
 
 		return connectDropTarget(
       <div style={{ height: "100%" }} className="mt-3">
         {
-          this.state.showFinalPreview &&
+          this.state.showFinalPreview && (
           <FinalFormPreview 
             data={previewItems}
             hideFinalPreview={this.hideFinalPreview}
           />
-        }
+        )}
         <div style={{ height: "100%" }}>
           <div style={{ height: '50px' }}>
             <h3 className="float-left">
@@ -70,23 +67,29 @@ class Preview extends Component {
               Preview
             </button>
             <button 
-              className="btn btn-secondary float-right" 
+              className="btn btn-secondary float-right ml-3" 
               onClick={() => loadDemo(previewItems)}
             >
               Demo
             </button>
+            <button 
+              className="btn btn-dark float-right ml-3" 
+              onClick={() => onSubmit(JSON.stringify(previewItems))}
+            >
+              Export Form
+            </button>
           </div>
           <div 
-            className="jumbotron h-100 bg-default" 
-            style={{ border }}
+            className="jumbotron bg-default" 
+            style={{ border, minHeight: '80vh' }}
           >
             {
-              isEmpty(previewItems) && 
+              isEmpty(previewItems) && (
               <h3 className="list-group-item bg-light text-center text-muted">
                 Select / Drop an item from Toolbox
               </h3>
-            }
-            
+            )}
+                
             {
               !isEmpty(previewItems) &&
               previewItems.map((item, i) => (
@@ -94,8 +97,8 @@ class Preview extends Component {
                   key={item.id} 
                   index={i} 
                   id={item.id} 
-                  removeItem={this.props.removeItem} 
                   item={item}
+                  removeItem={this.props.removeItem} 
                   showEditor={this.props.showEditor}
                   dragItem={dragItem}
                 />

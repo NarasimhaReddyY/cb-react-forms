@@ -6,12 +6,12 @@ class TextArea extends Component {
 		const { label, required } = this.props.item;
 
 		return (
-			<div>
-				<HeaderLabel label={label} required={required} />
-				<div className="form-group">
-					<textarea className="form-control" type="text" />
-				</div>
-			</div>
+  <div>
+    <HeaderLabel label={label} required={required} />
+    <div className="form-group">
+      <textarea className="form-control" type="text" />
+    </div>
+  </div>
 		);
 	}
 }

@@ -13,15 +13,19 @@ class FormBuilder extends Component {
       <React.Fragment>
         {
           this.props.editorVisible &&
-          <FormEditor /> 
+          <FormEditor />
         }
         <div className="container">
           <div className="row mt-3">
             <div className="col-md-8">
-              <Preview />
+              <Preview 
+                onSubmit={this.props.onSubmit} 
+              />
             </div>
             <div className="col-md-4">
-              <Toolbar />
+              <Toolbar 
+                items={this.props.items} 
+              />
             </div>
           </div>
         </div>

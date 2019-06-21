@@ -1,3 +1,4 @@
+import update from "immutability-helper";
 import { 
 	ADD_ITEM_TO_PREVIEW, 
 	REMOVE_ITEM_FROM_PREVIEW, 
@@ -6,7 +7,6 @@ import {
 	HIDE_EDITOR,
 	SUBMIT_EDITOR_STATE
 } from "../actions/types";
-import update from "immutability-helper";
 
 const initialState = {
 	editorVisible: false,
