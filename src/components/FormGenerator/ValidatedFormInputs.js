@@ -31,25 +31,25 @@ class ValidatedFormInputs extends Component {
 			(warning && <span className="text-warning">{warning}</span>));
 
 	formInputLabel = (label, required) => (
-  <React.Fragment>
-    {required ? (
-      <span
-        style={{ borderTop: "100%" }}
-        className="badge badge-danger float-right"
-      >
-				Required
-      </span>
-				) : null}
-    <p dangerouslySetInnerHTML={{ __html: label }} />
-  </React.Fragment>
-		);
+		<React.Fragment>
+			{required ? (
+				<span
+					style={{ borderTop: "100%" }}
+					className="badge badge-danger float-right"
+				>
+					Required
+				</span>
+					) : null}
+			<p dangerouslySetInnerHTML={{ __html: label }} />
+		</React.Fragment>
+	);
 
 	renderInputField = ({
 		type,
 		input,
 		readOnly,
 		required,
-		userValue,
+		defaultValue,
 		input: { value, onChange },
 		meta: { touched, error, warning }
 	}) => (
@@ -62,7 +62,7 @@ class ValidatedFormInputs extends Component {
 				}}
 				type={type}
 				disabled={readOnly}
-        value={userValue || value}
+        value={defaultValue || value}
         className="form-control"
         onChange={e => onChange(e.target.value)}
       />
@@ -73,7 +73,7 @@ class ValidatedFormInputs extends Component {
 					borderColor: touched && required && error ? "red" : ""
 				}}
 				type={type}
-				value={userValue || value}
+				value={defaultValue || value}
 				disabled={readOnly}
 				className="form-control"
 				onChange={e => onChange(e.target.value)}
@@ -87,14 +87,14 @@ class ValidatedFormInputs extends Component {
 		input,
 		input: { value, onChange },
 		options,
-		userValue,
+		defaultValue,
 		readOnly,
 		meta: { touched, error, warning }
 	}) => (
 		<div className="form-group">
 			<select
 				{...input}
-				value={userValue || value}
+				value={defaultValue || value}
 				disabled={readOnly}
 				className="form-control"
 				onChange={e => onChange(e.target.value)}
@@ -117,7 +117,7 @@ class ValidatedFormInputs extends Component {
 		input: { onChange, value },
 		options,
 		readOnly,
-		userValue,
+		defaultValue,
 		meta: { touched, error, warning }
 	}) => (
 		<React.Fragment>
@@ -131,7 +131,7 @@ class ValidatedFormInputs extends Component {
 							value={option.value}
 							type="checkbox"
 							disabled={readOnly}
-							checked={userValue.some(id => id === option.id) || Array.isArray(value) && value.some(id => id === option.id)}
+							checked={defaultValue.some(id => id === option.id) || Array.isArray(value) && value.some(id => id === option.id)}
 							className="mr-2"
 							onChange={e => {
 								let newValue = [...value];
@@ -156,14 +156,14 @@ class ValidatedFormInputs extends Component {
 		input: { value, onChange },
 		options,
 		readOnly,
-		userValue,
+		defaultValue,
 		animatedComponents,
 		meta: { touched, error, warning }
 	}) => (
 		<React.Fragment>
 			<div className="form-group">
 				<Select
-					value={userValue || value}
+					value={defaultValue || value}
 					options={options}
 					components={animatedComponents}
 					isMulti
@@ -195,7 +195,7 @@ class ValidatedFormInputs extends Component {
 		input: { value, onChange },
 		options,
 		readOnly,
-		userValue,
+		defaultValue,
 		meta: { touched, error, warning }
 	}) => (
 		<React.Fragment>
@@ -208,7 +208,7 @@ class ValidatedFormInputs extends Component {
 							type="radio"
 							name={id}
 							disabled={readOnly}
-							checked={userValue === option.id || value === option.id}
+							checked={defaultValue === option.id || value === option.id}
 							className="mr-2"
 							onChange={() => onChange(option.id)}
 						/>
@@ -228,7 +228,7 @@ class ValidatedFormInputs extends Component {
 	renderRating = ({
 		numberOfStars,
 		input,
-		userValue,
+		defaultValue,
 		readOnly,
 		input: { value, onChange },
 		meta: { touched, error, warning }
@@ -246,7 +246,7 @@ class ValidatedFormInputs extends Component {
 				starRatedColor="orange"
 				isAggregateRating
 				isSelectable={!readOnly}
-				rating={userValue || newValue}
+				rating={defaultValue || newValue}
 				changeRating={(val) => onChange(val)}
 			/>
 			<div>
@@ -260,7 +260,7 @@ class ValidatedFormInputs extends Component {
 		input: { value, onChange },
 		formInput,
 		readOnly,
-		userValue,
+		defaultValue,
 		meta: { touched, error, warning }
 	}) => {
 		const newValue = isBlank(value) ? 0 : value;
@@ -272,14 +272,14 @@ class ValidatedFormInputs extends Component {
 					max={formInput.max}
 					step={1}
 					disabled={readOnly}
-					value={userValue || newValue}
+					value={defaultValue || newValue}
 					labels={{
 							[formInput.min]: "Low",
 							[formInput.max]: "High"
 						}}
 					onChange={val => onChange(val)}
 				/>
-				<div className="text-center">{userValue || newValue || 0}</div>
+				<div className="text-center">{defaultValue || newValue || 0}</div>
 				{this.showError(touched, error, warning)}
 			</React.Fragment>
 		)
@@ -354,7 +354,7 @@ class ValidatedFormInputs extends Component {
 										validate={required ? [isRequired] : null}
 										props={{
 											id,
-											userValue: responseData && responseData[id],
+											defaultValue: responseData && responseData[id],
 											required,
 											readOnly,
 											type: 'text',
@@ -374,7 +374,7 @@ class ValidatedFormInputs extends Component {
 										validate={required ? [isRequired] : null}
 										props={{
 											id,
-											userValue: responseData && responseData[id],
+											defaultValue: responseData && responseData[id],
 											type: 'textarea',
 											readOnly,
 											isRequired: required,
@@ -393,7 +393,7 @@ class ValidatedFormInputs extends Component {
 										validate={required ? [isRequired, isNumber] : [isNumber]}
 										props={{
 											id,
-											userValue: responseData && responseData[id],
+											defaultValue: responseData && responseData[id],
 											type: 'number',
 											readOnly,
 											isRequired: required,
@@ -414,7 +414,7 @@ class ValidatedFormInputs extends Component {
 											options,
 											id,
 											readOnly,
-											userValue: responseData && responseData[id]
+											defaultValue: responseData && responseData[id]
 										}}
 									/>
 								</React.Fragment>
@@ -433,7 +433,7 @@ class ValidatedFormInputs extends Component {
 												props={{
 													options,
 													readOnly,
-													userValue: responseData && responseData[id] || []
+													defaultValue: responseData && responseData[id] || []
 												}}
 											/>
 										}
@@ -452,7 +452,7 @@ class ValidatedFormInputs extends Component {
 											props={{
 												id,
 												options,
-												userValue: responseData && responseData[id],
+												defaultValue: responseData && responseData[id],
 												readOnly,
 												animatedComponents,
 											}}
@@ -472,7 +472,7 @@ class ValidatedFormInputs extends Component {
 												props={{
 													id,
 													options,
-													userValue: responseData && responseData[id],
+													defaultValue: responseData && responseData[id],
 													readOnly
 												}}
 											/>
@@ -491,7 +491,7 @@ class ValidatedFormInputs extends Component {
 										props={{
 											id,
 											readOnly,
-											userValue: responseData && responseData[id],
+											defaultValue: responseData && responseData[id],
 											numberOfStars: formInput.numberOfStars
 										}}
 									/>
@@ -509,7 +509,7 @@ class ValidatedFormInputs extends Component {
 										props={{
 											id,
 											readOnly,
-											userValue: responseData && responseData[id],
+											defaultValue: responseData && responseData[id],
 											value,
 										}}
 									/>
@@ -526,7 +526,7 @@ class ValidatedFormInputs extends Component {
 											validate={required ? [isBlank] : null}
 											props={{
 												id,
-												userValue: responseData && responseData[id],
+												defaultValue: responseData && responseData[id],
 												readOnly,
 												formInput,
 											}}
