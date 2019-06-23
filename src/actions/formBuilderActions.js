@@ -12,8 +12,8 @@ import {
 export const addItem = element => {
   const id = uuid();
   const props = addPropsToItem(element);
-	const item = { id, element, ...props };
-	return { 
+  const item = { id, element, ...props };
+  return { 
     type: ADD_ITEM_TO_PREVIEW, 
     payload: item 
   };

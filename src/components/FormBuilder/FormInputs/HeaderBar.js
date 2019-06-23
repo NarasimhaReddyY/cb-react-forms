@@ -1,17 +1,17 @@
 import React, { Component } from 'react';
 
 class HeaderBar extends Component {
-	render() {
-		const {
-			item,
-			removeItem,
-			id,
-			showEditor,
-			isHovering
-		} = this.props;
-		const opacity = isHovering ? 1 : 0;
+  render() {
+    const {
+      item,
+      removeItem,
+      id,
+      showEditor,
+      isHovering
+    } = this.props;
+    const opacity = isHovering ? 1 : 0;
 
-		return (
+    return (
   <div style={{ opacity }}>
     <span className="badge badge-secondary">{item.element}</span>
     <span
@@ -27,10 +27,10 @@ class HeaderBar extends Component {
     >
       <i className="fa fa-edit mr-3" />
     </span>
-				)}
+        )}
   </div>
-		);
-	}
+    );
+  }
 }
 
 export default HeaderBar;

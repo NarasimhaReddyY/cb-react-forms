@@ -1,49 +1,42 @@
-import React from 'react';
-import { map } from 'lodash';
-import switchItems from '../FormInputs/switchItems';
+import React from "react";
+import { map } from "lodash";
+import switchItems from "../FormInputs/switchItems";
 
 const FinalFormPreview = ({ hideFinalPreview, data }) => (
   <div className="final-preview">
-    <div 
-      className="jumbotron bg-default mt-3 mx-auto" 
-      style={{ 
-          height: '100%', 
-          maxWidth: '700px', 
-          border: '1px solid #ccc' 
-        }}
+    <div
+      className="jumbotron bg-default mt-3 mx-auto"
+      style={{
+        height: "100%",
+        maxWidth: "700px",
+        border: "1px solid #ccc"
+      }}
     >
-      <div style={{ height: '50px' }}>
-        <span 
-          className="float-right" 
-          style={{ cursor: 'pointer' }} 
+      <div style={{ height: "50px" }}>
+        <span
+          className="float-right"
+          style={{ cursor: "pointer" }}
           onClick={hideFinalPreview}
         >
           <i className="fa fa-times" />
         </span>
       </div>
-      {
-          map(data, item => (
-            <div key={item.id} className="mb-4">
-              {
-                switchItems(item)
-              }
-            </div>
-          ))
-        }  
-      <div 
-        style={{ height: '50px' }} 
-        className="mt-5"
-      >
-        <hr /> 
-        <button 
-          className="btn btn-outline-secondary float-right" 
+      {map(data, item => (
+        <div key={item.id} className="mb-4">
+          {switchItems(item)}
+        </div>
+      ))}
+      <div style={{ height: "50px" }} className="mt-5">
+        <hr />
+        <button
+          className="btn btn-outline-secondary float-right"
           onClick={hideFinalPreview}
         >
-            Close
+          Close
         </button>
       </div>
     </div>
   </div>
-  )
+);
 
 export default FinalFormPreview;

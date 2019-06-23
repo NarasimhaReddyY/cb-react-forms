@@ -2,10 +2,10 @@ import React, { Component } from 'react';
 import HeaderLabel from './HeaderLabel';
 
 class Checkboxes extends Component {
-	render() {
-		const { label, options, required } = this.props.item;
+  render() {
+    const { label, options, required } = this.props.item;
 
-		return (
+    return (
   <div>
     <HeaderLabel label={label} required={required} />
     <div className="form-group">
@@ -16,11 +16,11 @@ class Checkboxes extends Component {
             {value}
           </label>
         </div>
-					))}
+          ))}
     </div>
   </div>
-		);
-	}
+    );
+  }
 }
 
 export default Checkboxes;
