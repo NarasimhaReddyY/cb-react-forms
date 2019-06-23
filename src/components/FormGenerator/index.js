@@ -1,82 +1,41 @@
-import React, { Component } from "react";
-import { connect } from "react-redux";
+import React from "react";
+import PropTypes from "prop-types";
 import ValidatedFormInputs from "./ValidatedFormInputs";
-import {
-	handleInputChange,
-	handleCheckboxChange,
-	handleTagsChange,
-	handleRadioButtonChange,
-	hideDemo,
-	loadDemo,
-} from "../../actions/formGeneratorActions";
 
-class FormGenerator extends Component {
+const FormGenerator = ({
+	onSubmit,
+	readOnly,
+	formData,
+	responseData
+}) => {
+	return (
+		<div
+			className="jumbotron bg-default mt-5 mx-auto"
+			style={{
+				minHeight: "100%",
+				maxWidth: "700px",
+				border: "1px solid #ccc"
+			}}
+		>
+			<ValidatedFormInputs
+				formData={formData}
+				responseData={responseData}
+				onSubmit={onSubmit}
+				readOnly={readOnly}
+			/>
+		</div>
+	);
+};
 
-	componentWillMount() {
-		if(this.props.userFormData) {
-			this.props.loadDemo(this.props.userFormData)
-		}
-	}
-	
-	render() {
-		const {
-			hideDemo,
-			onSubmit,
-			readOnly,
-			userFormData,
-			responseData,
-			handleTagsChange,
-			handleInputChange,
-			handleCheckboxChange,
-			handleRadioButtonChange,
-		} = this.props;
-		return (
-			<div className="demo-form">
-				<div
-					className="jumbotron bg-default mt-3 mx-auto"
-					style={{
-						minHeight: "100%",
-						maxWidth: "700px",
-						border: "1px solid #ccc"
-					}}
-				>
-					<div style={{ height: '50px' }}>
-						<span
-							className="float-right"
-							style={{ cursor: "pointer" }}
-							onClick={hideDemo}
-						>
-							<i className="fa fa-times" />
-						</span>
-					</div>
-					<ValidatedFormInputs 
-						formData={userFormData}
-						responseData={responseData}
-						onSubmit={onSubmit}
-						readOnly={readOnly}
-						handleInputChange={handleInputChange}
-						handleCheckboxChange={handleCheckboxChange}
-						handleTagsChange={handleTagsChange}
-						handleRadioButtonChange={handleRadioButtonChange}
-					/>
-				</div>
-			</div>
-		);
-	}
-}
+FormGenerator.propTypes = {
+	formData: PropTypes.array.isRequired,
+	onSubmit: PropTypes.func.isRequired,
+	responseData: PropTypes.object,
+	readOnly: PropTypes.bool
+};
 
 FormGenerator.defaultProps = {
 	readOnly: false
-}
+};
 
-export default connect(
-	null,
-	{
-		hideDemo,
-		loadDemo,
-		handleInputChange,
-		handleCheckboxChange,
-		handleTagsChange,
-		handleRadioButtonChange
-	}
-)(FormGenerator);
+export default FormGenerator;

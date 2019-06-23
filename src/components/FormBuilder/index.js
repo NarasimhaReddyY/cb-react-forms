@@ -7,31 +7,33 @@ import FormEditor from './FormEditor';
 import Toolbar from './Toolbar';
 import Preview from './Preview';
 
-class FormBuilder extends Component {
-  render() {
-    return (
-      <React.Fragment>
-        {
-          this.props.editorVisible &&
-          <FormEditor />
-        }
-        <div className="container">
-          <div className="row mt-3">
-            <div className="col-md-8">
-              <Preview 
-                onSubmit={this.props.onSubmit} 
-              />
-            </div>
-            <div className="col-md-4">
-              <Toolbar 
-                items={this.props.items} 
-              />
-            </div>
+const FormBuilder = ({
+  editorVisible,
+  onSubmit,
+  items
+}) => {
+  return (
+    <React.Fragment>
+      {
+        editorVisible &&
+        <FormEditor />
+      }
+      <div className="container">
+        <div className="row mt-3">
+          <div className="col-md-8">
+            <Preview 
+              onSubmit={onSubmit} 
+            />
+          </div>
+          <div className="col-md-4">
+            <Toolbar 
+              items={items} 
+            />
           </div>
         </div>
-      </React.Fragment>
-    )
-  }
+      </div>
+    </React.Fragment>
+  )
 }
 
 export default compose(

@@ -2,9 +2,9 @@ import React, { Component } from "react";
 import { findDOMNode } from "react-dom";
 import flow from "lodash/flow";
 import { DragSource, DropTarget } from "react-dnd";
-import { isEqual } from 'lodash';
-import HeaderBar from '../FormInputs/HeaderBar'
-import switchItems from '../FormInputs/switchItems';
+import { isEqual } from "lodash";
+import HeaderBar from "../FormInputs/HeaderBar";
+import switchItems from "../FormInputs/switchItems";
 
 const cardSource = {
 	beginDrag(props) {
@@ -26,10 +26,13 @@ const cardTarget = {
 		}
 
 		// Determine rectangle on screen
-		const hoverBoundingRect = findDOMNode(component).getBoundingClientRect();
+		const hoverBoundingRect = findDOMNode(
+			component
+		).getBoundingClientRect();
 
 		// Get vertical middle
-		const hoverMiddleY = (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
+		const hoverMiddleY =
+			(hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
 
 		// Determine mouse position
 		const clientOffset = monitor.getClientOffset();
@@ -66,44 +69,42 @@ class FormInputs extends Component {
 		super(props);
 		this.state = {
 			isHovering: false
-		}
+		};
 	}
 
-  render() {
-		const { 
-      item, 
+	render() {
+		const {
+			id,
+			item,
 			removeItem,
-			showEditor, 
-      id, 
-      isDragging,
-      connectDragSource, 
-      connectDropTarget 
-    } = this.props;
+			showEditor,
+			isDragging,
+			connectDragSource,
+			connectDropTarget
+		} = this.props;
 
-    const opacity = isDragging ? 0 : 1;
-    
-    return (
+		const opacity = isDragging ? 0 : 1;
+
+		return (
 			connectDragSource &&
 			connectDropTarget &&
 			connectDragSource(
 				connectDropTarget(
-  <div 
-    className="list-group-item mb-1 bg-light preview_item" 
-    style={{ opacity }}
-    onMouseOver={() => this.setState({isHovering: true})}
-    onMouseLeave={() => this.setState({ isHovering: false })}
-  >
-    <HeaderBar 
-      item={item} 
-      id={id} 
-      removeItem={removeItem}
-      showEditor={showEditor}
-      isHovering={this.state.isHovering}
-    />
-    {
-							switchItems(item)
-						}
-  </div>
+					<div
+						className="list-group-item mb-1 bg-light preview_item"
+						style={{ opacity }}
+						onMouseOver={() => this.setState({ isHovering: true })}
+						onMouseLeave={() => this.setState({ isHovering: false })}
+					>
+						<HeaderBar
+							item={item}
+							id={id}
+							removeItem={removeItem}
+							showEditor={showEditor}
+							isHovering={this.state.isHovering}
+						/>
+						{switchItems(item)}
+					</div>
 				)
 			)
 		);
@@ -111,15 +112,11 @@ class FormInputs extends Component {
 }
 
 export default flow(
-	DragSource("item", 
-	cardSource, 
-	(connect, monitor) => ({
+	DragSource("item", cardSource, (connect, monitor) => ({
 		connectDragSource: connect.dragSource(),
 		isDragging: monitor.isDragging()
 	})),
-	DropTarget("item", 
-	cardTarget, 
-	connect => ({
+	DropTarget("item", cardTarget, connect => ({
 		connectDropTarget: connect.dropTarget()
 	}))
 )(FormInputs);
