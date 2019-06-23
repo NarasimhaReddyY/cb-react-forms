@@ -34,13 +34,13 @@ class Preview extends Component {
 
 	render() {
 		const {
-      hovered,
+			hovered,
 			dragItem,
 			onSubmit,
-      removeItem,
-      showEditor,
-      previewItems,
-			connectDropTarget,
+			removeItem,
+			showEditor,
+			previewItems,
+			connectDropTarget
 		} = this.props;
 
 		const border = hovered ? "1px solid green" : "1px solid #ccc";
@@ -84,9 +84,10 @@ class Preview extends Component {
 						)}
 
 						{!isEmpty(previewItems) &&
-							previewItems.map(item => (
+							previewItems.map((item, i) => (
 								<FormInputs
-                  item={item}
+									index={i}
+									item={item}
 									id={item.id}
 									key={item.id}
 									dragItem={dragItem}
