@@ -22,7 +22,6 @@ class ValidatedFormInputs extends Component {
       {required ? (
         !this.props.readOnly &&
 				<span
-          style={{ borderTop: "100%" }}
           className="badge badge-danger float-right"
         >
           Required
