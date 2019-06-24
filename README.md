@@ -1,6 +1,6 @@
 # React Form Builder
 
-A complete react form builder that interfaces with a json data to load and save generated forms.
+A complete react form builder that interfaces with json data to load and save generated forms.
 
 ![](pictures/Screenshot-formBuilder.png)
 

@@ -7,7 +7,13 @@ import makeAnimated from "react-select/animated";
 import StarRatings from "react-star-ratings";
 import Slider from "react-rangeslider";
 import convertDraftjsToHtml from "../FormBuilder/FormInputs/convertDraftjsToHtml";
-import { isRequired, validateUrl, isNumber } from "./formValidations";
+import { 
+  isRequired, 
+  validateUrl, 
+  isNumber, 
+  validateRatings,
+  validateRange 
+} from "./formValidations";
 
 import { Header, Paragraph, Label } from "../FormBuilder/FormInputs";
 
@@ -459,7 +465,7 @@ class ValidatedFormInputs extends Component {
                   <Field
                     name={id}
                     component={this.renderRating}
-                    validate={required ? [isRequired] : null}
+                    validate={required ? [validateRatings] : null}
                     props={{
                       id,
                       readOnly,
@@ -495,7 +501,7 @@ class ValidatedFormInputs extends Component {
                   <Field
                     name={id}
                     component={this.renderRange}
-                    validate={required ? [isRequired] : null}
+                    validate={required ? [validateRange] : null}
                     props={{
                       id,
                       defaultValue: responseData && responseData[id],

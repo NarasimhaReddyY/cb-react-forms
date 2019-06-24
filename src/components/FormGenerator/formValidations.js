@@ -8,6 +8,12 @@ export const email = value =>
 export const isRequired = value =>
   isEmpty(value) ? "Required" : undefined;
 
+export const validateRatings = value => 
+  value < 1 || value == undefined ? "Required" : undefined;
+
+export const validateRange = value =>
+  value == undefined ? "Required" : undefined;
+
 export const isNumber = value =>
   value && isNaN(value) ? "Must be a number" : undefined;
 
