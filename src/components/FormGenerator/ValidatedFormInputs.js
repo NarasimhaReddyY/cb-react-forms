@@ -21,7 +21,7 @@ class ValidatedFormInputs extends Component {
     <React.Fragment>
       {required ? (
         !this.props.readOnly &&
-				<span
+        <span
           className="badge badge-danger float-right"
         >
           Required

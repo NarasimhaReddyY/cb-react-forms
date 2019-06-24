@@ -1,6 +1,6 @@
 # React Form Builder
 
-A complete react form builder that interfaces with a json endpoint to load and save generated forms.
+A complete react form builder that interfaces with a json data to load and save generated forms.
 
 ![](pictures/Screenshot-formBuilder.png)
 
@@ -179,4 +179,4 @@ In order to make the Form Builder secure and pretty, there are a few dependencie
 $ npm install
 $ npm start
 ```
-Navigate to localhost:8080/ in your browser and you should be able to see the formBuilder in action.
+Navigate to localhost:8080/ in your browser and you should be able to see the Form Builder in action.
