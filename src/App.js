@@ -11,12 +11,12 @@ const App = () => {
         // items={[]}
       />
 
-      {/* <FormGenerator
-        formData={userFormData}
-        responseData={responseData}
-        readOnly={true}
+      <FormGenerator
+        // formData={userFormData}
+        // responseData={responseData}
+        // readOnly={true}
         onSubmit={data => console.log(JSON.stringify(data))}
-      /> */}
+      />
     </div>
   );
 };

@@ -20,7 +20,8 @@ class ValidatedFormInputs extends Component {
   formInputLabel = (label, required) => (
     <React.Fragment>
       {required ? (
-        <span
+        !this.props.readOnly &&
+				<span
           style={{ borderTop: "100%" }}
           className="badge badge-danger float-right"
         >
