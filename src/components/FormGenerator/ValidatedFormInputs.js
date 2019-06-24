@@ -28,7 +28,7 @@ class ValidatedFormInputs extends Component {
           Required
         </span>
       ) : null}
-      <p dangerouslySetInnerHTML={{ __html: label }} />
+      <h6 dangerouslySetInnerHTML={{ __html: label }} />
     </React.Fragment>
   );
 
@@ -221,7 +221,7 @@ class ValidatedFormInputs extends Component {
           name="rating"
           starHoverColor="chocolate"
           starRatedColor="orange"
-          isAggregateRating
+          isAggregateRating={true}
           isSelectable={!readOnly}
           rating={defaultValue || value || 0}
           changeRating={val => onChange(val)}
