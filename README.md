@@ -8,7 +8,7 @@ A complete react form builder that interfaces with a json endpoint to load and s
 
 ```javascript
 import React from "react";
-import { FormBuilder } from "react-forms-cb";
+import { FormBuilder } from "cb-react-forms";
 
 const Example = props => {
   return <FormBuilder />;
@@ -63,7 +63,7 @@ Now that the form is built and saved, let's generate it from the saved json.
 
 ```javascript
 import React from "react";
-import { FormGenerator } from 'react-forms-cb';
+import { FormGenerator } from 'cb-react-forms';
 
 const Example = props => {
   <FormGenerator 
