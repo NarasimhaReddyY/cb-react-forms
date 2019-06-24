@@ -42,8 +42,18 @@ const onSubmitFunc = () => {
   // Submit Function
 };
 
-<FormBuilder items={items} onSubmit={onSubmitFunc} />;
+<FormBuilder 
+  items={items} 
+  onSubmit={onSubmitFunc} 
+/>
+
 ```
+
+### Form Builder Params:
+Name | Type | Required | Description
+--- | --- | --- | --- |
+onSubmit | function | Required | Invoked on form submit, gets formData as the argument.
+items | array | Optional | List of toolbar items, list of avaiable items can be found below.
 ## Editing Items:
 ![](pictures/Screenshot-editor.png)
 
@@ -71,12 +81,6 @@ formData | array | Required | List of questions data retrieved from FormBuilder.
 onSubmit | function | Required | Invoked on form submit, gets answers data as the argument.
 readOnly | boolean | Optional | Show a read only version which has fields disabled and removed "Required" labels.
 responseData | object | Optional | Answer data, only loads if loading a pre-existing form with values.
-
-### Form Builder Params:
-Name | Type | Required | Description
---- | --- | --- | --- |
-onSubmit | function | Required | Invoked on form submit, gets formData as the argument.
-items | array | Optional | List of toolbar items, list of avaiable items can be found below.
 
 ## Demo Form:
 ![](pictures/Screenshot-finalForm.png)
