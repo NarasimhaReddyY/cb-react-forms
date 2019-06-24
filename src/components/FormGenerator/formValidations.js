@@ -8,10 +8,7 @@ export const email = value =>
 export const isRequired = value =>
   isEmpty(value) ? "Required" : undefined;
 
-export const validateRatings = value => 
-  value < 1 || value == undefined ? "Required" : undefined;
-
-export const validateRange = value =>
+export const validateRatingsAndRange = value => 
   value == undefined ? "Required" : undefined;
 
 export const isNumber = value =>

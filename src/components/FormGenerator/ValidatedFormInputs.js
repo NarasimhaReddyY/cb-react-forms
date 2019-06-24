@@ -10,9 +10,8 @@ import convertDraftjsToHtml from "../FormBuilder/FormInputs/convertDraftjsToHtml
 import { 
   isRequired, 
   validateUrl, 
-  isNumber, 
-  validateRatings,
-  validateRange 
+  isNumber,
+  validateRatingsAndRange
 } from "./formValidations";
 
 import { Header, Paragraph, Label } from "../FormBuilder/FormInputs";
@@ -465,7 +464,7 @@ class ValidatedFormInputs extends Component {
                   <Field
                     name={id}
                     component={this.renderRating}
-                    validate={required ? [validateRatings] : null}
+                    validate={required ? [validateRatingsAndRange] : null}
                     props={{
                       id,
                       readOnly,
@@ -501,7 +500,7 @@ class ValidatedFormInputs extends Component {
                   <Field
                     name={id}
                     component={this.renderRange}
-                    validate={required ? [validateRange] : null}
+                    validate={required ? [validateRatingsAndRange] : null}
                     props={{
                       id,
                       defaultValue: responseData && responseData[id],
