@@ -65,14 +65,14 @@ Now that the form is built and saved, let's generate it from the saved json.
 import React from "react";
 import { FormGenerator } from 'cb-react-forms';
 
-const Example = props => {
+const Example = props => (
   <FormGenerator 
     formData={userFormData} // json data from FormBuilder | REQUIRED
     onSubmit={handleSubmit} // Form submit function | REQUIRED
     readOnly={}             // Boolean, if true form elements are disabled
     responseData={}         // json answers data after form submission
   />
-};
+);
 ```
 ### Form Generator Params
 Name | Type | Required | Description

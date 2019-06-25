@@ -1,3 +1,23 @@
+* {
+  margin: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  font-size: 100%;
+  vertical-align: baseline;
+  background: transparent;
+}
+
+body {
+  margin: 0;
+  box-sizing: border-box;
+  font-family: 'Helvetica', sans-serif;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  position: relative;
+  top: -16px;
+}
+
 .onHover {
   cursor: pointer;
 }
@@ -10,13 +30,24 @@
   background-color: #fafafa !important;
 }
 
+.demo-form {
+  min-height: 100vh;
+  width: 100vw;
+  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background-color: rgba(250, 250, 250, 0.8);
+}
+
 .form_editor {
   height: 100vh;
   width: 100vw;
   z-index: 10;
   position: fixed;
   top: 0;
-  left: 0;
+	left: 0;
+	overflow: scroll;
   background-color: rgba(250, 250, 250, 0.8);
 }
 

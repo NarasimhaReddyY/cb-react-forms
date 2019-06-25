@@ -1,5 +1,4 @@
 import React from "react";
-import defaultItems from "./defaultItems";
 import ToolbarItem from "../ToolbarItem/ToolbarItem";
 
 const Toolbar = ({ items }) => (
@@ -17,9 +16,5 @@ const Toolbar = ({ items }) => (
     </ul>
   </React.Fragment>
 );
-
-Toolbar.defaultProps = {
-  items: defaultItems()
-};
 
 export default Toolbar;

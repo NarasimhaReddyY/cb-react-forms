@@ -1,14 +1,37 @@
 import React from "react";
-import ReactDOM from "react-dom";
-import App from "./src/App";
+import { Provider } from "react-redux";
+import Builder from "./src/components/FormBuilder";
+import Generator from "./src/components/FormGenerator";
+import store from "./src/store";
 
+import "./src/App.scss";
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.min.css";
 import "react-rangeslider/lib/index.css";
 
-import "./index.scss";
+const FormBuilder = ({ onSubmit, items }) => (
+  <Provider store={store}>
+    <Builder 
+      onSubmit={onSubmit} 
+      items={items} 
+    />
+  </Provider>
+)
 
-ReactDOM.render(
-	<App />,
-  document.getElementById("root")
-);
+const FormGenerator = ({ 
+  formData, 
+  responseData, 
+  readOnly, 
+  onSubmit 
+}) => (
+  <Provider store={store}>
+    <Generator 
+      formData={formData} 
+      responseData={responseData} 
+      readOnly={readOnly} 
+      onSubmit={onSubmit} 
+    />
+  </Provider>
+)
+
+export { FormBuilder, FormGenerator };
