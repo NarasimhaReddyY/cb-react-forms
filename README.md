@@ -8,11 +8,15 @@ A complete react form builder that interfaces with json data to load and save ge
 
 ```javascript
 import React from "react";
+import ReactDOM from "react-dom";
 import { FormBuilder } from "cb-react-forms";
 
-const Example = props => {
-  return <FormBuilder />;
-};
+const Example = props => (
+  <FormBuilder 
+    onSubmit={}
+    items={}
+  />;
+);
 
 ReactDOM.render(<Example />, document.getElementById("root"));
 ```
@@ -63,16 +67,17 @@ Now that the form is built and saved, let's generate it from the saved json.
 
 ```javascript
 import React from "react";
+import ReactDOM from "react-dom";
 import { FormGenerator } from 'cb-react-forms';
 
 const Example = props => (
   <FormGenerator 
-    formData={userFormData} // json data from FormBuilder | REQUIRED
-    onSubmit={handleSubmit} // Form submit function | REQUIRED
-    readOnly={}             // Boolean, if true form elements are disabled
-    responseData={}         // json answers data after form submission
+    formData={}
+    onSubmit={}
   />
 );
+
+ReactDOM.render(<Example />, document.getElementById("root"));
 ```
 ### Form Generator Params
 Name | Type | Required | Description
@@ -160,6 +165,8 @@ const items = [
     icon: "fa fa-sliders"
   }
 ];
+
+// NOTE: You can edit the name and the icon (FontAwesome classes) fields but **do not** change the key.
 ```
 
 ## Read Only Form:
