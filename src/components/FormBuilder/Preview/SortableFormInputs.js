@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { findDOMNode } from "react-dom";
 import flow from "lodash/flow";
 import { DragSource, DropTarget } from "react-dnd";
-import { isEqual } from "lodash";
+import isEqual from "lodash/isEqual";
 import HeaderBar from "../FormInputs/HeaderBar";
 import switchItems from "../FormInputs/switchItems";
 

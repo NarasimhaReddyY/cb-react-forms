@@ -1,5 +1,5 @@
 import React from "react";
-import { map } from "lodash";
+import map from "lodash/map";
 import switchItems from "../FormInputs/switchItems";
 
 const FinalFormPreview = ({ hideFinalPreview, data }) => (

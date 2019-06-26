@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { DropTarget } from "react-dnd";
 import { connect } from "react-redux";
 import { compose } from "redux";
-import { isEmpty } from "lodash";
+import isEmpty from "lodash/isEmpty";
 import {
   removeItem,
   dragItem,

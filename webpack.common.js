@@ -20,11 +20,15 @@ const statsConfig = {
 }
 
 module.exports = {
-  entry: path.join(__dirname, './index.js'),
+  entry: {
+		builder: path.join(__dirname, './builder.js'),
+		generator: path.join(__dirname, './generator.js')
+	},
   output: {
     path: path.join(__dirname, 'dist'),
-    filename: 'index.js',
-  },
+		filename: '[name].index.js',
+		libraryTarget: 'commonjs2',
+	},
   module: {
     rules: [
       {
@@ -53,10 +57,10 @@ module.exports = {
         test: /.(png|jpg|jpeg|gif|svg|woff|woff2|ttf|eot)$/,
         use: 'url-loader',
       },
-    ],
-  },
-  plugins: [
-    htmlWebpackPlugin,
-  ],
+		],
+	},
+	plugins: [
+		htmlWebpackPlugin
+	],
   stats: statsConfig,
 }
