@@ -96,7 +96,7 @@ class FormEditor extends Component {
     this.setState({
       editorState: {
         ...this.state.editorState,
-        options: [...updatedOptions]
+        options: updatedOptions
       }
     });
   };
@@ -114,7 +114,7 @@ class FormEditor extends Component {
     this.setState({
       editorState: {
         ...this.state.editorState,
-        options: [...updatedOptions]
+        options: updatedOptions
       }
     });
   };
@@ -132,7 +132,7 @@ class FormEditor extends Component {
     this.setState({
       editorState: {
         ...this.state.editorState,
-        options: [...updatedOptions]
+        options: updatedOptions
       }
     });
   };

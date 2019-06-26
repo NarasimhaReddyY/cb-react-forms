@@ -54,7 +54,6 @@ export default (item) => {
             value: 'Option2'
           }
         ],
-        value: null
       };
 
     case 'HyperLink':
@@ -109,7 +108,6 @@ export default (item) => {
             value: 'Value2'
           }
         ],
-        value: []
       };
 
     case 'Range':

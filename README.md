@@ -56,7 +56,7 @@ const onSubmitFunc = () => {
 ### Form Builder Params:
 Name | Type | Required | Description
 --- | --- | --- | --- |
-onSubmit | function | Required | Invoked on form submit, gets formData as the argument.
+onSubmit | function | Required | Invoked on Export Form, gets formData as the argument.
 items | array | Optional | List of toolbar items, list of avaiable items can be found below.
 ## Editing Items:
 ![](pictures/Screenshot-editor.png)

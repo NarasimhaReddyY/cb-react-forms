@@ -4,10 +4,10 @@ import Builder from "./src/components/FormBuilder";
 import Generator from "./src/components/FormGenerator";
 import store from "./src/store";
 
-import "./src/App.scss";
 import "bootstrap/dist/css/bootstrap.css";
 import "font-awesome/css/font-awesome.min.css";
 import "react-rangeslider/lib/index.css";
+import "./src/App.scss";
 
 const FormBuilder = ({ onSubmit, items }) => (
   <Provider store={store}>
