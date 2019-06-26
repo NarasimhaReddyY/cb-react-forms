@@ -1,5 +1,5 @@
-import React from 'react';
-import { 
+import React from "react";
+import {
   Tags,
   Label,
   Range,
@@ -13,38 +13,38 @@ import {
   LineBreak,
   Checkboxes,
   NumberInput,
-  RadioButtons,
-} from './index';
+  RadioButtons
+} from "./index";
 
-export default (item) => {
-  switch(item.element) {
-    case 'Checkboxes':
-      return <Checkboxes item={item} />
-    case 'Dropdown':
+export default item => {
+  switch (item.element) {
+    case "Checkboxes":
+      return <Checkboxes item={item} />;
+    case "Dropdown":
       return <Dropdown item={item} />;
-    case 'Header':
+    case "Header":
       return <Header item={item} />;
-    case 'HyperLink':
+    case "HyperLink":
       return <Hyperlink item={item} />;
-    case 'Label':
+    case "Label":
       return <Label item={item} />;
-    case 'LineBreak':
+    case "LineBreak":
       return <LineBreak item={item} />;
-    case 'NumberInput':
+    case "NumberInput":
       return <NumberInput item={item} />;
-    case 'Paragraph':
+    case "Paragraph":
       return <Paragraph item={item} />;
-    case 'RadioButtons':
+    case "RadioButtons":
       return <RadioButtons item={item} />;
-    case 'Range':
+    case "Range":
       return <Range item={item} />;
-    case 'Rating':
+    case "Rating":
       return <Rating item={item} />;
-    case 'Tags':
+    case "Tags":
       return <Tags item={item} />;
-    case 'TextArea':
+    case "TextArea":
       return <TextArea item={item} />;
-    case 'TextInput':
+    case "TextInput":
       return <TextInput item={item} />;
   }
-}
+};

@@ -1,6 +1,8 @@
-import previewItemsReducer from './previewItemsReducer';
-import { combineReducers } from 'redux';
+import { reducer as formReducer } from "redux-form";
+import { combineReducers } from "redux";
+import previewItemsReducer from "./formBuilderReducer";
 
 export default combineReducers({
-  formBuilder: previewItemsReducer
+  formBuilder: previewItemsReducer,
+  form: formReducer
 });

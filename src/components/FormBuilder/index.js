@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import HTML5Backend from 'react-dnd-html5-backend';
 import { DragDropContext } from 'react-dnd';
 import { compose } from "redux";
@@ -6,28 +7,44 @@ import { connect } from 'react-redux';
 import FormEditor from './FormEditor';
 import Toolbar from './Toolbar';
 import Preview from './Preview';
+import defaultItems from "./Toolbar/defaultItems";
 
-class FormBuilder extends Component {
-  render() {
-    return (
-      <React.Fragment>
-        {
-          this.props.editorVisible &&
-          <FormEditor /> 
-        }
-        <div className="container">
-          <div className="row mt-3">
-            <div className="col-md-8">
-              <Preview />
-            </div>
-            <div className="col-md-4">
-              <Toolbar />
-            </div>
+const Builder = ({
+  editorVisible,
+  onSubmit,
+  items
+}) => {
+  return (
+    <React.Fragment>
+      {
+        editorVisible &&
+        <FormEditor />
+      }
+      <div className="container">
+        <div className="row mt-3">
+          <div className="col-md-8">
+            <Preview 
+              onSubmit={onSubmit} 
+            />
+          </div>
+          <div className="col-md-4">
+            <Toolbar 
+              items={items} 
+            />
           </div>
         </div>
-      </React.Fragment>
-    )
-  }
+      </div>
+    </React.Fragment>
+  )
+}
+
+Builder.propTypes = {
+	onSubmit: PropTypes.func.isRequired,
+	items: PropTypes.array
+};
+
+Builder.defaultProps = {
+	items: defaultItems()
 }
 
 export default compose(
@@ -38,4 +55,4 @@ export default compose(
     null
   ),
   DragDropContext(HTML5Backend)
-)(FormBuilder);
+)(Builder);
