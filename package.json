@@ -1,6 +1,6 @@
 {
   "name": "cb-react-forms",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "description": "A complete form builder for react.",
   "main": "dist/index.js",
   "scripts": {
@@ -44,7 +44,7 @@
     "react-dom": "16.8.x"
   },
   "repository": {
-    "url": "https://github.com/NarasimhaReddyY/cb-react-forms"
+    "url": "https://github.com/Codebrahma/cb-react-forms"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
