@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import { compose } from "redux";
 import Select from "react-select";
-import { map } from "lodash";
+import map from "lodash/map";
 import makeAnimated from "react-select/animated";
 import StarRatings from "react-star-ratings";
 import Slider from "react-rangeslider";
@@ -281,7 +281,7 @@ class ValidatedFormInputs extends Component {
       formInput.required ? [isRequired, validateUrl] : [validateUrl];
 
     return (
-      <form onSubmit={handleSubmit(values => onSubmit(values))}>
+      <form onSubmit={handleSubmit(values => onSubmit(JSON.stringify(values)))}>
         {map(formData, formInput => {
           const { id, element, value, options, required } = formInput;
 

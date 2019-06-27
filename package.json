@@ -2,11 +2,11 @@
   "name": "cb-react-forms",
   "version": "0.1.0",
   "description": "A complete form builder for react.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js --mode development --open --hot",
-		"build": "cross-env NODE_ENV=production webpack -p --config webpack.prod.js",
-		"publish": "npm run build && npm publish",
+    "build": "cross-env NODE_ENV=production webpack -p --config webpack.prod.js",
+    "publish": "npm run build && npm publish",
     "lint": "eslint ./ --fix && echo \"No eslint errors!\"",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
@@ -22,18 +22,14 @@
     "drop"
   ],
   "dependencies": {
-    "bootstrap": "^4.3.1",
     "draft-js": "^0.10.5",
     "draftjs-to-html": "^0.8.4",
-    "font-awesome": "^4.7.0",
     "html-to-draftjs": "^1.4.0",
     "immutability-helper": "^3.0.0",
     "lodash": "^4.17.11",
     "lodash.flow": "^3.5.0",
-    "react": "^16.8.6",
     "react-dnd": "^7.4.5",
     "react-dnd-html5-backend": "^7.4.4",
-    "react-dom": "^16.8.6",
     "react-draft-wysiwyg": "^1.13.2",
     "react-rangeslider": "^2.2.0",
     "react-redux": "^7.0.3",
@@ -42,6 +38,10 @@
     "redux": "^4.0.1",
     "redux-form": "^8.2.3",
     "uuid": "^3.3.2"
+  },
+  "peerDependencies": {
+    "react": "16.8.x",
+    "react-dom": "16.8.x"
   },
   "repository": {
     "url": "https://github.com/NarasimhaReddyY/cb-react-forms"
@@ -73,6 +73,7 @@
     "uglifyjs-webpack-plugin": "^2.1.1",
     "url-loader": "^1.1.1",
     "webpack": "^4.28.4",
+    "webpack-bundle-analyzer": "^3.3.2",
     "webpack-cli": "^3.1.0",
     "webpack-dev-server": "^3.1.7",
     "webpack-merge": "^4.2.1"
