@@ -20,13 +20,10 @@ const statsConfig = {
 }
 
 module.exports = {
-  entry: {
-		builder: path.join(__dirname, './builder.js'),
-		generator: path.join(__dirname, './generator.js')
-	},
-  output: {
+	entry: path.join(__dirname, './index.js'),
+	output: {
     path: path.join(__dirname, 'dist'),
-		filename: '[name].index.js',
+		filename: 'index.js',
 		libraryTarget: 'commonjs2',
 	},
   module: {

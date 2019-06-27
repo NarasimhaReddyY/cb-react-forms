@@ -2,7 +2,7 @@
   "name": "cb-react-forms",
   "version": "0.1.0",
   "description": "A complete form builder for react.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "start": "webpack-dev-server --config webpack.dev.js --mode development --open --hot",
     "build": "cross-env NODE_ENV=production webpack -p --config webpack.prod.js",
@@ -39,12 +39,12 @@
     "redux-form": "^8.2.3",
     "uuid": "^3.3.2"
   },
+  "peerDependencies": {
+    "react": "16.8.x",
+    "react-dom": "16.8.x"
+  },
   "repository": {
     "url": "https://github.com/NarasimhaReddyY/cb-react-forms"
-  },
-  "peerDependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
