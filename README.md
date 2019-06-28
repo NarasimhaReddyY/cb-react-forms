@@ -1,4 +1,8 @@
-# React Form Builder
+# CB React Forms [![npm version](https://badge.fury.io/js/cb-react-forms.svg)](https://badge.fury.io/js/cb-react-forms) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![minified size](https://img.shields.io/bundlephobia/min/cb-react-forms.svg)](https://www.npmjs.com/package/cb-react-forms)
+
+## React Form Builder
+
+### Form Builder [DEMO](https://cb-react-forms.netlify.com/)
 
 A complete react form builder that interfaces with json data to load and save generated forms.
 
