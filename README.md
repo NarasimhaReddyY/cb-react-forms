@@ -1,4 +1,4 @@
-# CB React Forms [![npm version](https://badge.fury.io/js/cb-react-forms.svg)](https://badge.fury.io/js/cb-react-forms) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![minified size](https://img.shields.io/bundlephobia/min/cb-react-forms.svg)](https://www.npmjs.com/package/cb-react-forms)
+# CB React Forms [![npm version](https://badge.fury.io/js/cb-react-forms.svg)](https://badge.fury.io/js/cb-react-forms) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## React Form Builder
 
@@ -180,10 +180,10 @@ const items = [
 In order to make the Form Builder secure and pretty, there are a few dependencies other than React.
 - redux-form
 - draft-js
+- react-draft-wysiwyg
 - react-dnd
 - react-star-ratings
 - react-select
-- react-range-slider
 
 # Develop
 ```bash
