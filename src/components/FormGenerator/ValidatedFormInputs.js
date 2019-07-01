@@ -247,7 +247,7 @@ class ValidatedFormInputs extends Component {
         <Slider
           min={formInput.min}
           max={formInput.max}
-          step={1}
+          step={formInput.step}
           disabled={readOnly}
           value={defaultValue || value || 0}
           onChange={val => onChange(val)}
@@ -331,6 +331,26 @@ class ValidatedFormInputs extends Component {
                       required,
                       readOnly,
                       type: "text",
+                      label: labelText
+                    }}
+                  />
+                </div>
+							)}
+							
+							{/* -------------- EMAIL TAG -------------- */}
+							{element === "Email" && (
+                <div className="form-group">
+                  {this.formInputLabel(label, required)}
+                  <Field
+                    name={id}
+                    component={this.renderInputField}
+                    validate={required ? [isRequired] : null}
+                    props={{
+                      id,
+                      defaultValue: responseData && responseData[id],
+                      required,
+                      readOnly,
+                      type: "email",
                       label: labelText
                     }}
                   />

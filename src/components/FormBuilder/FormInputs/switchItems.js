@@ -2,7 +2,8 @@ import React from "react";
 import {
   Tags,
   Label,
-  Range,
+	Range,
+	Email,
   Header,
   Rating,
   TextArea,
@@ -13,7 +14,7 @@ import {
   LineBreak,
   Checkboxes,
   NumberInput,
-  RadioButtons
+  RadioButtons,
 } from "./index";
 
 export default item => {
@@ -45,6 +46,8 @@ export default item => {
     case "TextArea":
       return <TextArea item={item} />;
     case "TextInput":
-      return <TextInput item={item} />;
+			return <TextInput item={item} />;
+		case "Email":
+			return <Email item={item} />; 
   }
 };

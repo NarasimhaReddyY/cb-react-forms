@@ -1,6 +1,7 @@
 import Tags from "./Tags";
 import Label from "./Label";
 import Range from "./Range";
+import Email from "./Email";
 import Header from "./Header";
 import Rating from "./Rating";
 import TextArea from "./TextArea";
@@ -16,7 +17,8 @@ import RadioButtons from "./RadioButtons";
 export {
   Tags,
   Label,
-  Range,
+	Range,
+	Email,
   Header,
   Rating,
   TextArea,
