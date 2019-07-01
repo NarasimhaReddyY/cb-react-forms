@@ -15,7 +15,7 @@ class Range extends Component {
   };
 
   render() {
-    const { label, required, min, max } = this.props.item;
+    const { label, required, min, max, step } = this.props.item;
     const { value } = this.state;
 
     return (
@@ -24,7 +24,7 @@ class Range extends Component {
         <Slider
           min={min}
           max={max}
-          step={1}
+          step={step}
           value={value}
           labels={{
             [min]: "Low",

@@ -166,7 +166,8 @@ class FormEditor extends Component {
         numberOfStars,
         label,
         min,
-        max,
+				max,
+				step,
         value
       }
     } = this.state;
@@ -455,6 +456,21 @@ class FormEditor extends Component {
                     this.handleOptions(name, parseFloat(value))
                   }
                   min={0}
+                />
+              </div>
+							<div className="input-group mb-3">
+                <div className="input-group-prepend">
+                  <span className="input-group-text">Step</span>
+                </div>
+                <input
+                  className="form-control"
+                  type="number"
+                  name="step"
+                  value={step}
+                  onChange={({ target: { name, value } }) =>
+                    this.handleOptions(name, parseFloat(value))
+                  }
+                  min={1}
                 />
               </div>
             </div>

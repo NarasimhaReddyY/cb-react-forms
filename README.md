@@ -1,4 +1,8 @@
-# React Form Builder
+# CB React Forms [![npm version](https://badge.fury.io/js/cb-react-forms.svg)](https://badge.fury.io/js/cb-react-forms) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+
+## React Form Builder
+
+### Form Builder [DEMO](https://cb-react-forms.netlify.com/)
 
 A complete react form builder that interfaces with json data to load and save generated forms.
 
@@ -176,10 +180,10 @@ const items = [
 In order to make the Form Builder secure and pretty, there are a few dependencies other than React.
 - redux-form
 - draft-js
+- react-draft-wysiwyg
 - react-dnd
 - react-star-ratings
 - react-select
-- react-range-slider
 
 # Develop
 ```bash
