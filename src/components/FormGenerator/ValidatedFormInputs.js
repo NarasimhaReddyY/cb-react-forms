@@ -6,6 +6,7 @@ import map from "lodash/map";
 import makeAnimated from "react-select/animated";
 import StarRatings from "react-star-ratings";
 import Slider from "react-rangeslider";
+import DatePicker from 'react-date-picker';
 import convertDraftjsToHtml from "../FormBuilder/FormInputs/convertDraftjsToHtml";
 import { 
   isRequired, 
@@ -262,7 +263,26 @@ class ValidatedFormInputs extends Component {
         {this.showError(touched, error, warning)}
       </React.Fragment>
     );
-  };
+	};
+	
+	renderDate = ({
+		input: { value, onChange },
+		formInput,
+		readOnly,
+		defaultValue,
+		meta: { touched, error, warning }
+	}) => (
+		<React.Fragment>
+			<DatePicker 
+				value={defaultValue || value}
+				onChange={onChange}
+				disabled={readOnly}
+				maxDate={formInput.maxDate && new Date(formInput.maxDate)}
+				minDate={formInput.minDate && new Date(formInput.minDate)}
+			/>
+			{this.showError(touched, error, warning)}
+		</React.Fragment>
+	)
 
   render() {
     // Animation for Tag Component
@@ -529,7 +549,27 @@ class ValidatedFormInputs extends Component {
                     }}
                   />
                 </React.Fragment>
-              )}
+							)}
+							
+							{/* -------------- DATE PICKER -------------- */}
+              {element === "Date" && (
+                <React.Fragment>
+                  {this.formInputLabel(label, required)}
+                  <Field
+                    name={id}
+                    component={this.renderDate}
+                    validate={required ? [isRequired] : null}
+                    props={{
+                      id,
+                      defaultValue: responseData && responseData[id],
+                      readOnly,
+                      formInput
+                    }}
+                  />
+                </React.Fragment>
+							)}
+
+
             </div>
           );
         })}

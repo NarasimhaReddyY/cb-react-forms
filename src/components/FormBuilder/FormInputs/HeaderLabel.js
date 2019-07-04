@@ -10,8 +10,7 @@ class HeaderLabel extends Component {
       <div>
         {required ? (
           <span className="ml-1 badge badge-danger float-right">
-                Required
-              
+            Required  
           </span>
             ) : null}
         <p dangerouslySetInnerHTML={{ __html: text }} />

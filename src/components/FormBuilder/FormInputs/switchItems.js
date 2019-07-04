@@ -1,6 +1,7 @@
 import React from "react";
 import {
-  Tags,
+	Tags,
+	DatePick,
   Label,
 	Range,
 	Email,
@@ -48,6 +49,8 @@ export default item => {
     case "TextInput":
 			return <TextInput item={item} />;
 		case "Email":
-			return <Email item={item} />; 
+			return <Email item={item} />;
+		case "Date":
+			return <DatePick item={item} />; 
   }
 };

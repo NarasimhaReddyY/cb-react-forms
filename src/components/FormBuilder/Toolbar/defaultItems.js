@@ -73,5 +73,10 @@ export default () => [
 		key: "Email",
     name: "Email",
     icon: "fa fa-at"
+	},
+	{
+		key: "Date",
+    name: "Date",
+    icon: "fa fa-calendar"
 	}
 ];

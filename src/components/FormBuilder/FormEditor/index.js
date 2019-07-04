@@ -8,6 +8,7 @@ import {
   hideEditor,
   submitEditorState
 } from "../../../actions/formBuilderActions";
+import DatePicker from 'react-date-picker';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 // toolbar options for the WYSIWYG Editor
@@ -144,7 +145,7 @@ class FormEditor extends Component {
         [name]: value
       }
     });
-  };
+	};
 
   // convert draftjs editorState to JS object before saving it in redux store
   handleSubmit = label => {
@@ -168,6 +169,8 @@ class FormEditor extends Component {
         min,
 				max,
 				step,
+				maxDate,
+				minDate,
         value
       }
     } = this.state;
@@ -474,6 +477,26 @@ class FormEditor extends Component {
                 />
               </div>
             </div>
+					)}
+					
+					{/* ------------- DATE PICKER ------------- */}
+          {element === "Date" && (
+						<div className="mt-5" style={{ display: 'flex'}}>
+							<div>
+								<h5>Max Date:</h5>
+								<DatePicker 
+									value={maxDate || new Date()}
+									onChange={value => this.handleOptions('maxDate', value)}
+								/>
+							</div>
+							<div className="ml-5">
+								<h5>Min Date:</h5>
+								<DatePicker 
+									value={minDate || new Date()}
+									onChange={value => this.handleOptions('minDate', value)}
+								/>
+							</div>
+						</div>
           )}
 
           {/* ------------- SUBMIT AND CANCEL BUTTONS ------------- */}

@@ -1,4 +1,5 @@
 import Tags from "./Tags";
+import DatePick from "./DatePick";
 import Label from "./Label";
 import Range from "./Range";
 import Email from "./Email";
@@ -15,7 +16,8 @@ import NumberInput from "./NumberInput";
 import RadioButtons from "./RadioButtons";
 
 export {
-  Tags,
+	Tags,
+	DatePick,
   Label,
 	Range,
 	Email,

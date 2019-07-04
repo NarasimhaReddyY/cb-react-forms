@@ -136,6 +136,14 @@ export default (item) => {
         label: convertHtmlToRawJs(html),
         value: ''
 			};
+		case 'Date':
+			return {
+				required: false,
+				label: convertHtmlToRawJs(html),
+				value: new Date(),
+				maxDate: null,
+				minDate: null
+			}
     default:
       return;
   }
