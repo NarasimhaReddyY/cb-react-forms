@@ -1,24 +1,25 @@
 import React from "react";
 import {
 	Tags,
-	DatePick,
   Label,
 	Range,
 	Email,
   Header,
   Rating,
   TextArea,
+	DatePick,
   Dropdown,
   TextInput,
   Paragraph,
   Hyperlink,
+	Signature,
   LineBreak,
   Checkboxes,
   NumberInput,
   RadioButtons,
 } from "./index";
 
-export default item => {
+export default (item) => {
   switch (item.element) {
     case "Checkboxes":
       return <Checkboxes item={item} />;
@@ -51,6 +52,8 @@ export default item => {
 		case "Email":
 			return <Email item={item} />;
 		case "Date":
-			return <DatePick item={item} />; 
+			return <DatePick item={item} />;
+		case "Signature":
+			return <Signature item={item} />;
   }
 };

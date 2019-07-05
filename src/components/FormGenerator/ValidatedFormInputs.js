@@ -7,6 +7,7 @@ import makeAnimated from "react-select/animated";
 import StarRatings from "react-star-ratings";
 import Slider from "react-rangeslider";
 import DatePicker from 'react-date-picker';
+import CanvasDraw from 'react-canvas-draw';
 import convertDraftjsToHtml from "../FormBuilder/FormInputs/convertDraftjsToHtml";
 import { 
   isRequired, 
@@ -14,8 +15,7 @@ import {
   isNumber,
   validateRatingsAndRange
 } from "./formValidations";
-
-import { Header, Paragraph, Label } from "../FormBuilder/FormInputs";
+import { Header, Paragraph, Label, Signature } from "../FormBuilder/FormInputs";
 
 class ValidatedFormInputs extends Component {
   showError = (touched, error, warning) =>
@@ -263,26 +263,26 @@ class ValidatedFormInputs extends Component {
         {this.showError(touched, error, warning)}
       </React.Fragment>
     );
-	};
-	
-	renderDate = ({
-		input: { value, onChange },
-		formInput,
-		readOnly,
-		defaultValue,
-		meta: { touched, error, warning }
-	}) => (
-		<React.Fragment>
-			<DatePicker 
-				value={defaultValue || value}
-				onChange={onChange}
-				disabled={readOnly}
-				maxDate={formInput.maxDate && new Date(formInput.maxDate)}
-				minDate={formInput.minDate && new Date(formInput.minDate)}
-			/>
-			{this.showError(touched, error, warning)}
-		</React.Fragment>
-	)
+  };
+  
+  renderDate = ({
+    input: { value, onChange },
+    formInput,
+    readOnly,
+    defaultValue,
+    meta: { touched, error, warning }
+  }) => (
+    <React.Fragment>
+      <DatePicker 
+        value={defaultValue || value}
+        onChange={onChange}
+        disabled={readOnly}
+        maxDate={new Date(formInput.maxDate)}
+        minDate={new Date(formInput.minDate)}
+      />
+      {this.showError(touched, error, warning)}
+    </React.Fragment>
+  )
 
   render() {
     // Animation for Tag Component
@@ -355,10 +355,10 @@ class ValidatedFormInputs extends Component {
                     }}
                   />
                 </div>
-							)}
-							
-							{/* -------------- EMAIL TAG -------------- */}
-							{element === "Email" && (
+              )}
+              
+              {/* -------------- EMAIL TAG -------------- */}
+              {element === "Email" && (
                 <div className="form-group">
                   {this.formInputLabel(label, required)}
                   <Field
@@ -549,9 +549,9 @@ class ValidatedFormInputs extends Component {
                     }}
                   />
                 </React.Fragment>
-							)}
-							
-							{/* -------------- DATE PICKER -------------- */}
+              )}
+
+              {/* -------------- DATE PICKER -------------- */}
               {element === "Date" && (
                 <React.Fragment>
                   {this.formInputLabel(label, required)}
@@ -567,12 +567,32 @@ class ValidatedFormInputs extends Component {
                     }}
                   />
                 </React.Fragment>
-							)}
+              )}
 
+              {/* -------------- SIGNATURE -------------- */}
+              {element === "Signature" && (
+                <React.Fragment>
+                  {this.formInputLabel(label, required)}
+                  <Field
+                    name={id}
+                    component={Signature}
+                    validate={required ? [isRequired] : null}
+                    props={{
+                      id,
+                      defaultValue: responseData && responseData[id],
+                      readOnly,
+                      formInput,
+                      generator: true,
+                      showError: this.showError
+                    }}
+                  />
+                </React.Fragment>
+              )}
 
             </div>
           );
         })}
+        
         {!readOnly && (
           <div style={{ height: "50px" }} className="mt-5">
             <button

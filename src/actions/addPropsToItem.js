@@ -144,6 +144,14 @@ export default (item) => {
 				maxDate: null,
 				minDate: null
 			}
+		case 'Signature':
+			return {
+				required: false,
+				label: convertHtmlToRawJs(html),
+				value: '',
+				height: 300,
+				width: 300
+			}
     default:
       return;
   }
