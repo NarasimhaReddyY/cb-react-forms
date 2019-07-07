@@ -13,6 +13,7 @@ import Signature from "./Signature";
 import Hyperlink from "./Hyperlink";
 import LineBreak from "./LineBreak";
 import Checkboxes from "./Checkboxes";
+import HeaderLabel from "./HeaderLabel";
 import NumberInput from "./NumberInput";
 import RadioButtons from "./RadioButtons";
 
@@ -29,9 +30,10 @@ export {
   TextInput,
 	Paragraph,
 	Signature,
-  Hyperlink,
+	Hyperlink,
   LineBreak,
   Checkboxes,
   NumberInput,
+	HeaderLabel,
   RadioButtons
 };

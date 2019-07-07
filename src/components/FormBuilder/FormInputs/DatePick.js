@@ -3,26 +3,51 @@ import HeaderLabel from './HeaderLabel';
 import DatePicker from 'react-date-picker';
 
 class DatePick extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      date: new Date()
-    }
-	}	
-
   render() {
-    const { label, required } = this.props.item;
+		const  {
+			meta,
+			item,
+			input,
+			readOnly,
+			formInput,
+			generator,
+			showError,
+			defaultValue,
+		} = this.props;
 
     return (
       <div>
-        <HeaderLabel label={label} required={required} />
-        <DatePicker 
-          onChange={(date) => this.setState({ date })}
-          value={this.state.date}
-        />
+				{
+					!generator &&
+					<React.Fragment>
+						<HeaderLabel label={item.label} required={item.required} />
+						<DatePicker 
+							value={new Date()}
+						/>
+					</React.Fragment>
+				}
+				{
+					generator &&
+					<React.Fragment>
+						<DatePicker 
+							value={defaultValue || input.value}
+							onChange={val => input.onChange(val)}
+							disabled={readOnly}
+							maxDate={new Date(formInput.maxDate)}
+							minDate={new Date(formInput.minDate)}
+						/>
+						<div>
+							{showError(meta.touched, meta.error, meta.warning)}
+						</div>
+					</React.Fragment>
+				}
       </div>
     )
   }
+}
+
+DatePick.defaultProps = {
+	generator: false
 }
 
 export default DatePick;

@@ -1,13 +1,7 @@
 import React, { Component } from "react";
 import { Field, reduxForm } from "redux-form";
 import { compose } from "redux";
-import Select from "react-select";
 import map from "lodash/map";
-import makeAnimated from "react-select/animated";
-import StarRatings from "react-star-ratings";
-import Slider from "react-rangeslider";
-import DatePicker from 'react-date-picker';
-import CanvasDraw from 'react-canvas-draw';
 import convertDraftjsToHtml from "../FormBuilder/FormInputs/convertDraftjsToHtml";
 import { 
   isRequired, 
@@ -15,9 +9,28 @@ import {
   isNumber,
   validateRatingsAndRange
 } from "./formValidations";
-import { Header, Paragraph, Label, Signature } from "../FormBuilder/FormInputs";
+import { 
+	Tags,
+	Range,	
+	Email, 
+	Label, 
+	Header,
+	Rating,
+	TextArea, 
+	Dropdown, 
+	DatePick,
+	Paragraph, 
+	Signature, 
+	Hyperlink,
+	TextInput, 
+	Checkboxes, 
+	HeaderLabel,
+	NumberInput,
+	RadioButtons, 
+} from "../FormBuilder/FormInputs";
 
 class ValidatedFormInputs extends Component {
+	
   showError = (touched, error, warning) =>
     touched &&
     ((error && <span className="text-danger m-3">{error}</span>) ||
@@ -37,257 +50,7 @@ class ValidatedFormInputs extends Component {
     </React.Fragment>
   );
 
-  renderInputField = ({
-    type,
-    input,
-    readOnly,
-    required,
-    defaultValue,
-    input: { value, onChange },
-    meta: { touched, error, warning }
-  }) => (
-    <React.Fragment>
-      {type === "textarea" ? (
-        <textarea
-          {...input}
-          style={{
-            borderColor:
-              touched && required && error ? "red !important" : ""
-          }}
-          type={type}
-          disabled={readOnly}
-          value={defaultValue || value}
-          className="form-control"
-          onChange={e => onChange(e.target.value)}
-        />
-      ) : (
-        <input
-          {...input}
-          style={{
-            borderColor: touched && required && error ? "red" : ""
-          }}
-          type={type}
-          value={defaultValue || value}
-          disabled={readOnly}
-          className="form-control"
-          onChange={e => onChange(e.target.value)}
-        />
-      )}
-      {this.showError(touched, error, warning)}
-    </React.Fragment>
-  );
-
-  renderDropdown = ({
-    input,
-    input: { value, onChange },
-    options,
-    defaultValue,
-    readOnly,
-    meta: { touched, error, warning }
-  }) => (
-    <div className="form-group">
-      <select
-        {...input}
-        value={defaultValue || value}
-        disabled={readOnly}
-        className="form-control"
-        onChange={e => onChange(e.target.value)}
-      >
-        <option value={null} />
-        {options.map(option => (
-          <option key={option.id} value={option.id}>
-            {option.value}
-          </option>
-        ))}
-      </select>
-      {this.showError(touched, error, warning)}
-    </div>
-  );
-
-  renderCheckboxes = ({
-    input: { onChange, value },
-    options,
-    readOnly,
-    defaultValue,
-    meta: { touched, error, warning }
-  }) => (
-    <React.Fragment>
-      {map(options, option => (
-        <div className="d-block" key={option.id}>
-          <label className="form-label ml-2" htmlFor={option.id}>
-            <input
-              id={option.id}
-              name={option.id}
-              value={option.value}
-              type="checkbox"
-              disabled={readOnly}
-              checked={
-                defaultValue.some(id => id === option.id) ||
-                (Array.isArray(value) &&
-                  value.some(id => id === option.id))
-              }
-              className="mr-2"
-              onChange={e => {
-                let newValue = [...value];
-                if (e.target.checked) {
-                  newValue = [...newValue, option.id];
-                } else {
-                  newValue = newValue.filter(id => id !== option.id);
-                }
-                return onChange(newValue);
-              }}
-            />
-            {option.value}
-          </label>
-        </div>
-      ))}
-      {this.showError(touched, error, warning)}
-    </React.Fragment>
-  );
-
-  renderTags = ({
-    input: { value, onChange },
-    options,
-    readOnly,
-    defaultValue,
-    animatedComponents,
-    meta: { touched, error, warning }
-  }) => (
-    <React.Fragment>
-      <div className="form-group">
-        <Select
-          value={defaultValue || value}
-          options={options}
-          components={animatedComponents}
-          isMulti
-          isDisabled={readOnly}
-          onChange={(val, { action, removedValue }) => {
-            let newValue = [...value];
-            if (action === "select-option") {
-              newValue = [...val];
-            } else if (action === "remove-value") {
-              newValue.splice(newValue.indexOf(removedValue), 1);
-            } else if (action === "clear") {
-              newValue = [];
-            }
-
-            return onChange(newValue);
-          }}
-        />
-        {this.showError(touched, error, warning)}
-      </div>
-    </React.Fragment>
-  );
-
-  renderRadioButtons = ({
-    id,
-    input,
-    options,
-    readOnly,
-    defaultValue,
-    input: { value, onChange },
-    meta: { touched, error, warning }
-  }) => (
-    <React.Fragment>
-      {map(options, option => (
-        <div className="d-block" key={option.id}>
-          <input
-            {...input}
-            id={option.id}
-            type="radio"
-            name={id}
-            disabled={readOnly}
-            checked={
-              defaultValue === option.id || value === option.id
-            }
-            className="mr-2"
-            onChange={() => onChange(option.id)}
-          />
-          <label className="form-label ml-2" htmlFor={option.id}>
-            {option.label}
-          </label>
-        </div>
-      ))}
-      {this.showError(touched, error, warning)}
-    </React.Fragment>
-  );
-
-  renderRating = ({
-    readOnly,
-    defaultValue,
-    numberOfStars,
-    input: { value, onChange },
-    meta: { touched, error, warning }
-  }) => {
-    return (
-      <React.Fragment>
-        <StarRatings
-          numberOfStars={numberOfStars}
-          name="rating"
-          starHoverColor="chocolate"
-          starRatedColor="orange"
-          isAggregateRating={true}
-          isSelectable={!readOnly}
-          rating={defaultValue || value || 0}
-          changeRating={val => onChange(val)}
-        />
-        <div>{this.showError(touched, error, warning)}</div>
-      </React.Fragment>
-    );
-  };
-
-  renderRange = ({
-    input: { value, onChange },
-    formInput,
-    readOnly,
-    defaultValue,
-    meta: { touched, error, warning }
-  }) => {
-    return (
-      <React.Fragment>
-        <Slider
-          min={formInput.min}
-          max={formInput.max}
-          step={formInput.step}
-          disabled={readOnly}
-          value={defaultValue || value || 0}
-          onChange={val => onChange(val)}
-          labels={{
-            [formInput.min]: "Low",
-            [formInput.max]: "High"
-          }}
-        />
-        <div className="text-center">
-          {defaultValue || value || 0}
-        </div>
-        {this.showError(touched, error, warning)}
-      </React.Fragment>
-    );
-  };
-  
-  renderDate = ({
-    input: { value, onChange },
-    formInput,
-    readOnly,
-    defaultValue,
-    meta: { touched, error, warning }
-  }) => (
-    <React.Fragment>
-      <DatePicker 
-        value={defaultValue || value}
-        onChange={onChange}
-        disabled={readOnly}
-        maxDate={new Date(formInput.maxDate)}
-        minDate={new Date(formInput.minDate)}
-      />
-      {this.showError(touched, error, warning)}
-    </React.Fragment>
-  )
-
   render() {
-    // Animation for Tag Component
-    const animatedComponents = makeAnimated();
-
     const {
       formData,
       onSubmit,
@@ -339,39 +102,51 @@ class ValidatedFormInputs extends Component {
 
               {/* -------------- INPUT TAG -------------- */}
               {element === "TextInput" && (
-                <div className="form-group">
-                  {this.formInputLabel(label, required)}
+								<div className="form-group">
+									<HeaderLabel 
+										label={formInput.label} 
+										required={required} 
+										readOnly={readOnly} 
+									/>
                   <Field
                     name={id}
-                    component={this.renderInputField}
+                    component={TextInput}
                     validate={required ? [isRequired] : null}
                     props={{
-                      id,
-                      defaultValue: responseData && responseData[id],
+											id,
                       required,
                       readOnly,
-                      type: "text",
-                      label: labelText
+											generator: true,
+											label: labelText,
+											showError: this.showError,
+                      defaultValue: responseData && responseData[id],
                     }}
                   />
                 </div>
-              )}
-              
-              {/* -------------- EMAIL TAG -------------- */}
-              {element === "Email" && (
+							)}
+							
+							{/* -------------- EMAIL TAG -------------- */}
+							{element === "Email" && (
                 <div className="form-group">
-                  {this.formInputLabel(label, required)}
+                  <HeaderLabel 
+										label={formInput.label} 
+										required={required} 
+										readOnly={readOnly} 
+									/>
                   <Field
                     name={id}
-                    component={this.renderInputField}
+                    component={Email}
                     validate={required ? [isRequired] : null}
                     props={{
                       id,
-                      defaultValue: responseData && responseData[id],
                       required,
                       readOnly,
                       type: "email",
-                      label: labelText
+											generator: true,
+											label: labelText,
+											required: required,
+											showError: this.showError,
+                      defaultValue: responseData && responseData[id],
                     }}
                   />
                 </div>
@@ -380,17 +155,23 @@ class ValidatedFormInputs extends Component {
               {/* -------------- TEXTAREA -------------- */}
               {element === "TextArea" && (
                 <div className="form-group">
-                  {this.formInputLabel(label, required)}
+                  <HeaderLabel 
+										label={formInput.label} 
+										required={required} 
+										readOnly={readOnly} 
+									/>
                   <Field
                     name={id}
-                    component={this.renderInputField}
+                    component={TextArea}
                     validate={required ? [isRequired] : null}
                     props={{
                       id,
-                      defaultValue: responseData && responseData[id],
-                      type: "textarea",
                       readOnly,
-                      isRequired: required
+											generator: true,
+                      type: "textarea",
+											isRequired: required,
+											showError: this.showError,
+                      defaultValue: responseData && responseData[id],
                     }}
                   />
                 </div>
@@ -399,19 +180,25 @@ class ValidatedFormInputs extends Component {
               {/* -------------- NUMBER INPUT TAG -------------- */}
               {element === "NumberInput" && (
                 <div className="form-group">
-                  {this.formInputLabel(label, required)}
+                  <HeaderLabel 
+										label={formInput.label} 
+										required={required} 
+										readOnly={readOnly} 
+									/>
                   <Field
                     name={id}
-                    component={this.renderInputField}
+                    component={NumberInput}
                     validate={
                       required ? [isRequired, isNumber] : [isNumber]
                     }
                     props={{
                       id,
-                      defaultValue: responseData && responseData[id],
-                      type: "number",
                       readOnly,
-                      isRequired: required
+                      type: "number",
+											generator:true,
+											isRequired: required,
+											showError: this.showError,
+                      defaultValue: responseData && responseData[id],
                     }}
                   />
                 </div>
@@ -420,16 +207,22 @@ class ValidatedFormInputs extends Component {
               {/* -------------- DROPDOWN -------------- */}
               {element === "Dropdown" && (
                 <React.Fragment>
-                  {this.formInputLabel(label, required)}
+                  <HeaderLabel 
+										label={formInput.label} 
+										required={required} 
+										readOnly={readOnly} 
+									/>
                   <Field
                     name={id}
-                    component={this.renderDropdown}
+                    component={Dropdown}
                     validate={required ? [isRequired] : null}
                     props={{
-                      options,
                       id,
+                      options,
                       readOnly,
-                      defaultValue: responseData && responseData[id]
+											generator: true,
+											showError: this.showError,
+											defaultValue: responseData && responseData[id],
                     }}
                   />
                 </React.Fragment>
@@ -437,40 +230,47 @@ class ValidatedFormInputs extends Component {
 
               {/* -------------- CHECKBOXES -------------- */}
               {element === "Checkboxes" && (
-                <React.Fragment>
-                  {this.formInputLabel(label, required)}
-                  <div className="from-group">
-                    {
-                      <Field
-                        name={id}
-                        component={this.renderCheckboxes}
-                        validate={required ? [isRequired] : null}
-                        props={{
-                          options,
-                          readOnly,
-                          defaultValue:
-                            (responseData && responseData[id]) || []
-                        }}
-                      />
-                    }
-                  </div>
-                </React.Fragment>
+								<React.Fragment>
+                  <HeaderLabel 
+										label={formInput.label} 
+										required={required} 
+										readOnly={readOnly} 
+									/>
+									<Field
+										name={id}
+										component={Checkboxes}
+										validate={required ? [isRequired] : null}
+										props={{
+											options,
+											readOnly,
+											generator: true,
+											showError: this.showError,
+											defaultValue:
+												(responseData && responseData[id]) || []
+										}}
+									/>
+								</React.Fragment>
               )}
 
               {/* -------------- TAGS -------------- */}
               {element === "Tags" && (
                 <React.Fragment>
-                  {this.formInputLabel(label, required)}
+                  <HeaderLabel 
+										label={formInput.label} 
+										required={required} 
+										readOnly={readOnly} 
+									/>
                   <Field
                     name={id}
-                    component={this.renderTags}
+                    component={Tags}
                     validate={required ? [isRequired] : null}
                     props={{
                       id,
                       options,
+											readOnly,
+											generator: true,
+											showError: this.showError,
                       defaultValue: responseData && responseData[id],
-                      readOnly,
-                      animatedComponents
                     }}
                   />
                 </React.Fragment>
@@ -479,37 +279,46 @@ class ValidatedFormInputs extends Component {
               {/* -------------- RADIO BUTTONS -------------- */}
               {element === "RadioButtons" && (
                 <React.Fragment>
-                  {this.formInputLabel(label, required)}
-                  <div className="form-group">
-                    <Field
-                      name={id}
-                      component={this.renderRadioButtons}
-                      validate={required ? [isRequired] : null}
-                      props={{
-                        id,
-                        options,
-                        defaultValue:
-                          responseData && responseData[id],
-                        readOnly
-                      }}
-                    />
-                  </div>
+                  <HeaderLabel 
+										label={formInput.label} 
+										required={required} 
+										readOnly={readOnly} 
+									/>
+									<Field
+										name={id}
+										component={RadioButtons}
+										validate={required ? [isRequired] : null}
+										props={{
+											id,
+											options,
+											readOnly,
+											generator: true,
+											showError: this.showError,
+											defaultValue: responseData && responseData[id],
+										}}
+									/>
                 </React.Fragment>
               )}
 
               {/* -------------- STAR RATING -------------- */}
               {element === "Rating" && (
                 <React.Fragment>
-                  {this.formInputLabel(label, required)}
+                  <HeaderLabel 
+										label={formInput.label} 
+										required={required} 
+										readOnly={readOnly} 
+									/>
                   <Field
                     name={id}
-                    component={this.renderRating}
+                    component={Rating}
                     validate={required ? [validateRatingsAndRange] : null}
                     props={{
                       id,
                       readOnly,
+											generator: true,
+											showError: this.showError,
+											numberOfStars: formInput.numberOfStars,
                       defaultValue: responseData && responseData[id],
-                      numberOfStars: formInput.numberOfStars
                     }}
                   />
                 </React.Fragment>
@@ -518,16 +327,22 @@ class ValidatedFormInputs extends Component {
               {/* -------------- HYPERLINK -------------- */}
               {element === "HyperLink" && (
                 <React.Fragment>
-                  {this.formInputLabel(label, required)}
+                  <HeaderLabel 
+										label={formInput.label} 
+										required={required} 
+										readOnly={readOnly} 
+									/>
                   <Field
                     name={id}
-                    component={this.renderInputField}
+                    component={Hyperlink}
                     validate={urlValidator(formInput)}
                     props={{
                       id,
+											value,
                       readOnly,
+											generator:true,
+											showError: this.showError,
                       defaultValue: responseData && responseData[id],
-                      value
                     }}
                   />
                 </React.Fragment>
@@ -536,63 +351,78 @@ class ValidatedFormInputs extends Component {
               {/* -------------- RANGE -------------- */}
               {element === "Range" && (
                 <React.Fragment>
-                  {this.formInputLabel(label, required)}
+                  <HeaderLabel 
+										label={formInput.label} 
+										required={required} 
+										readOnly={readOnly} 
+									/>
                   <Field
                     name={id}
-                    component={this.renderRange}
+                    component={Range}
                     validate={required ? [validateRatingsAndRange] : null}
                     props={{
                       id,
+											readOnly,
+                      formInput,
+											generator: true,
+											showError: this.showError,
                       defaultValue: responseData && responseData[id],
-                      readOnly,
-                      formInput
                     }}
                   />
                 </React.Fragment>
-              )}
+							)}
 
-              {/* -------------- DATE PICKER -------------- */}
+							{/* -------------- DATE PICKER -------------- */}
               {element === "Date" && (
                 <React.Fragment>
-                  {this.formInputLabel(label, required)}
+									<HeaderLabel 
+										label={formInput.label} 
+										required={required} 
+										readOnly={readOnly} 
+									/>
                   <Field
                     name={id}
-                    component={this.renderDate}
+                    component={DatePick}
                     validate={required ? [isRequired] : null}
                     props={{
                       id,
-                      defaultValue: responseData && responseData[id],
                       readOnly,
-                      formInput
+											formInput,
+											generator: true,
+											showError: this.showError,
+                      defaultValue: responseData && responseData[id],
                     }}
                   />
                 </React.Fragment>
-              )}
+							)}
 
-              {/* -------------- SIGNATURE -------------- */}
+							{/* -------------- SIGNATURE -------------- */}
               {element === "Signature" && (
                 <React.Fragment>
-                  {this.formInputLabel(label, required)}
+									<HeaderLabel 
+										label={formInput.label} 
+										required={required} 
+										readOnly={readOnly} 
+									/>
                   <Field
                     name={id}
                     component={Signature}
                     validate={required ? [isRequired] : null}
                     props={{
-                      id,
-                      defaultValue: responseData && responseData[id],
+											id,
                       readOnly,
-                      formInput,
-                      generator: true,
-                      showError: this.showError
+											formInput,
+											generator: true,
+											showError: this.showError,
+                      defaultValue: responseData && responseData[id],
                     }}
                   />
                 </React.Fragment>
-              )}
+							)}
 
             </div>
           );
         })}
-        
         {!readOnly && (
           <div style={{ height: "50px" }} className="mt-5">
             <button
