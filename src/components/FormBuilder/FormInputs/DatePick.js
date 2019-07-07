@@ -29,13 +29,36 @@ class DatePick extends Component {
 				{
 					generator &&
 					<React.Fragment>
-						<DatePicker 
-							value={defaultValue || input.value}
-							onChange={val => input.onChange(val)}
-							disabled={readOnly}
-							maxDate={new Date(formInput.maxDate)}
-							minDate={new Date(formInput.minDate)}
-						/>
+						{
+							formInput.maxDate &&
+							formInput.minDate
+							? <DatePicker 
+									value={defaultValue || input.value}
+									onChange={val => input.onChange(val)}
+									disabled={readOnly}
+									maxDate={new Date(formInput.maxDate)}
+									minDate={new Date(formInput.minDate)}
+								/>
+							: formInput.minDate 
+								? <DatePicker 
+										value={defaultValue || input.value}
+										onChange={val => input.onChange(val)}
+										disabled={readOnly}
+										minDate={new Date(formInput.minDate)}
+									/>
+								: formInput.maxDate
+									? <DatePicker 
+											value={defaultValue || input.value}
+											onChange={val => input.onChange(val)}
+											disabled={readOnly}
+											maxDate={new Date(formInput.maxDate)}
+										/>
+									: <DatePicker 
+											value={defaultValue || input.value}
+											onChange={val => input.onChange(val)}
+											disabled={readOnly}
+										/>	
+						}
 						<div>
 							{showError(meta.touched, meta.error, meta.warning)}
 						</div>
