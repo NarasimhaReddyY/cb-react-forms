@@ -6,7 +6,7 @@ class Signature extends Component {
 
 	componentDidMount() {
 		if(this.props.defaultValue) {
-			this.loadableCanvas.loadSaveData(this.props.defaultValue);
+			this.saveableCanvas.loadSaveData(this.props.defaultValue);
 		}
 	}
 	
@@ -36,7 +36,6 @@ class Signature extends Component {
 						<CanvasDraw 
 							ref={canvasDraw => {
 								this.saveableCanvas = canvasDraw;
-								this.loadableCanvas = canvasDraw;
 							}}
 							canvasHeight={height}
 							className="border rounded"
