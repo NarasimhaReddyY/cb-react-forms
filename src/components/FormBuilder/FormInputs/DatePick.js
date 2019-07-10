@@ -8,6 +8,8 @@ class DatePick extends Component {
 			meta,
 			item,
 			input,
+			label,
+			required,
 			readOnly,
 			formInput,
 			generator,
@@ -15,58 +17,55 @@ class DatePick extends Component {
 			defaultValue,
 		} = this.props;
 
+		const props = generator ? {
+			value: defaultValue || input.value,
+			onChange: val => input.onChange(val),
+			disabled: readOnly,
+		} : {
+			value: new Date()
+		}
+
     return (
       <div>
-				{
-					!generator &&
-					<React.Fragment>
-						<HeaderLabel label={item.label} required={item.required} />
-						<DatePicker 
-							value={new Date()}
-						/>
-					</React.Fragment>
-				}
-				{
-					generator &&
-					<React.Fragment>
-						{
-							formInput.maxDate &&
-							formInput.minDate
+				<React.Fragment>
+					<HeaderLabel 
+						label={generator ? label : item.label } 
+						required={generator ? required : item.required}
+						readOnly={readOnly} 
+					/>
+					{
+						generator ?
+						formInput.maxDate &&
+						formInput.minDate
 							? <DatePicker 
-									value={defaultValue || input.value}
-									onChange={val => input.onChange(val)}
-									disabled={readOnly}
+									{...props}
 									maxDate={new Date(formInput.maxDate)}
 									minDate={new Date(formInput.minDate)}
 								/>
 							: formInput.minDate 
 								? <DatePicker 
-										value={defaultValue || input.value}
-										onChange={val => input.onChange(val)}
-										disabled={readOnly}
+										{...props}
 										minDate={new Date(formInput.minDate)}
 									/>
 								: formInput.maxDate
 									? <DatePicker 
-											value={defaultValue || input.value}
-											onChange={val => input.onChange(val)}
-											disabled={readOnly}
+											{...props}
 											maxDate={new Date(formInput.maxDate)}
 										/>
 									: <DatePicker 
-											value={defaultValue || input.value}
-											onChange={val => input.onChange(val)}
-											disabled={readOnly}
-										/>	
-						}
-						<div>
-							{showError(meta.touched, meta.error, meta.warning)}
-						</div>
-					</React.Fragment>
-				}
-      </div>
-    )
-  }
+											{...props}
+										/>
+						: <DatePicker 
+								{...props}
+							/>
+					}
+					<div>
+						{generator ? showError(meta.touched, meta.error, meta.warning) : ''}
+					</div>
+				</React.Fragment>
+			</div>
+		)
+	}
 }
 
 DatePick.defaultProps = {

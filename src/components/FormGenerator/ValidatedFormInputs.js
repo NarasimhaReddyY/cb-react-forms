@@ -10,27 +10,27 @@ import {
   validateRatingsAndRange
 } from "./formValidations";
 import { 
-	Tags,
-	Range,	
-	Email, 
-	Label, 
-	Header,
-	Rating,
-	TextArea, 
-	Dropdown, 
-	DatePick,
-	Paragraph, 
-	Signature, 
-	Hyperlink,
-	TextInput, 
-	Checkboxes, 
-	HeaderLabel,
-	NumberInput,
-	RadioButtons, 
+  Tags,
+  Range,	
+  Email, 
+  Label, 
+  Header,
+  Rating,
+  TextArea, 
+  Dropdown, 
+  DatePick,
+  Paragraph, 
+  Signature, 
+  Hyperlink,
+  TextInput, 
+  Checkboxes, 
+  HeaderLabel,
+  NumberInput,
+  RadioButtons, 
 } from "../FormBuilder/FormInputs";
 
 class ValidatedFormInputs extends Component {
-	
+  
   showError = (touched, error, warning) =>
     touched &&
     ((error && <span className="text-danger m-3">{error}</span>) ||
@@ -102,37 +102,27 @@ class ValidatedFormInputs extends Component {
 
               {/* -------------- INPUT TAG -------------- */}
               {element === "TextInput" && (
-								<div className="form-group">
-									<HeaderLabel 
-										label={formInput.label} 
-										required={required} 
-										readOnly={readOnly} 
-									/>
+                <div className="form-group">
                   <Field
                     name={id}
                     component={TextInput}
                     validate={required ? [isRequired] : null}
                     props={{
-											id,
+                      id,
                       required,
                       readOnly,
-											generator: true,
-											label: labelText,
-											showError: this.showError,
+                      generator: true,
+                      label: formInput.label,
+                      showError: this.showError,
                       defaultValue: responseData && responseData[id],
                     }}
                   />
                 </div>
-							)}
-							
-							{/* -------------- EMAIL TAG -------------- */}
-							{element === "Email" && (
+              )}
+              
+              {/* -------------- EMAIL TAG -------------- */}
+              {element === "Email" && (
                 <div className="form-group">
-                  <HeaderLabel 
-										label={formInput.label} 
-										required={required} 
-										readOnly={readOnly} 
-									/>
                   <Field
                     name={id}
                     component={Email}
@@ -142,10 +132,10 @@ class ValidatedFormInputs extends Component {
                       required,
                       readOnly,
                       type: "email",
-											generator: true,
-											label: labelText,
-											required: required,
-											showError: this.showError,
+                      generator: true,
+                      required: required,
+                      label: formInput.label,
+                      showError: this.showError,
                       defaultValue: responseData && responseData[id],
                     }}
                   />
@@ -155,11 +145,6 @@ class ValidatedFormInputs extends Component {
               {/* -------------- TEXTAREA -------------- */}
               {element === "TextArea" && (
                 <div className="form-group">
-                  <HeaderLabel 
-										label={formInput.label} 
-										required={required} 
-										readOnly={readOnly} 
-									/>
                   <Field
                     name={id}
                     component={TextArea}
@@ -167,10 +152,10 @@ class ValidatedFormInputs extends Component {
                     props={{
                       id,
                       readOnly,
-											generator: true,
-                      type: "textarea",
-											isRequired: required,
-											showError: this.showError,
+                      generator: true,
+                      required: required,
+                      label: formInput.label,
+                      showError: this.showError,
                       defaultValue: responseData && responseData[id],
                     }}
                   />
@@ -180,11 +165,6 @@ class ValidatedFormInputs extends Component {
               {/* -------------- NUMBER INPUT TAG -------------- */}
               {element === "NumberInput" && (
                 <div className="form-group">
-                  <HeaderLabel 
-										label={formInput.label} 
-										required={required} 
-										readOnly={readOnly} 
-									/>
                   <Field
                     name={id}
                     component={NumberInput}
@@ -195,9 +175,11 @@ class ValidatedFormInputs extends Component {
                       id,
                       readOnly,
                       type: "number",
-											generator:true,
-											isRequired: required,
-											showError: this.showError,
+                      generator:true,
+                      required: required,
+                      readOnly: readOnly,
+                      label: formInput.label,
+                      showError: this.showError,
                       defaultValue: responseData && responseData[id],
                     }}
                   />
@@ -207,11 +189,6 @@ class ValidatedFormInputs extends Component {
               {/* -------------- DROPDOWN -------------- */}
               {element === "Dropdown" && (
                 <React.Fragment>
-                  <HeaderLabel 
-										label={formInput.label} 
-										required={required} 
-										readOnly={readOnly} 
-									/>
                   <Field
                     name={id}
                     component={Dropdown}
@@ -220,9 +197,11 @@ class ValidatedFormInputs extends Component {
                       id,
                       options,
                       readOnly,
-											generator: true,
-											showError: this.showError,
-											defaultValue: responseData && responseData[id],
+                      generator: true,
+                      required: required,
+                      label: formInput.label,
+                      showError: this.showError,
+                      defaultValue: responseData && responseData[id],
                     }}
                   />
                 </React.Fragment>
@@ -230,36 +209,28 @@ class ValidatedFormInputs extends Component {
 
               {/* -------------- CHECKBOXES -------------- */}
               {element === "Checkboxes" && (
-								<React.Fragment>
-                  <HeaderLabel 
-										label={formInput.label} 
-										required={required} 
-										readOnly={readOnly} 
-									/>
-									<Field
-										name={id}
-										component={Checkboxes}
-										validate={required ? [isRequired] : null}
-										props={{
-											options,
-											readOnly,
-											generator: true,
-											showError: this.showError,
-											defaultValue:
-												(responseData && responseData[id]) || []
-										}}
-									/>
-								</React.Fragment>
+                <React.Fragment>
+                  <Field
+                    name={id}
+                    component={Checkboxes}
+                    validate={required ? [isRequired] : null}
+                    props={{
+                      options,
+                      readOnly,
+                      generator: true,
+                      type: 'checkbox',
+                      label: formInput.label,
+                      showError: this.showError,
+                      defaultValue:
+                        (responseData && responseData[id]) || []
+                    }}
+                  />
+                </React.Fragment>
               )}
 
               {/* -------------- TAGS -------------- */}
               {element === "Tags" && (
                 <React.Fragment>
-                  <HeaderLabel 
-										label={formInput.label} 
-										required={required} 
-										readOnly={readOnly} 
-									/>
                   <Field
                     name={id}
                     component={Tags}
@@ -267,9 +238,10 @@ class ValidatedFormInputs extends Component {
                     props={{
                       id,
                       options,
-											readOnly,
-											generator: true,
-											showError: this.showError,
+                      readOnly,
+                      generator: true,
+                      label: formInput.label,
+                      showError: this.showError,
                       defaultValue: responseData && responseData[id],
                     }}
                   />
@@ -279,35 +251,27 @@ class ValidatedFormInputs extends Component {
               {/* -------------- RADIO BUTTONS -------------- */}
               {element === "RadioButtons" && (
                 <React.Fragment>
-                  <HeaderLabel 
-										label={formInput.label} 
-										required={required} 
-										readOnly={readOnly} 
-									/>
-									<Field
-										name={id}
-										component={RadioButtons}
-										validate={required ? [isRequired] : null}
-										props={{
-											id,
-											options,
-											readOnly,
-											generator: true,
-											showError: this.showError,
-											defaultValue: responseData && responseData[id],
-										}}
-									/>
+                  <Field
+                    name={id}
+                    component={RadioButtons}
+                    validate={required ? [isRequired] : null}
+                    props={{
+                      id,
+                      options,
+                      readOnly,
+                      generator: true,
+                      required: required,
+                      label: formInput.label,
+                      showError: this.showError,
+                      defaultValue: responseData && responseData[id],
+                    }}
+                  />
                 </React.Fragment>
               )}
 
               {/* -------------- STAR RATING -------------- */}
               {element === "Rating" && (
                 <React.Fragment>
-                  <HeaderLabel 
-										label={formInput.label} 
-										required={required} 
-										readOnly={readOnly} 
-									/>
                   <Field
                     name={id}
                     component={Rating}
@@ -315,9 +279,11 @@ class ValidatedFormInputs extends Component {
                     props={{
                       id,
                       readOnly,
-											generator: true,
-											showError: this.showError,
-											numberOfStars: formInput.numberOfStars,
+                      generator: true,
+                      required: required,
+                      label: formInput.label,
+                      showError: this.showError,
+                      numberOfStars: formInput.numberOfStars,
                       defaultValue: responseData && responseData[id],
                     }}
                   />
@@ -327,21 +293,18 @@ class ValidatedFormInputs extends Component {
               {/* -------------- HYPERLINK -------------- */}
               {element === "HyperLink" && (
                 <React.Fragment>
-                  <HeaderLabel 
-										label={formInput.label} 
-										required={required} 
-										readOnly={readOnly} 
-									/>
                   <Field
                     name={id}
                     component={Hyperlink}
                     validate={urlValidator(formInput)}
                     props={{
                       id,
-											value,
+                      value,
                       readOnly,
-											generator:true,
-											showError: this.showError,
+                      generator:true,
+                      required: required,
+                      label: formInput.label,
+                      showError: this.showError,
                       defaultValue: responseData && responseData[id],
                     }}
                   />
@@ -351,35 +314,27 @@ class ValidatedFormInputs extends Component {
               {/* -------------- RANGE -------------- */}
               {element === "Range" && (
                 <React.Fragment>
-                  <HeaderLabel 
-										label={formInput.label} 
-										required={required} 
-										readOnly={readOnly} 
-									/>
                   <Field
                     name={id}
                     component={Range}
                     validate={required ? [validateRatingsAndRange] : null}
                     props={{
                       id,
-											readOnly,
+                      readOnly,
                       formInput,
-											generator: true,
-											showError: this.showError,
+                      generator: true,
+                      required: required,
+                      label: formInput.label,
+                      showError: this.showError,
                       defaultValue: responseData && responseData[id],
                     }}
                   />
                 </React.Fragment>
-							)}
+              )}
 
-							{/* -------------- DATE PICKER -------------- */}
+              {/* -------------- DATE PICKER -------------- */}
               {element === "Date" && (
                 <React.Fragment>
-									<HeaderLabel 
-										label={formInput.label} 
-										required={required} 
-										readOnly={readOnly} 
-									/>
                   <Field
                     name={id}
                     component={DatePick}
@@ -387,39 +342,35 @@ class ValidatedFormInputs extends Component {
                     props={{
                       id,
                       readOnly,
-											formInput,
-											generator: true,
-											showError: this.showError,
+                      formInput,
+                      generator: true,
+                      required: required,
+                      label: formInput.label,
+                      showError: this.showError,
                       defaultValue: responseData && responseData[id],
                     }}
                   />
                 </React.Fragment>
-							)}
+              )}
 
-							{/* -------------- SIGNATURE -------------- */}
+              {/* -------------- SIGNATURE -------------- */}
               {element === "Signature" && (
                 <React.Fragment>
-									<HeaderLabel 
-										label={formInput.label} 
-										required={required} 
-										readOnly={readOnly} 
-									/>
                   <Field
                     name={id}
                     component={Signature}
                     validate={required ? [isRequired] : null}
                     props={{
-											id,
+                      id,
                       readOnly,
-											formInput,
-											generator: true,
-											showError: this.showError,
+                      formInput,
+                      generator: true,
+                      showError: this.showError,
                       defaultValue: responseData && responseData[id],
                     }}
                   />
                 </React.Fragment>
-							)}
-
+              )}
             </div>
           );
         })}

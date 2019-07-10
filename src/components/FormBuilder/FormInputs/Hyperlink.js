@@ -8,6 +8,7 @@ class Hyperlink extends Component {
 			meta,
 			item,
 			input,
+			label,
 			readOnly,
 			required,
 			generator,
@@ -15,13 +16,29 @@ class Hyperlink extends Component {
 			defaultValue,
 		} = this.props;
 
+		const props = generator ? {
+			...input,
+			style: {borderColor: meta.touched && required && meta.error ? "red" : ""},
+			value: defaultValue || input.value,
+			disabled: readOnly,
+			onChange: e => input.onChange(e.target.value)
+		} : {}
+
     return (
       <div>
 				{
 					!generator &&
 					<React.Fragment>
-						<HeaderLabel label={item.label} required={item.required} />
-						<input className="form-control" placeholder="https://www.example.com" />
+						<HeaderLabel 
+							label={generator ? label : item.label } 
+							required={generator ? required : item.required}
+							readOnly={readOnly} 
+						/>
+						<input 
+							{...props}
+							className="form-control" 
+							placeholder="https://www.example.com"
+						/>
 					</React.Fragment>
 				}
 				{

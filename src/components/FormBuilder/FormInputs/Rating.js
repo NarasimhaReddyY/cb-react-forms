@@ -15,45 +15,44 @@ class Rating extends Component {
 			meta,
 			item,
 			input,
+			label,
 			readOnly,
+			required,
 			generator,
 			showError,
 			defaultValue,
 			numberOfStars,
 		} = this.props;
 
+		const props = generator ? {
+			numberOfStars: numberOfStars,
+			isSelectable: !readOnly,
+			rating: defaultValue || input.value || 0,
+			changeRating: val => input.onChange(val)
+		} : {
+			numberOfStars: item.numberOfStars,
+			rating: this.state.value,
+			changeRating: value => this.setState({ value })
+		}
+
     return (
       <div>
-				{
-					!generator &&
-					<React.Fragment>
-						<HeaderLabel label={item.label} required={item.required} />
-						<StarRatings
-							numberOfStars={item.numberOfStars}
-							name="rating"
-							starHoverColor="chocolate"
-							starRatedColor="orange"
-							rating={this.state.value}
-							changeRating={value => this.setState({ value })}
-						/>
-					</React.Fragment>
-				}
-				{
-					generator && 
-					<React.Fragment>
-						<StarRatings
-							numberOfStars={numberOfStars}
-							name="rating"
-							starHoverColor="chocolate"
-							starRatedColor="orange"
-							isAggregateRating={true}
-							isSelectable={!readOnly}
-							rating={defaultValue || input.value || 0}
-							changeRating={val => input.onChange(val)}
-						/>
-						<div>{showError(meta.touched, meta.error, meta.warning)}</div>
-					</React.Fragment>
-				}
+				<React.Fragment>
+					<HeaderLabel 
+						label={generator ? label : item.label} 
+						required={generator ? required : item.required} 
+						readOnly={readOnly}
+					/>
+					<StarRatings
+						{...props}
+						name="rating"
+						starHoverColor="chocolate"
+						starRatedColor="orange"
+					/>
+					<div>
+						{generator ? showError(meta.touched, meta.error, meta.warning) : ''}
+					</div>
+				</React.Fragment>
       </div>
     );
   }

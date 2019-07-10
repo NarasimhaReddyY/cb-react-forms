@@ -21,7 +21,9 @@ class Range extends Component {
 		const  {
 			meta,
 			item,
+			label,
 			input,
+			required,
 			readOnly,
 			formInput,
 			generator,
@@ -29,48 +31,46 @@ class Range extends Component {
 			defaultValue,
 		} = this.props;
 
+		const props = generator ? {
+			min: formInput.min,
+			max: formInput.max,
+			step: formInput.step,
+			disabled: readOnly,
+			value: defaultValue || input.value || 0,
+			onChange: val => input.onChange(val),
+			label: {
+				[formInput.min]: "Low",
+				[formInput.max]: "High"
+			}
+		} : {
+			min: item.min,
+			max: item.max,
+			step: item.step,
+			value: this.state.value,
+			onChange: value => this.setState({ value }),
+			label: {
+				[item.min]: "Low",
+				[item.max]: "High"
+			}
+		}
+
     return (
-      <div>
-				{
-					!generator &&
-					<React.Fragment>
-						<HeaderLabel label={item.label} required={item.required} />
-						<Slider
-							min={item.min}
-							max={item.max}
-							step={item.step}
-							value={this.state.value}
-							labels={{
-								[item.min]: "Low",
-								[item.max]: "High"
-							}}
-							onChange={(value) => this.setState({ value })}
-						/>
-						<div className="text-center">{this.state.value}</div>
-					</React.Fragment>
-				}
-				{
-					generator &&
-					<React.Fragment>
-						<Slider
-							min={formInput.min}
-							max={formInput.max}
-							step={formInput.step}
-							disabled={readOnly}
-							value={defaultValue || input.value || 0}
-							onChange={val => input.onChange(val)}
-							labels={{
-								[formInput.min]: "Low",
-								[formInput.max]: "High"
-							}}
-						/>
-						<div className="text-center">
-							{defaultValue || input.value || 0}
-						</div>
-						{showError(meta.touched, meta.error, meta.warning)}
-					</React.Fragment>
-				}
-      </div>
+			<React.Fragment>
+				<HeaderLabel 
+					label={generator ? label : item.label} 
+					required={generator ? required : item.required}
+					readOnly={readOnly} 
+				/>
+				<Slider
+					{...props}
+				/>
+				<div className="text-center">
+					{generator ? (defaultValue || input.value || 0) : this.state.value}
+				</div>
+				<div>
+					{generator ? showError(meta.touched, meta.error, meta.warning) : ''}
+				</div>
+			</React.Fragment>
     );
   }
 }

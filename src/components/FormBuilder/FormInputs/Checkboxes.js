@@ -3,71 +3,76 @@ import HeaderLabel from './HeaderLabel';
 import map from 'lodash/map';
 
 class Checkboxes extends Component {
+
+	handleChange = (checked, input, id) => {
+		let newValue = [...input.value];
+		checked 
+			? newValue = [...newValue, id] 
+			: newValue = newValue.filter(i => i !== id); 
+		return input.onChange(newValue)
+	}
+
   render() {
 		const {
+			type,
 			meta,
 			item,
+			label,
 			input,
-			options,
+			required,
 			readOnly,
 			generator,
 			showError,
 			defaultValue,
 		} = this.props;
 
+		const props = generator ? {
+			type,
+			...input,
+			disabled: readOnly,
+			className: "mr-2",
+		} : {
+			type: 'checkbox',
+			disabled: false,
+			className: "mr-2"
+		}
+
+		const options = generator ? this.props.options : this.props.item.options; 
+
     return (
 			<React.Fragment>
-				{
-					!generator &&
-					<div>
-						<HeaderLabel label={item.label} required={item.required} />
-						<div className="form-group">
-							{item.options.map(({ id, value }) => (
-								<div key={id} className="d-block">
-									<input id={value} type="checkbox" name={value} />
-									<label className="form-label ml-2" htmlFor={value}>
-										{value}
-									</label>
-								</div>
-							))}
+				<HeaderLabel 
+					label={generator ? label : item.label} 
+					required={generator ? required : item.required}
+					readOnly={readOnly} 
+				/>
+				<div className="form-group">
+					{map(options, ({ id, value }) => (
+						<div key={id} className="d-block">
+							<input 
+								{...props} 
+								id={value}
+								name={value}
+								value={value}
+								checked={ 
+									generator 
+									? defaultValue.some(i => i === id) 
+										|| (Array.isArray(input.value) 
+										&& input.value.some(i => i === id))
+									: null
+								}
+								onChange={
+									generator 
+									? e => this.handleChange(e.target.checked, input, id)
+									: null}
+							/>
+							<label className="form-label ml-2" htmlFor={value}>
+								{value}
+							</label>
 						</div>
-					</div>
-				}
-				{
-					generator && 
-					<div>
-						{map(options, option => (
-							<div className="d-block" key={option.id}>
-								<label className="form-label ml-2" htmlFor={option.id}>
-									<input
-										id={option.id}
-										name={option.id}
-										value={option.value}
-										type="checkbox"
-										disabled={readOnly}
-										checked={
-											defaultValue.some(id => id === option.id) ||
-											(Array.isArray(input.value) &&
-												input.value.some(id => id === option.id))
-										}
-										className="mr-2"
-										onChange={e => {
-											let newValue = [...input.value];
-											if (e.target.checked) {
-												newValue = [...newValue, option.id];
-											} else {
-												newValue = newValue.filter(id => id !== option.id);
-											}
-											return input.onChange(newValue);
-										}}
-									/>
-									{option.value}
-								</label>
-							</div>
-						))}
-      			{showError(meta.touched, meta.error, meta.warning)}
-					</div>
-				}
+					))}
+				</div>
+				{generator ? showError(meta.touched, meta.error, meta.warning) : ''}
 			</React.Fragment>
     );
   }

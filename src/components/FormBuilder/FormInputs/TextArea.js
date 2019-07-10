@@ -4,52 +4,45 @@ import HeaderLabel from "./HeaderLabel";
 class TextArea extends Component {
   render() {
     const  {
-			type,
-			meta,
-			item,
-			input,
-			readOnly,
-			required,
-			generator,
-			showError,
-			defaultValue,
-		} = this.props;
+      meta,
+      item,
+      input,
+      label,
+      readOnly,
+      required,
+      generator,
+      showError,
+      defaultValue,
+    } = this.props;
+
+    const props = generator ? {
+      ...input,
+      disabled: readOnly,
+      className: "form-control",
+      value: defaultValue || input.value,
+      onChange: e => input.onChange(e.target.value),
+      style: {
+        borderColor: meta.touched && required && meta.error ? "red" : ""
+      }
+    } : {
+      className:"form-control"
+    }
 
     return (
-			<div>
-			{
-				!generator &&
-				<React.Fragment>
-					<HeaderLabel label={item.label} required={item.required} />
-					<div className="form-group">
-						<textarea className="form-control" type="text" />
-					</div>
-				</React.Fragment>
-			}
-			{
-				generator &&
-				<React.Fragment>
-					<textarea
-						{...input}
-						style={{
-							borderColor: meta.touched && required && meta.error ? "red" : ""
-						}}
-						type={type}
-						value={defaultValue || input.value}
-						disabled={readOnly}
-						className="form-control"
-						onChange={e => input.onChange(e.target.value)}
-					/>
-					{showError(meta.touched, meta.error, meta.warning)}
-				</React.Fragment>
-			}
-			</div>
+      <React.Fragment>
+        <HeaderLabel 
+          label={generator ? label : item.label} 
+          required={generator ? required : item.required} 
+        />
+        <textarea {...props} />
+        {generator ? showError(meta.touched, meta.error, meta.warning) : ''}
+      </React.Fragment>
     );
   }
 }
 
 TextArea.defaultProps = {
-	generator: false
+  generator: false
 }
 
 export default TextArea;

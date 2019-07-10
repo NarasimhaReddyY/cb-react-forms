@@ -3,53 +3,51 @@ import HeaderLabel from "./HeaderLabel";
 
 class TextInput extends Component {
   render() {
-		
-		const  {
-			meta,
-			item,
-			input,
-			readOnly,
-			required,
-			generator,
-			showError,
-			defaultValue,
-		} = this.props;
+    
+    const  {
+      type,
+      meta,
+      label,
+      item,
+      input,
+      readOnly,
+      required,
+      generator,
+      showError,
+      defaultValue,
+    } = this.props;
 
+    const props = generator ? {
+      type,
+      ...input,
+      disabled: readOnly,
+      className: "form-control",
+      value: defaultValue || input.value,
+      onChange: e => input.onChange(e.target.value),
+      style: {
+        borderColor: meta.touched && required && meta.error ? "red" : ""
+      },
+    } : {
+      type,
+      className: "form-control",
+    }
+    
     return (
       <div>
-				{
-					!generator &&
-					<React.Fragment>
-						<HeaderLabel label={item.label} required={item.required} />
-						<div className="form-group">
-							<input className="form-control" type="text" />
-						</div>
-					</React.Fragment>
-				}
-				{
-					generator &&
-					<React.Fragment>
-						<input
-							{...input}
-							style={{
-								borderColor: meta.touched && required && meta.error ? "red" : ""
-							}}
-							type="text"
-							value={defaultValue || input.value}
-							disabled={readOnly}
-							className="form-control"
-							onChange={e => input.onChange(e.target.value)}
-						/>
-						{showError(meta.touched, meta.error, meta.warning)}
-					</React.Fragment>
-				}
+        <HeaderLabel
+          label={generator ? label : item.label}
+          required={generator ? required : item.required}
+          readOnly={readOnly}
+        />
+        <input {...props} />
+        {generator ? showError(meta.touched, meta.error, meta.warning) : ''}
       </div>
     );
   }
 }
 
 TextInput.defaultProps = {
-	generator: false
+  generator: false
 }
 
 export default TextInput;

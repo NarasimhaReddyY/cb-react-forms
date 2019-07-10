@@ -6,48 +6,44 @@ class Dropdown extends Component {
 		const  {
 			meta,
 			item,
+			label,
 			input,
-			options,
+			required,
 			readOnly,
 			generator,
 			showError,
 			defaultValue,
 		} = this.props;
+
+		const props = generator ? {
+			...input,
+			disabled: readOnly,
+			className: "form-control",
+			value: defaultValue || input.value,
+			onChange: e => input.onChange(e.target.value),
+			style: {
+				borderColor: meta.touched && required && meta.error ? "red" : ""
+			},
+		} : {
+			className: "form-control"
+		}
+
+		const options = generator ? this.props.options : this.props.item.options; 
 		
     return (
 			<React.Fragment>
-				{
-					!generator &&
-					<div className="form-group">
-						<HeaderLabel label={item.label} required={item.required} />
-						<select className="form-control">
-							<option value={null}>Select</option>
-							{item.options.map(({ id, value }) => (
-								<option key={id}>{value}</option>
-									))}
-						</select>
-					</div>
-				}
-				{
-					generator &&
-					<div className="form-group">
-						<select
-							{...input}
-							value={defaultValue || input.value}
-							disabled={readOnly}
-							className="form-control"
-							onChange={e => input.onChange(e.target.value)}
-						>
-							<option value={null} />
-							{options.map(option => (
-								<option key={option.id} value={option.id}>
-									{option.value}
-								</option>
-							))}
-						</select>
-						{showError(meta.touched, meta.error, meta.warning)}
-					</div>
-				}
+				<HeaderLabel 
+					label={generator ? label : item.label} 
+					required={generator ? required : item.required} 
+					readOnly={readOnly}
+				/>
+				<select {...props}>
+					<option value={null} />
+					{options.map(({ id, value }) => (
+						<option key={id}>{value}</option>
+					))}
+				</select>
+				{generator ? showError(meta.touched, meta.error, meta.warning) : ''}
 			</React.Fragment>
     );
   }

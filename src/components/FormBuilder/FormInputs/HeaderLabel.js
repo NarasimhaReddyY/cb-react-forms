@@ -2,8 +2,10 @@ import React, { Component } from 'react';
 import convertToHtml from './convertDraftjsToHtml'
 
 class HeaderLabel extends Component {
+
   render() {
-    const { label, required, readOnly } = this.props;
+		const { label, required, readOnly } = this.props;
+		
 		const text = convertToHtml(label);
 
     return (
