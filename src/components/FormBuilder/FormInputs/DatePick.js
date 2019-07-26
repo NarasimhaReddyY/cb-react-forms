@@ -17,13 +17,39 @@ class DatePick extends Component {
 			defaultValue,
 		} = this.props;
 
-		const props = generator ? {
+		const _props = generator ? {
 			value: defaultValue || input.value,
 			onChange: val => input.onChange(val),
 			disabled: readOnly,
 		} : {
 			value: new Date()
-		}
+    }
+    
+    const renderDate = (minDate = null, maxDate = null) => {
+      switch(true) {
+        case minDate !== null && maxDate !== null:
+          return <DatePicker 
+                    {..._props}
+                    maxDate={new Date(maxDate)}
+                    minDate={new Date(minDate)}
+                  />
+
+        case minDate !== null:
+          return <DatePicker 
+                    {..._props}
+                    minDate={new Date(formInput.minDate)}
+                  />
+
+        case  maxDate !== null:
+          return <DatePicker 
+                    {..._props}
+                    maxDate={new Date(formInput.maxDate)}
+                  />
+        
+        default:
+          return <DatePicker {..._props} />
+      }
+    }
 
     return (
       <div>
@@ -33,32 +59,9 @@ class DatePick extends Component {
 						required={generator ? required : item.required}
 						readOnly={readOnly} 
 					/>
-					{
-						generator ?
-						formInput.maxDate &&
-						formInput.minDate
-							? <DatePicker 
-									{...props}
-									maxDate={new Date(formInput.maxDate)}
-									minDate={new Date(formInput.minDate)}
-								/>
-							: formInput.minDate 
-								? <DatePicker 
-										{...props}
-										minDate={new Date(formInput.minDate)}
-									/>
-								: formInput.maxDate
-									? <DatePicker 
-											{...props}
-											maxDate={new Date(formInput.maxDate)}
-										/>
-									: <DatePicker 
-											{...props}
-										/>
-						: <DatePicker 
-								{...props}
-							/>
-					}
+					{generator 
+            ? renderDate(formInput.minDate, formInput.maxDate)
+						: <DatePicker {..._props} />}
 					<div>
 						{generator ? showError(meta.touched, meta.error, meta.warning) : ''}
 					</div>
@@ -69,7 +72,8 @@ class DatePick extends Component {
 }
 
 DatePick.defaultProps = {
-	generator: false
+  generator: false,
+  disabled: false
 }
 
 export default DatePick;

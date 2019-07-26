@@ -13,24 +13,20 @@ class TextInput extends Component {
       readOnly,
       required,
       generator,
+      className,
       showError,
       defaultValue,
     } = this.props;
 
-    const props = generator ? {
-      type,
+    const _props = generator ? {
       ...input,
       disabled: readOnly,
-      className: "form-control",
       value: defaultValue || input.value,
       onChange: e => input.onChange(e.target.value),
       style: {
         borderColor: meta.touched && required && meta.error ? "red" : ""
       },
-    } : {
-      type,
-      className: "form-control",
-    }
+    } : {}
     
     return (
       <div>
@@ -39,7 +35,11 @@ class TextInput extends Component {
           required={generator ? required : item.required}
           readOnly={readOnly}
         />
-        <input {...props} />
+        <input 
+          {..._props}
+          type={type}
+          className={className} 
+        />
         {generator ? showError(meta.touched, meta.error, meta.warning) : ''}
       </div>
     );
@@ -47,7 +47,8 @@ class TextInput extends Component {
 }
 
 TextInput.defaultProps = {
-  generator: false
+  generator: false,
+  className: "form-control"
 }
 
 export default TextInput;

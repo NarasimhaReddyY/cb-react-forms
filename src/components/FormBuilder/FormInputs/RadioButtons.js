@@ -6,7 +6,8 @@ class RadioButtons extends Component {
   render() {
 		const  {
 			id,
-			meta,
+      meta,
+      type,
 			item,
 			label,
 			input,
@@ -19,13 +20,23 @@ class RadioButtons extends Component {
 
 		const options = generator ? this.props.options : this.props.item.options;
 
-		const props = generator ? {
+		const _props = generator ? {
 			...input,
-			type: "radio",
 			disabled: readOnly,
-		} : {
-			disabled: false,
-		}
+    } : {}
+
+    const isChecked = (id) => {
+      return generator 
+      ? defaultValue === id || input.value === id 
+      : null
+    }
+
+    const change = (id) => {
+      return generator
+      ? () => input.onChange(id)
+      : () => {}
+    }
+    
     return (
 			<React.Fragment>
 				<HeaderLabel 
@@ -37,21 +48,13 @@ class RadioButtons extends Component {
 					{map(options, option => (
 						<div className="d-block" key={option.id}>
 							<input
-								{...props}
+								{..._props}
 								id={option.id}
 								name={generator ? id : item.id}
-								type="radio"
-								value={option.value}
-								checked={
-									generator 
-									? defaultValue === option.id || input.value === option.id 
-									: null
-								}
-								onChange={
-									generator 
-										? () => input.onChange(option.id) 
-										: null
-								}
+                type={type}
+                value={option.id}
+                checked={isChecked(option.id)}
+								onChange={change(option.id)}
 							/>
 							<label className="form-label ml-2" htmlFor={option.id}>
 								{option.label}
@@ -66,7 +69,9 @@ class RadioButtons extends Component {
 }
 
 RadioButtons.defaultProps = {
-	generator: false
+  generator: false,
+  disabled: false,
+  type: "radio"
 }
 
 export default RadioButtons;

@@ -11,25 +11,21 @@ class NumberInput extends Component {
 			input,
 			readOnly,
 			required,
-			generator,
+      generator,
+      className,
 			showError,
 			defaultValue,
 		} = this.props;
 
 		const props = generator ? {
-			type,
 			...input,
 			disabled: readOnly,
-			className: "form-control",
 			value: defaultValue || input.value,
 			onChange: e => input.onChange(e.target.value),
 			style: {
 				borderColor: meta.touched && required && meta.error ? "red" : ""
 			},
-		} : {
-			type,
-			className: "form-control",
-		}
+		} : {}
 		
     return (
 			<div>
@@ -38,7 +34,11 @@ class NumberInput extends Component {
 					required={generator ? required : item.required}
 					readOnly={readOnly}
 				/>
-				<input {...props} />
+        <input 
+          {...props}
+          type={type}
+          className={className} 
+        />
 				{generator ? showError(meta.touched, meta.error, meta.warning) : ''}
 			</div>
     );
@@ -47,7 +47,8 @@ class NumberInput extends Component {
 
 NumberInput.defaultProps = {
 	generator: false,
-	readOnly: false
+  readOnly: false,
+  className: "form-control",
 }
 
 export default NumberInput;

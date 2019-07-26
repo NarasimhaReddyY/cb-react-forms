@@ -10,13 +10,15 @@ class Hyperlink extends Component {
 			input,
 			label,
 			readOnly,
-			required,
+      required,
 			generator,
+      className,
 			showError,
+      placeholder,
 			defaultValue,
 		} = this.props;
 
-		const props = generator ? {
+		const _props = generator ? {
 			...input,
 			style: {borderColor: meta.touched && required && meta.error ? "red" : ""},
 			value: defaultValue || input.value,
@@ -25,46 +27,28 @@ class Hyperlink extends Component {
 		} : {}
 
     return (
-      <div>
-				{
-					!generator &&
-					<React.Fragment>
-						<HeaderLabel 
-							label={generator ? label : item.label } 
-							required={generator ? required : item.required}
-							readOnly={readOnly} 
-						/>
-						<input 
-							{...props}
-							className="form-control" 
-							placeholder="https://www.example.com"
-						/>
-					</React.Fragment>
-				}
-				{
-					generator &&
-					<React.Fragment>
-						<input
-							{...input}
-							style={{
-								borderColor: meta.touched && required && meta.error ? "red" : ""
-							}}
-							type={type}
-							value={defaultValue || input.value}
-							disabled={readOnly}
-							className="form-control"
-							onChange={e => input.onChange(e.target.value)}
-						/>
-						{showError(meta.touched, meta.error, meta.warning)}
-					</React.Fragment>
-				}
-      </div>
+			<React.Fragment>
+				<HeaderLabel 
+					label={generator ? label : item.label } 
+					required={generator ? required : item.required}
+					readOnly={readOnly} 
+				/>
+				<input 
+          {..._props}
+					type={type}
+          className={className}
+					placeholder={placeholder}
+				/>
+				{generator ? showError(meta.touched, meta.error, meta.warning) : ''}
+			</React.Fragment>
     );
   }
 }
 
 Hyperlink.defaultProps = {
-	generator: false
+  generator: false,
+  className: "form-control",
+  placeholder: "https://www.example.com"
 }
 
 export default Hyperlink;

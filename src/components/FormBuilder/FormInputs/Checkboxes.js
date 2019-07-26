@@ -19,23 +19,35 @@ class Checkboxes extends Component {
 			item,
 			label,
 			input,
+			disabled,
 			required,
 			readOnly,
 			generator,
 			showError,
+			className,
 			defaultValue,
 		} = this.props;
 
-		const props = generator ? {
+		const _props = generator ? {
 			type,
-			...input,
 			disabled: readOnly,
-			className: "mr-2",
 		} : {
-			type: 'checkbox',
-			disabled: false,
-			className: "mr-2"
-		}
+			disabled
+    }
+    
+    const isChecked = (id) => {
+      return generator 
+        ? defaultValue.some(i => i === id) 
+          || (Array.isArray(input.value) 
+          && input.value.some(i => i === id))
+        : null
+    }
+
+    const change = (checked, id) => {
+      return generator 
+        ? this.handleChange(checked, input, id) 
+        : () => {}
+    }
 
 		const options = generator ? this.props.options : this.props.item.options; 
 
@@ -50,21 +62,15 @@ class Checkboxes extends Component {
 					{map(options, ({ id, value }) => (
 						<div key={id} className="d-block">
 							<input 
-								{...props} 
+                {..._props}
+                type="checkbox"
 								id={value}
 								name={value}
-								value={value}
-								checked={ 
-									generator 
-									? defaultValue.some(i => i === id) 
-										|| (Array.isArray(input.value) 
-										&& input.value.some(i => i === id))
-									: null
-								}
-								onChange={
-									generator 
-									? e => this.handleChange(e.target.checked, input, id)
-									: null}
+                value={value}
+                readOnly={generator ? false : true}
+								className={className}
+								checked={isChecked(id)}
+								onChange={e => change(e.target.checked, id)}
 							/>
 							<label className="form-label ml-2" htmlFor={value}>
 								{value}
@@ -79,7 +85,9 @@ class Checkboxes extends Component {
 }
 
 Checkboxes.defaultProps = {
-	generator: false
+	disabled: false,
+	generator: false,
+	className: 'mr-2'
 }
 
 export default Checkboxes;

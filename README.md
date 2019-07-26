@@ -10,7 +10,7 @@ A complete react form builder that interfaces with json data to load and save ge
 
 # Basic Usage
 
-```javascript
+```jsx
 import React from "react";
 import ReactDOM from "react-dom";
 import { FormBuilder } from "cb-react-forms";
@@ -27,7 +27,7 @@ ReactDOM.render(<Example />, document.getElementById("root"));
 
 # Props
 
-```javascript
+```jsx
 const items = [
   {
     key: "Header",
@@ -69,7 +69,7 @@ items | array | Optional | List of toolbar items, list of avaiable items can be 
 
 Now that the form is built and saved, let's generate it from the saved json.
 
-```javascript
+```jsx
 import React from "react";
 import ReactDOM from "react-dom";
 import { FormGenerator } from 'cb-react-forms';
@@ -96,7 +96,7 @@ responseData | object | Optional | Answer data, only loads if loading a pre-exis
 
 ### List of Toolbar items:
 
-``` javascript 
+```javascript
 const items = [
   {
     key: "Header",

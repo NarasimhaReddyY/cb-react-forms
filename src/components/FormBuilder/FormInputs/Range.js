@@ -23,22 +23,23 @@ class Range extends Component {
 			item,
 			label,
 			input,
-			required,
+      required,
 			readOnly,
 			formInput,
 			generator,
 			showError,
+      className,
 			defaultValue,
 		} = this.props;
 
-		const props = generator ? {
+		const _props = generator ? {
 			min: formInput.min,
 			max: formInput.max,
 			step: formInput.step,
 			disabled: readOnly,
 			value: defaultValue || input.value || 0,
 			onChange: val => input.onChange(val),
-			label: {
+			labels: {
 				[formInput.min]: "Low",
 				[formInput.max]: "High"
 			}
@@ -48,7 +49,7 @@ class Range extends Component {
 			step: item.step,
 			value: this.state.value,
 			onChange: value => this.setState({ value }),
-			label: {
+			labels: {
 				[item.min]: "Low",
 				[item.max]: "High"
 			}
@@ -61,11 +62,11 @@ class Range extends Component {
 					required={generator ? required : item.required}
 					readOnly={readOnly} 
 				/>
-				<Slider
-					{...props}
-				/>
-				<div className="text-center">
-					{generator ? (defaultValue || input.value || 0) : this.state.value}
+				<Slider {..._props} />
+				<div className={className}>
+          {generator 
+            ? (defaultValue || input.value || 0) 
+            : this.state.value}
 				</div>
 				<div>
 					{generator ? showError(meta.touched, meta.error, meta.warning) : ''}
@@ -76,7 +77,8 @@ class Range extends Component {
 }
 
 Range.defaultProps = {
-	generator: false
+  generator: false,
+  className: "text-center"
 }
 
 export default Range;

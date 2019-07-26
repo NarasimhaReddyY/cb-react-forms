@@ -79,6 +79,11 @@ body {
 .toolbar-item {
 	transition: all 0.1s ease-in;
 }
+
 .toolbar-item:hover {
 	box-shadow: 0px 5px 10px gray;
+}
+
+.sigCanvas {
+	border: 1px solid #aaa;
 }

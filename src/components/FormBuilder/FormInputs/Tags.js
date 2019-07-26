@@ -6,14 +6,18 @@ import HeaderLabel from "./HeaderLabel";
 class Tags extends Component {
 
 	handleChange = (action, input, removedValue, val) => {
-		let newValue = [...input.value];
-		if (action === "select-option") {
-			newValue = [...val];
-		} else if (action === "remove-value") {
-			newValue.splice(newValue.indexOf(removedValue), 1);
-		} else if (action === "clear") {
-			newValue = [];
-		}
+    let newValue = [...input.value];
+    switch(action) {
+      case 'select-option':
+        newValue = [...val];
+        break;
+      case 'remove-value':
+        newValue.splice(newValue.indexOf(removedValue), 1);
+        break;
+      case 'clear':
+        newValue = [];
+        break;
+    }
 		return input.onChange(newValue);
 	}
 
@@ -21,7 +25,8 @@ class Tags extends Component {
 		const  {
 			meta,
 			item,
-			input,
+      input,
+      isMulti,
 			label,
 			readOnly,
 			required,
@@ -34,19 +39,12 @@ class Tags extends Component {
 		
 		const options = generator ? this.props.options : this.props.item.options;
 
-		const props = generator ? {
+		const _props = generator ? {
 			value: defaultValue || input.value,
-			options: options,
-			components: animatedComponents,
-			isMulti: true,
 			isDisabled: readOnly,
 			onChange: (val, { action, removedValue }) => 
 				this.handleChange(action, input, removedValue, val)
-		} : {
-			options,
-			components: animatedComponents,
-			isMulti: true
-		}
+		} : {}
 
 
     return (
@@ -56,7 +54,12 @@ class Tags extends Component {
 					required={generator ? required : item.required} 
 					readOnly={readOnly}
 				/>
-				<Select {...props} />
+        <Select 
+          {..._props}
+          isMulti={isMulti}
+          options={options}
+          components={animatedComponents}
+        />
 				{generator ? showError(meta.touched, meta.error, meta.warning) : ''}
 			</React.Fragment>
     );
@@ -64,7 +67,8 @@ class Tags extends Component {
 }
 
 Tags.defaultProps = {
-	generator: false
+  generator: false,
+  isMulti: true
 }
 
 export default Tags;

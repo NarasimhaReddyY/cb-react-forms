@@ -13,7 +13,8 @@ class Rating extends Component {
   render() {
 		const  {
 			meta,
-			item,
+      item,
+      name,
 			input,
 			label,
 			readOnly,
@@ -24,7 +25,7 @@ class Rating extends Component {
 			numberOfStars,
 		} = this.props;
 
-		const props = generator ? {
+		const _props = generator ? {
 			numberOfStars: numberOfStars,
 			isSelectable: !readOnly,
 			rating: defaultValue || input.value || 0,
@@ -44,8 +45,8 @@ class Rating extends Component {
 						readOnly={readOnly}
 					/>
 					<StarRatings
-						{...props}
-						name="rating"
+						{..._props}
+						name={name}
 						starHoverColor="chocolate"
 						starRatedColor="orange"
 					/>
@@ -59,7 +60,8 @@ class Rating extends Component {
 }
 
 Rating.deaultProps = {
-	generator: false
+  generator: false,
+  name: "rating"
 }
 
 export default Rating;

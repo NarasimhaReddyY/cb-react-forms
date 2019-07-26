@@ -10,23 +10,21 @@ class TextArea extends Component {
       label,
       readOnly,
       required,
+      className,
       generator,
       showError,
       defaultValue,
     } = this.props;
 
-    const props = generator ? {
+    const _props = generator ? {
       ...input,
       disabled: readOnly,
-      className: "form-control",
       value: defaultValue || input.value,
       onChange: e => input.onChange(e.target.value),
       style: {
         borderColor: meta.touched && required && meta.error ? "red" : ""
       }
-    } : {
-      className:"form-control"
-    }
+    } : {}
 
     return (
       <React.Fragment>
@@ -34,7 +32,10 @@ class TextArea extends Component {
           label={generator ? label : item.label} 
           required={generator ? required : item.required} 
         />
-        <textarea {...props} />
+        <textarea 
+          {..._props}
+          className={className} 
+        />
         {generator ? showError(meta.touched, meta.error, meta.warning) : ''}
       </React.Fragment>
     );
@@ -42,7 +43,8 @@ class TextArea extends Component {
 }
 
 TextArea.defaultProps = {
-  generator: false
+  generator: false,
+  className: "form-control"
 }
 
 export default TextArea;
