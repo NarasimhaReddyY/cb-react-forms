@@ -217,9 +217,9 @@ class ValidatedFormInputs extends Component {
                     props={{
                       options,
                       readOnly,
-											generator: true,
+                      generator: true,
                       type: 'checkbox',
-											required: required,
+                      required: required,
                       label: formInput.label,
                       showError: this.showError,
                       defaultValue:

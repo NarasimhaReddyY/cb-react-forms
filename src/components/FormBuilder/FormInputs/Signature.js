@@ -4,22 +4,22 @@ import HeaderLabel from "./HeaderLabel";
 
 class Signature extends Component {
 
-    componentDidMount() {
+  componentDidMount() {
     this.props.defaultValue !== null ? (
       this.sigCanvas.fromDataURL(this.props.defaultValue)
     ) : (null)
   }
-	
-	render() {
-		const { 
-			item,
-			meta,
-			input,
-			required,
-			formInput, 
+  
+  render() {
+    const { 
+      item,
+      meta,
+      input,
+      required,
+      formInput, 
       readOnly,
-			generator, 
-			showError,
+      generator, 
+      showError,
       defaultValue, 
      } = this.props;
      
@@ -34,8 +34,8 @@ class Signature extends Component {
        fromDataURL: defaultValue || null
      } : null
 
-		return (
-			<div>
+    return (
+      <div>
         <HeaderLabel 
           label={generator ? formInput.label : item.label} 
           required={generator ? required : item.required} 
@@ -74,15 +74,15 @@ class Signature extends Component {
                 }
               </React.Fragment>
         }
-			</div>
-		)
-	}
+      </div>
+    )
+  }
 }
 
 Signature.defaultProps = {
-	generator: false,
-	readOnly: false,
-	defaultValue: null
+  generator: false,
+  readOnly: false,
+  defaultValue: null
 }
 
 export default Signature;

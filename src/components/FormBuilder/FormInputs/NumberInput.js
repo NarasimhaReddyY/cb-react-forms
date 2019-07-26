@@ -3,50 +3,50 @@ import HeaderLabel from "./HeaderLabel";
 
 class NumberInput extends Component {
   render() {
-		const  {
-			type,
-			meta,
-			label,
-			item,
-			input,
-			readOnly,
-			required,
+    const  {
+      type,
+      meta,
+      label,
+      item,
+      input,
+      readOnly,
+      required,
       generator,
       className,
-			showError,
-			defaultValue,
-		} = this.props;
+      showError,
+      defaultValue,
+    } = this.props;
 
-		const props = generator ? {
-			...input,
-			disabled: readOnly,
-			value: defaultValue || input.value,
-			onChange: e => input.onChange(e.target.value),
-			style: {
-				borderColor: meta.touched && required && meta.error ? "red" : ""
-			},
-		} : {}
-		
+    const props = generator ? {
+      ...input,
+      disabled: readOnly,
+      value: defaultValue || input.value,
+      onChange: e => input.onChange(e.target.value),
+      style: {
+        borderColor: meta.touched && required && meta.error ? "red" : ""
+      },
+    } : {}
+    
     return (
-			<div>
-				<HeaderLabel
-					label={generator ? label : item.label}
-					required={generator ? required : item.required}
-					readOnly={readOnly}
-				/>
+      <div>
+        <HeaderLabel
+          label={generator ? label : item.label}
+          required={generator ? required : item.required}
+          readOnly={readOnly}
+        />
         <input 
           {...props}
           type={type}
           className={className} 
         />
-				{generator ? showError(meta.touched, meta.error, meta.warning) : ''}
-			</div>
+        {generator ? showError(meta.touched, meta.error, meta.warning) : ''}
+      </div>
     );
   }
 }
 
 NumberInput.defaultProps = {
-	generator: false,
+  generator: false,
   readOnly: false,
   className: "form-control",
 }

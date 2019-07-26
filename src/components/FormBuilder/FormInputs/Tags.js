@@ -5,7 +5,7 @@ import HeaderLabel from "./HeaderLabel";
 
 class Tags extends Component {
 
-	handleChange = (action, input, removedValue, val) => {
+  handleChange = (action, input, removedValue, val) => {
     let newValue = [...input.value];
     switch(action) {
       case 'select-option':
@@ -18,50 +18,50 @@ class Tags extends Component {
         newValue = [];
         break;
     }
-		return input.onChange(newValue);
-	}
+    return input.onChange(newValue);
+  }
 
   render() {
-		const  {
-			meta,
-			item,
+    const  {
+      meta,
+      item,
       input,
       isMulti,
-			label,
-			readOnly,
-			required,
-			generator,
-			showError,
-			defaultValue,
-		} = this.props;
+      label,
+      readOnly,
+      required,
+      generator,
+      showError,
+      defaultValue,
+    } = this.props;
 
-		const animatedComponents = makeAnimated();
-		
-		const options = generator ? this.props.options : this.props.item.options;
+    const animatedComponents = makeAnimated();
+    
+    const options = generator ? this.props.options : this.props.item.options;
 
-		const _props = generator ? {
-			value: defaultValue || input.value,
-			isDisabled: readOnly,
-			onChange: (val, { action, removedValue }) => 
-				this.handleChange(action, input, removedValue, val)
-		} : {}
+    const _props = generator ? {
+      value: defaultValue || input.value,
+      isDisabled: readOnly,
+      onChange: (val, { action, removedValue }) => 
+        this.handleChange(action, input, removedValue, val)
+    } : {}
 
 
     return (
-			<React.Fragment>
-				<HeaderLabel 
-					label={generator ? label : item.label} 
-					required={generator ? required : item.required} 
-					readOnly={readOnly}
-				/>
+      <React.Fragment>
+        <HeaderLabel 
+          label={generator ? label : item.label} 
+          required={generator ? required : item.required} 
+          readOnly={readOnly}
+        />
         <Select 
           {..._props}
           isMulti={isMulti}
           options={options}
           components={animatedComponents}
         />
-				{generator ? showError(meta.touched, meta.error, meta.warning) : ''}
-			</React.Fragment>
+        {generator ? showError(meta.touched, meta.error, meta.warning) : ''}
+      </React.Fragment>
     );
   }
 }
