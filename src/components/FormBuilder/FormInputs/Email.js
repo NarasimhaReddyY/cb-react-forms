@@ -1,54 +1,53 @@
 import React, { Component } from "react";
 import HeaderLabel from "./HeaderLabel";
 
-class TextInput extends Component {
+class Email extends Component {
   render() {
     
-    const  {
+    const { 
       type,
-      meta,
-      label,
       item,
+      meta,
       input,
+      label,
       readOnly,
       required,
       generator,
-      className,
       showError,
       defaultValue,
     } = this.props;
 
-    const _props = generator ? {
+    const props = generator ? {
+      type,
       ...input,
       disabled: readOnly,
+      className: "form-control",
       value: defaultValue || input.value,
       onChange: e => input.onChange(e.target.value),
       style: {
         borderColor: meta.touched && required && meta.error ? "red" : ""
       },
-    } : {}
-    
+    } : {
+      type,
+      className: "form-control",
+    }
+
     return (
-      <div>
+      <React.Fragment>
         <HeaderLabel
           label={generator ? label : item.label}
           required={generator ? required : item.required}
           readOnly={readOnly}
         />
-        <input 
-          {..._props}
-          type={type}
-          className={className} 
-        />
+        <input {...props} />
         {generator ? showError(meta.touched, meta.error, meta.warning) : ''}
-      </div>
+      </React.Fragment>
     );
   }
 }
 
-TextInput.defaultProps = {
-  generator: false,
-  className: "form-control"
-}
+Email.defaultProps = {
+  generator: false
+};
 
-export default TextInput;
+export default Email;

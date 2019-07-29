@@ -1,4 +1,4 @@
-# CB React Forms [![npm version](https://badge.fury.io/js/cb-react-forms.svg)](https://badge.fury.io/js/cb-react-forms) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) [![minified size](https://img.shields.io/bundlephobia/min/cb-react-forms.svg)](https://www.npmjs.com/package/cb-react-forms)
+# CB React Forms [![npm version](https://badge.fury.io/js/cb-react-forms.svg)](https://badge.fury.io/js/cb-react-forms) [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 ## React Form Builder
 
@@ -12,7 +12,7 @@ A complete react form builder that interfaces with json data to load and save ge
 
 # Basic Usage
 
-```javascript
+```jsx
 import React from "react";
 import ReactDOM from "react-dom";
 import { FormBuilder } from "cb-react-forms";
@@ -29,7 +29,7 @@ ReactDOM.render(<Example />, document.getElementById("root"));
 
 # Props
 
-```javascript
+```jsx
 const items = [
   {
     key: "Header",
@@ -71,7 +71,7 @@ items | array | Optional | List of toolbar items, list of avaiable items can be 
 
 Now that the form is built and saved, let's generate it from the saved json.
 
-```javascript
+```jsx
 import React from "react";
 import ReactDOM from "react-dom";
 import { FormGenerator } from 'cb-react-forms';
@@ -98,7 +98,7 @@ responseData | object | Optional | Answer data, only loads if loading a pre-exis
 
 ### List of Toolbar items:
 
-``` javascript 
+```javascript
 const items = [
   {
     key: "Header",
@@ -182,10 +182,10 @@ const items = [
 In order to make the Form Builder secure and pretty, there are a few dependencies other than React.
 - redux-form
 - draft-js
+- react-draft-wysiwyg
 - react-dnd
 - react-star-ratings
 - react-select
-- react-range-slider
 
 # Develop
 ```bash

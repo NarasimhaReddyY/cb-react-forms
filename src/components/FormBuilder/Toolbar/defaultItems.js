@@ -68,5 +68,20 @@ export default () => [
     key: "Range",
     name: "Range",
     icon: "fa fa-sliders"
+  },
+  {
+    key: "Email",
+    name: "Email",
+    icon: "fa fa-at"
+  },
+  {
+    key: "Date",
+    name: "Date",
+    icon: "fa fa-calendar"
+  },
+  {
+    key: "Signature",
+    name: "Signature",
+    icon: "fa fa-edit"
   }
 ];

@@ -6,36 +6,79 @@ class Range extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      value: props.item.value
+      value: 0
     };
   }
-
-  handleChange = value => {
-    this.setState({ value });
-  };
+  
+  componentDidMount() {
+    if(!this.props.generator) {
+      this.setState({ value: this.props.item.value })
+    }
+  }
+  
 
   render() {
-    const { label, required, min, max } = this.props.item;
-    const { value } = this.state;
+    const  {
+      meta,
+      item,
+      label,
+      input,
+      required,
+      readOnly,
+      formInput,
+      generator,
+      showError,
+      className,
+      defaultValue,
+    } = this.props;
+
+    const _props = generator ? {
+      min: formInput.min,
+      max: formInput.max,
+      step: formInput.step,
+      disabled: readOnly,
+      value: defaultValue || input.value || 0,
+      onChange: val => input.onChange(val),
+      labels: {
+        [formInput.min]: "Low",
+        [formInput.max]: "High"
+      }
+    } : {
+      min: item.min,
+      max: item.max,
+      step: item.step,
+      value: this.state.value,
+      onChange: value => this.setState({ value }),
+      labels: {
+        [item.min]: "Low",
+        [item.max]: "High"
+      }
+    }
 
     return (
-      <div>
-        <HeaderLabel label={label} required={required} />
-        <Slider
-          min={min}
-          max={max}
-          step={1}
-          value={value}
-          labels={{
-            [min]: "Low",
-            [max]: "High"
-          }}
-          onChange={this.handleChange}
+      <React.Fragment>
+        <HeaderLabel 
+          label={generator ? label : item.label} 
+          required={generator ? required : item.required}
+          readOnly={readOnly} 
         />
-        <div className="text-center">{value}</div>
-      </div>
+        <Slider {..._props} />
+        <div className={className}>
+          {generator 
+            ? (defaultValue || input.value || 0) 
+            : this.state.value}
+        </div>
+        <div>
+          {generator ? showError(meta.touched, meta.error, meta.warning) : ''}
+        </div>
+      </React.Fragment>
     );
   }
+}
+
+Range.defaultProps = {
+  generator: false,
+  className: "text-center"
 }
 
 export default Range;

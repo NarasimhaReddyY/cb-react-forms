@@ -116,7 +116,8 @@ export default (item) => {
         label: convertHtmlToRawJs(html),
         value: 0,
         min: 0,
-        max: 5
+        max: 5,
+        step: 1
       };
 
     case 'Rating':
@@ -129,11 +130,28 @@ export default (item) => {
 
     case 'TextInput':
     case 'TextArea':
+    case 'Email':
       return {
         required: false,
         label: convertHtmlToRawJs(html),
         value: ''
       };
+    case 'Date':
+      return {
+        required: false,
+        label: convertHtmlToRawJs(html),
+        value: new Date(),
+        maxDate: null,
+        minDate: null
+      }
+    case 'Signature':
+      return {
+        required: false,
+        label: convertHtmlToRawJs(html),
+        value: '',
+        height: 300,
+        width: 300
+      }
     default:
       return;
   }

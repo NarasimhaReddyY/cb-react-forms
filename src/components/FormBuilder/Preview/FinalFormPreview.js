@@ -7,7 +7,7 @@ const FinalFormPreview = ({ hideFinalPreview, data }) => (
     <div
       className="jumbotron bg-default mt-3 mx-auto"
       style={{
-        height: "100%",
+				minHeight: "100%",
         maxWidth: "700px",
         border: "1px solid #ccc"
       }}
