@@ -8,6 +8,7 @@ import {
   hideEditor,
   submitEditorState
 } from "../../../actions/formBuilderActions";
+import DatePicker from 'react-date-picker';
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 
 // toolbar options for the WYSIWYG Editor
@@ -166,8 +167,12 @@ class FormEditor extends Component {
         numberOfStars,
         label,
         min,
-				max,
-				step,
+        max,
+        step,
+        maxDate,
+        minDate,
+        height,
+        width,
         value
       }
     } = this.state;
@@ -458,7 +463,7 @@ class FormEditor extends Component {
                   min={0}
                 />
               </div>
-							<div className="input-group mb-3">
+              <div className="input-group mb-3">
                 <div className="input-group-prepend">
                   <span className="input-group-text">Step</span>
                 </div>
@@ -471,6 +476,50 @@ class FormEditor extends Component {
                     this.handleOptions(name, parseFloat(value))
                   }
                   min={1}
+                />
+              </div>
+            </div>
+          )}
+          
+          {/* ------------- DATE PICKER ------------- */}
+          {element === "Date" && (
+            <div className="mt-5" style={{ display: 'flex'}}>
+              <div className="mr-5">
+                <h5>Min Date:</h5>
+                <DatePicker 
+                  value={minDate || new Date()}
+                  onChange={value => this.handleOptions('minDate', value)}
+                />
+              </div>
+              <div>
+                <h5>Max Date:</h5>
+                <DatePicker 
+                  value={maxDate || new Date()}
+                  onChange={value => this.handleOptions('maxDate', value)}
+                />
+              </div>
+            </div>
+          )}
+          
+          {/* ------------- SIGNATURE ------------- */}
+          {element === "Signature" && (
+            <div className="mt-5" style={{ display: 'flex'}}>
+              <div>
+                <h5>Height:</h5>
+                <input
+                  className="form-control" 
+                  type="number" 
+                  value={height} 
+                  onChange={e => this.handleOptions('height', e.target.value)} 
+                />
+              </div>
+              <div className="ml-5">
+                <h5>Width:</h5>
+                <input 
+                  className="form-control"
+                  type="number" 
+                  value={width} 
+                  onChange={e => this.handleOptions('width', e.target.value)} 
                 />
               </div>
             </div>

@@ -1,6 +1,6 @@
 {
   "name": "cb-react-forms",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A complete form builder for react.",
   "main": "dist/index.js",
   "scripts": {
@@ -28,12 +28,14 @@
     "immutability-helper": "^3.0.0",
     "lodash": "^4.17.11",
     "lodash.flow": "^3.5.0",
+    "react-date-picker": "^7.5.1",
     "react-dnd": "^7.4.5",
     "react-dnd-html5-backend": "^7.4.4",
     "react-draft-wysiwyg": "^1.13.2",
     "react-rangeslider": "^2.2.0",
     "react-redux": "^7.0.3",
     "react-select": "^3.0.3",
+    "react-signature-canvas": "^1.0.2",
     "react-star-ratings": "^2.3.0",
     "redux": "^4.0.1",
     "redux-form": "^8.2.3",

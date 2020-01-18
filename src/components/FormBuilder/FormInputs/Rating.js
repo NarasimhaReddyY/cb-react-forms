@@ -11,22 +11,57 @@ class Rating extends Component {
   }
 
   render() {
-    const { label, required, numberOfStars, value } = this.props.item;
+    const  {
+      meta,
+      item,
+      name,
+      input,
+      label,
+      readOnly,
+      required,
+      generator,
+      showError,
+      defaultValue,
+      numberOfStars,
+    } = this.props;
+
+    const _props = generator ? {
+      numberOfStars: numberOfStars,
+      isSelectable: !readOnly,
+      rating: defaultValue || input.value || 0,
+      changeRating: val => input.onChange(val)
+    } : {
+      numberOfStars: item.numberOfStars,
+      rating: this.state.value,
+      changeRating: value => this.setState({ value })
+    }
 
     return (
       <div>
-        <HeaderLabel label={label} required={required} />
-        <StarRatings
-          numberOfStars={numberOfStars}
-          name="rating"
-          starHoverColor="chocolate"
-          starRatedColor="orange"
-          rating={this.state.value}
-          changeRating={value => this.setState({ value })}
-        />
+        <React.Fragment>
+          <HeaderLabel 
+            label={generator ? label : item.label} 
+            required={generator ? required : item.required} 
+            readOnly={readOnly}
+          />
+          <StarRatings
+            {..._props}
+            name={name}
+            starHoverColor="chocolate"
+            starRatedColor="orange"
+          />
+          <div>
+            {generator ? showError(meta.touched, meta.error, meta.warning) : ''}
+          </div>
+        </React.Fragment>
       </div>
     );
   }
+}
+
+Rating.deaultProps = {
+  generator: false,
+  name: "rating"
 }
 
 export default Rating;
