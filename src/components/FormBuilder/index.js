@@ -12,7 +12,8 @@ import defaultItems from "./Toolbar/defaultItems";
 const Builder = ({
   editorVisible,
   onSubmit,
-  items
+  items,
+  previewItems
 }) => {
   return (
     <React.Fragment>
@@ -23,7 +24,8 @@ const Builder = ({
       <div className="container">
         <div className="row mt-3">
           <div className="col-md-8">
-            <Preview 
+            <Preview
+              previewItems={previewItems}
               onSubmit={onSubmit} 
             />
           </div>
@@ -40,7 +42,8 @@ const Builder = ({
 
 Builder.propTypes = {
 	onSubmit: PropTypes.func.isRequired,
-	items: PropTypes.array
+	items: PropTypes.array,
+  previewItems: PropTypes.array
 };
 
 Builder.defaultProps = {
